@@ -1,0 +1,83 @@
+# default configuration
+spring:
+  profiles:
+    active: local
+    include: oauth
+  main:
+    banner-mode: off
+  thymeleaf:
+    cache: true
+    suffix: .html
+    prefix: classpath:/templates/pages/
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    hikari:
+      maximum-pool-size: 1000
+      minimum-idle: 1000
+  #  cache:
+  #    jcache:
+  #      config: classpath:ehcache.xml
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
+  output:
+    ansi:
+      enabled: always
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+      
+mybatis:
+  type-aliases-package: ilike.ildrio.mapper
+  mapper-locations: classpath:mapper/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+logging:
+  config:
+    classpath:log4j2.xml
+  level:
+    #org.springframework.web: debug
+    org.springframework.web: info
+    ilike.shop: debug
+
+server:
+  port: 8093
+  compression:
+    enabled: true
+    mime-types: application/json, application/xml,text/html,image/jpeg
+    shutdown: graceful
+  servlet:
+    session:
+      timeout: 120m
+      tracking-modes: cookie    
+
+---
+spring: 
+
+  config:
+    activate:
+      on-profile: local
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
+  mvc:
+    log-request-details: true
+  thymeleaf:
+    cache: false
+  datasource:
+    url: jdbc:mariadb://117.52.20.183:3306/ACEWORK_DB
+    username: ilikekim
+    password: kjs656500#db
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 3
+
+image:
+  base-folder: images
+ 

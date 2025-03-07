@@ -1,0 +1,106 @@
+<th:block th:fragment="AdminLayoutScript">
+
+
+	<!-- plugin dependencies -->
+	<script th:src="@{/resources/architect-ui/vendors/jquery/dist/jquery.min.js}"></script>
+	<script th:src="@{/resources/architect-ui/vendors/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{/resources/architect-ui/vendors/moment/moment.js}"></script>
+	<script th:src="@{/resources/architect-ui/vendors/metismenu/dist/metisMenu.js}"></script>
+	<script th:src="@{/resources/architect-ui/vendors/bootstrap4-toggle/js/bootstrap4-toggle.min.js}"></script>
+	<script th:src="@{/resources/architect-ui/vendors/jquery-circle-progress/dist/circle-progress.min.js}"></script>
+	<script th:src="@{/resources/architect-ui/vendors/perfect-scrollbar/dist/perfect-scrollbar.min.js}"></script>
+	<script th:src="@{/resources/architect-ui/vendors/toastr/build/toastr.min.js}"></script>
+	<script th:src="@{/resources/architect-ui/vendors/jquery.fancytree/dist/jquery.fancytree-all-deps.min.js}"></script>
+	<script th:src="@{/resources/architect-ui/vendors/apexcharts/dist/apexcharts.min.js}"></script>
+	<script th:src="@{/resources/architect-ui/vendors/bootstrap-table/dist/bootstrap-table.min.js}"></script>
+	<script th:src="@{/resources/architect-ui/vendors/datatables.net/js/jquery.dataTables.min.js}"></script>
+	<script th:src="@{/resources/architect-ui/vendors/datatables.net-bs4/js/dataTables.bootstrap4.min.js}"></script>
+	<script th:src="@{/resources/architect-ui/vendors/datatables.net-responsive/js/dataTables.responsive.min.js}"></script>
+	<script th:src="@{/resources/architect-ui/vendors/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js}"></script>
+	<script th:src="@{/resources/architect-ui/vendors/slick-carousel/slick/slick.min.js}"></script>
+	<!-- script th:src="@{/resources/architect-ui/vendors/inputmask/dist/jquery.inputmask.min.js"></script -->
+
+	<script th:src="@{/resources/architect-ui/js/charts/apex-charts.js}"></script>
+	<script th:src="@{/resources/architect-ui/js/circle-progress.js}"></script>
+	<script th:src="@{/resources/architect-ui/js/demo.js}"></script>
+	<script th:src="@{/resources/architect-ui/js/scrollbar.js}"></script>
+	<script th:src="@{/resources/architect-ui/js/toastr.js}"></script>
+	<script th:src="@{/resources/architect-ui/js/treeview.js}"></script>
+	<script th:src="@{/resources/architect-ui/js/form-components/toggle-switch.js}"></script>
+	<script th:src="@{/resources/architect-ui/js/tables.js}"></script>
+	<script th:src="@{/resources/architect-ui/js/carousel-slider.js}"></script>
+	<script th:src="@{/resources/architect-ui/js/app.js}"></script>
+
+	<script th:src="@{/resources/architect-ui/js/carousel-slider.js}"></script>
+	<script th:src="@{/resources/architect-ui/vendors/@chenfengyuan/datepicker/dist/datepicker.min.js}"></script>
+	<script th:src="@{/resources/architect-ui/vendors/daterangepicker/daterangepicker.js}"></script>
+	<script th:src="@{/resources/architect-ui/js/form-components/datepicker.js}"></script>
+
+	<script th:src="@{/resources/assets/jquery-form/jquery.inputmask.js}"></script>
+
+
+	<script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+		
+
+	<script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js}"></script>
+
+	<!-- custom-js -->
+	<script th:src="@{/resources/custom-js/ezwxCommon.js}"></script>
+	<script th:src="@{/resources/custom-js/ezwxCommonCfn.js}"></script>
+	<script th:src="@{/resources/custom-js/ezwxValidationCfn.js}"></script>
+	<script th:src="@{/resources/custom-js/ezwxCommonGrid.js}"></script>
+	<script th:src="@{/resources/custom-js/daumAddress.js}"></script>
+	<script th:src="@{/resources/custom-js/common_sysCode.js}"></script>
+
+	<script th:src="@{/resources/custom-js/partnerCommon.js}"></script>
+	<script th:src="@{/resources/custom-js/shopAdminCommon.js}"></script>
+
+	<script>
+		var selectedRowIndex = null;
+	
+		$(document).on("click", ".datePickerInput", function() {
+			$(this).datepicker().datepicker("show");
+		});
+
+		$(document).on("click", ".hamburger", function() {
+			if ($('#divLeftTitle').css("width") != undefined) {
+				var divLeftWidth = $("#divLeftTitle").css("width").replace("px", "");
+				var leftMenuWidth = $("#left_side_menu").css("width").replace("px", "");
+				
+				
+				if(leftMenuWidth == 260){
+					
+					var gridRightWidth = window.innerWidth - Number(divLeftWidth) - 80 - 85;
+					
+					//alert(leftMenuWidth +"/" + window.innerWidth);
+					
+					$("#divRightTitle").css("width", gridRightWidth + "px");
+					$("#divRightData").css("width", gridRightWidth + "px");
+				}else{
+					var gridRightWidth = window.innerWidth  - Number(divLeftWidth) - 260 - 75;
+					
+					$("#divRightTitle").css("width", gridRightWidth + "px");
+					$("#divRightData").css("width", gridRightWidth + "px");
+				}
+				
+				
+
+			}
+		});
+
+		$(document).ready(function() {
+			fn_login_check();
+			pfn_header_menu("[[${ssMap.ssMenuGroup}]]");
+			pfn_side_menu("[[${ssMap.ssMenuGroup}]]", "[[${ssMap.ssMenuCode}]]");
+		});
+		
+		
+
+		function fn_login_check() {
+			//if("[[${ssMap.ssCompanyNo}]]" == ""){
+			//	window.location.href="/admin/adminLogin";
+			//}	
+
+		}
+	</script>
+</th:block>

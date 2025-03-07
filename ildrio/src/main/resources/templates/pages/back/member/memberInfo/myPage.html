@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ko" layout:decorator="~{../layout/DefaultLayout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+<th:block layout:fragment="customCss">
+
+</th:block>
+
+<th:block layout:fragment="pageTitleEntry">
+	<div class="breadcrumb_section bg_gray page-title-mini">
+		<div class="container">
+			<!-- STRART CONTAINER -->
+			<div class="row align-items-center">
+				<div class="col-12">
+					<div class="page-title">마이페이지</div>
+				</div>
+			</div>
+		</div>
+		<!-- END CONTAINER-->
+	</div>
+</th:block>
+
+<th:block layout:fragment="pageContentsEntry">
+	<div style="padding: 0px">
+
+		<div class="card">
+			<div class="card-header" style="font-size:12pt;font-weight:bold;">오늘의 출근</div>
+			<div class="card-body">
+				<h5 class="card-title">현장명</h5>
+				<p class="card-text">현장주소 : ...</p>
+				<p class="card-text">오전8시 까지 출근 해 주세요. 5시전에 출발확인 해주시기 바랍니다.</p>
+				<a href="#" class="btn btn-primary">출발확인</a>
+				<a href="#" class="btn btn-outline-primary">현장정보</a>
+			</div>
+		</div>
+		<br>
+		<div class="card">
+			<div class="card-header" style="font-size:12pt;font-weight:bold;">출근 예정 (채용확정)</div>
+			<div class="card-body">
+				<h5 class="card-title">현장명</h5>
+				<p class="card-text">현장주소 : ...</p>
+				<p class="card-text">오전8시 까지 출근 해 주세요. 5시전에 출발확인 해주시기 바랍니다.</p>
+				<a href="#" class="btn btn-outline-primary">현장정보</a>
+			</div>
+		</div>
+		
+		<br>
+		<div class="card">
+			<div class="card-header" style="font-size:12pt;font-weight:bold;">나의 지원 내역</div>
+			<div class="card-body">
+				<h5 class="card-title">2025.1.1~</h5>
+				<p class="card-text">현장주소 : ...</p>
+				<a href="#" class="btn btn-outline-primary">자세히 보기</a>
+			</div>
+		</div>
+		
+
+	</div>
+	<br>
+	<div id="trxn_button" style="text-align: center;">
+		<a herf="/home" class="btn btn-secondary">홈</a>
+		<a href="#" class="btn btn-outline-primary">나의 정보 수정하기</a>
+	</div>
+	<br>
+</th:block>
+<th:block layout:fragment="customModal">
+</th:block>
+<th:block layout:fragment="customScript">
+	<!-- -------------------------------------------- -->
+	<script type="text/javascript">
+		$(document).ready(function() {
+
+		});
+	</script>
+</th:block>

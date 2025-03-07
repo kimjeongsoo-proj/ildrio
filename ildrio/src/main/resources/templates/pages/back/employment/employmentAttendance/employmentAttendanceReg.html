@@ -1,0 +1,196 @@
+<!doctype html> 
+<html lang="ko" layout:decorator="~{../layout/AdminLayoutPopup.html}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"> 
+<th:block layout:fragment="customCss"> 
+ 
+</th:block> 
+ 
+<th:block layout:fragment="pageTitleEntry"> 
+ 
+</th:block> 
+ 
+<th:block layout:fragment="pageContentsEntry"> 
+	<div style="padding:0px 30px 30px 30px;">  
+	<div class="app-page-title">  
+  	<div class="page-title-wrapper">  
+    		<div class="page-title-heading">  
+    			<div class="page-title-icon">  
+    				<i class="linearicons-pencil5 text-success"></i>  
+    			</div>  
+    			<div>  
+    				<span class="span_page_title"> 
+    					<b>근태정보 등록 & 수정 </b> 
+    				</span>  
+    				<div class="page-title-subheading">근태정보 등록 & 수정</div> 
+    			</div>  
+    		</div>  
+    		<div class="page-title-actions">  
+    		</div>  
+  	</div> 
+	</div> 
+	<form name="inputForm" id="inputForm" method="post">    
+  	<input type="hidden" name="trxnMode" id="trxnMode">   
+  	<a name="bookmark_1" id="bookmark_1"></a>   
+  	<div class="card">   
+    		<div class="card-header">   
+        		<h5><b> 근태정보</b></h5>  
+    		</div>   
+    		<div clase="card-body" style="padding: 20px;">   
+      		<div class="mb-3 row">   
+                	<label for="jobNo" class="col-sm-2 col-form-label text-end"> 채용번호</label>   
+            		<div class="col-sm-2">   
+                    <input type="text"  name="jobNo" id="jobNo" th:value="${rsModel.jobNo}"  class="form-control"   maxlength="80"> 
+            		</div>   
+                	<label for="workDate" class="col-sm-2 col-form-label text-end"> 근무일자</label>   
+            		<div class="col-sm-2">   
+                    <input type="text"  name="workDate" id="workDate" th:value="${rsModel.workDate}"  class="form-control"   maxlength="80"> 
+            		</div>   
+                	<label for="memberNo" class="col-sm-2 col-form-label text-end"> 회원번호</label>   
+            		<div class="col-sm-2">   
+                    <input type="text"  name="memberNo" id="memberNo" th:value="${rsModel.memberNo}"  class="form-control"   maxlength="80"> 
+            		</div>   
+      		</div>   
+      		<div class="mb-3 row">   
+                	<label for="departDatetime" class="col-sm-2 col-form-label text-end"> 출발일시</label>   
+            		<div class="col-sm-2">   
+                    <input type="text"  name="departDatetime" id="departDatetime" th:value="${rsModel.departDatetime}"  class="form-control"   maxlength="100"> 
+            		</div>   
+                	<label for="departStatus" class="col-sm-2 col-form-label text-end"> 출발상태</label>   
+            		<div class="col-sm-2">   
+                    <input type="text"  name="departStatus" id="departStatus" th:value="${rsModel.departStatus}"  class="form-control"   maxlength="100"> 
+            		</div>   
+                	<label for="departMessage" class="col-sm-2 col-form-label text-end"> 출발메세지</label>   
+            		<div class="col-sm-2">   
+                    <input type="text"  name="departMessage" id="departMessage" th:value="${rsModel.departMessage}"  class="form-control"   maxlength="4000"> 
+            		</div>   
+      		</div>   
+      		<div class="mb-3 row">   
+                	<label for="attendanceStatus" class="col-sm-2 col-form-label text-end"> 출근상태</label>   
+            		<div class="col-sm-2">   
+                    <input type="text"  name="attendanceStatus" id="attendanceStatus" th:value="${rsModel.attendanceStatus}"  class="form-control"   maxlength="80"> 
+            		</div>   
+                	<label for="attendanceTime" class="col-sm-2 col-form-label text-end"> 출근시간</label>   
+            		<div class="col-sm-2">   
+                    <input type="text"  name="attendanceTime" id="attendanceTime" th:value="${rsModel.attendanceTime}"  class="form-control"   maxlength="80"> 
+            		</div>   
+                	<label for="leaveStatus" class="col-sm-2 col-form-label text-end"> 퇴근상태</label>   
+            		<div class="col-sm-2">   
+                    <input type="text"  name="leaveStatus" id="leaveStatus" th:value="${rsModel.leaveStatus}"  class="form-control"   maxlength="80"> 
+            		</div>   
+      		</div>   
+      		<div class="mb-3 row">   
+                	<label for="leaveTime" class="col-sm-2 col-form-label text-end"> 퇴근시간</label>   
+            		<div class="col-sm-2">   
+                    <input type="text"  name="leaveTime" id="leaveTime" th:value="${rsModel.leaveTime}"  class="form-control"   maxlength="80"> 
+            		</div>   
+                	<label for="leaveMemo" class="col-sm-2 col-form-label text-end"> 퇴근메모</label>   
+            		<div class="col-sm-2">   
+                    <input type="text"  name="leaveMemo" id="leaveMemo" th:value="${rsModel.leaveMemo}"  class="form-control"   maxlength="80"> 
+            		</div>   
+                	<label for="workHourCount" class="col-sm-2 col-form-label text-end"> 근무시간수</label>   
+            		<div class="col-sm-2">   
+                    <input type="text"  name="workHourCount" id="workHourCount" th:value="${rsModel.workHourCount}"  class="form-control"   maxlength="200"> 
+            		</div>   
+      		</div>   
+      		<div class="mb-3 row">   
+                	<label for="workMemo" class="col-sm-2 col-form-label text-end"> 근무메모</label>   
+            		<div class="col-sm-2">   
+                    <input type="text"  name="workMemo" id="workMemo" th:value="${rsModel.workMemo}"  class="form-control"   maxlength="4000"> 
+            		</div>   
+                	<label for="penaltyCode" class="col-sm-2 col-form-label text-end"> 패널티코드</label>   
+            		<div class="col-sm-2">   
+                    <input type="text"  name="penaltyCode" id="penaltyCode" th:value="${rsModel.penaltyCode}"  class="form-control"   maxlength="80"> 
+            		</div>   
+                	<label for="penaltyMemo" class="col-sm-2 col-form-label text-end"> 페널티메모</label>   
+            		<div class="col-sm-2">   
+                    <input type="text"  name="penaltyMemo" id="penaltyMemo" th:value="${rsModel.penaltyMemo}"  class="form-control"   maxlength="4000"> 
+            		</div>   
+      		</div>   
+      		<div class="mb-3 row">   
+                	<label for="insertDatetime" class="col-sm-2 col-form-label text-end"> 입력일시</label>   
+            		<div class="col-sm-2">   
+                    <input type="text"  name="insertDatetime" id="insertDatetime" th:value="${rsModel.insertDatetime}"  class="form-control"   maxlength="100"> 
+            		</div>   
+                	<label for="updateDatetime" class="col-sm-2 col-form-label text-end"> 수정일시</label>   
+            		<div class="col-sm-2">   
+                    <input type="text"  name="updateDatetime" id="updateDatetime" th:value="${rsModel.updateDatetime}"  class="form-control"   maxlength="100"> 
+            		</div>   
+      		</div>   
+      	</div> 
+  	</div>  
+	</form> 
+	</div>  
+</th:block> 
+<th:block layout:fragment="customModal"> 
+</th:block> 
+<th:block layout:fragment="customScript"> 
+<!-- -------------------------------------------- -->   
+<script type="text/javascript">   
+  $(document).ready(function() {   
+   
+   
+    fn_modalButton();   
+  });   
+   
+    
+  // 버튼 처리    
+	function fn_modalButton(){   
+		var src = '';   
+		src += '<a onclick="modal_resize_iframe.cfn_bookmark(\'bookmark_1\');" class="btn btn-outline-secondary">북마크 1</a> ';    
+   
+		if ("[[${rsModel.trxnMode}]]" == "insert") {   
+			src += '<a onclick="modal_resize_iframe.fn_trxn(\'insert\');"  class="btn btn-primary">등록</a> ';   
+		} else {   
+			src += '<a onclick="modal_resize_iframe.fn_trxn(\'update\');"  class="btn btn-primary">수정</a> ';   
+			src += '<a onclick="modal_resize_iframe.fn_trxn(\'delete\');"  class="btn btn-danger" id="modal_close">삭제</a> ';   
+		}   
+		src += '<a  class="btn btn-secondary" data-bs-dismiss="modal">닫기</a>';   
+		$("#modal_resize_button",parent.document).html(src);   
+	}   
+    
+  // 등록 처리   
+  function fn_trxn(vTrxnMode) {   
+   
+		if (vTrxnMode == "delete") { 
+			if (confirm("자료를 삭제 하시갰습니까?") == false) { 
+				return false; 
+			} 
+		} 
+    	$("#trxnMode").val(vTrxnMode);    
+   
+    	if (fn_chkForm() == false) {   
+      	return false;   
+    	}   
+   
+   
+    $.ajax({   
+      url : '/employmentAttendance/employmentAttendanceTrxn',   
+      type : 'post',   
+      data : $(document.inputForm).serialize(),   
+      dataType : 'json',  
+      async : true,  
+      success : function(data) {  
+        if (data.rsMsg == "FAIL") {   
+          alert("실패하였습니다.");   
+        } else {   
+          if (data.rsMsg == "DUPLICATE") {  
+            alert("이미 등록된 자료가 있습니다..");   
+          } else {   
+			  alert(data.rsMsg); 
+            parent.fn_employmentAttendance_list();   
+			  if (vTrxnMode != "update") { 
+            	 	parent.pfn_modalClose();   
+            }   
+          }   
+        }   
+      }   
+    });   
+   
+  }  
+    
+  // 입력 필수 항목 체크   
+  function fn_chkForm() {   
+   
+    return true;  
+  } 
+</script> 
+</th:block> 

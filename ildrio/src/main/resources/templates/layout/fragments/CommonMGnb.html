@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/html">
+<th:block th:fragment="commonMGnb">
+
+	<section class="m_gnb">
+		<div class="container">
+			<div class="m_gnb_wrap">
+				<ul>
+					<li>
+						<a class="m_category_select" th:href="|/${shopId}/category|">
+							<div class="m_gnb_dvwrap1">
+								<img alt="" th:src="@{/resources/images/m_category_icon_2x.png}">
+							</div>
+							<p>카테고리</p>
+						</a>
+					</li>
+					<li>
+						<a th:href="|/${shopId}|">
+							<div class="m_gnb_dvwrap3">
+								<img alt="" th:src="@{/resources/images/m_home_icon_2x.png}">
+							</div>
+							<p>홈</p>
+						</a>
+					</li>
+					<li>
+						<a th:href="|/${shopId}/mypage|" th:if="${ssUser != null}">
+							<div class="m_gnb_dvwrap4">
+								<img alt="" th:src="@{/resources/images/m_mypage_icon_2x.png}">
+							</div>
+							<p>마이페이지</p>
+						</a>
+					</li>
+					<li th:if="${ssUser != null}">
+						<a th:href="|/${shopId}/mcCart/cart|">
+							<div class="m_gnb_dvwrap5">
+								<img alt="" th:src="@{/resources/images/m_cart_icon_2x.png}">
+							</div>
+							<p>장바구니</p>
+						</a>
+					</li>
+					<li th:if="${ssUser != null}">
+						<a th:href="@{/member/logout}">
+							<img th:src="@{/resources/images/icon/login_icon.png}" alt="">
+							<p>로그아웃</p>
+						</a>
+					</li>
+					<li th:if="${ssUser == null}">
+						<a th:href="|/member/login|">
+							<img th:src="@{/resources/images/icon/login_icon.png}" alt="">
+							<p>로그인</p>
+						</a>
+					</li>
+
+				</ul>
+			</div>
+		</div>
+	</section>
+
+</th:block>
+</html>

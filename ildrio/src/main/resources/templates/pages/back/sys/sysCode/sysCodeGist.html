@@ -1,0 +1,365 @@
+<!doctype html> 
+<html lang="ko" layout:decorator="~{../layout/AdminLayout.html}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"> 
+ 
+<th:block layout:fragment="customCss"> 
+ 
+</th:block> 
+ 
+<th:block layout:fragment="pageContentsEntry"> 
+<!-- -------------------------------------------- --> 
+<div class="row" style="margin-top: 10px;"> 
+	<div class="col-sm-12 col-md-10"> 
+		<span class="span_page_title"> 
+			<b>공통코드 </b> 
+		</span> 
+	</div>   
+	<div class="col-sm-12 col-md-2 text-end"> 
+		<a data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg" class="mb-2 me-2 btn-transition btn btn-outline-info" th:onclick="gfn_modal_help('');" style="corsor: pointer;padding:8px;"> 
+			<span>도움말</span> 
+		</a> 
+	</div>   
+	<div class="col-sm-12 col-md-12 text-end"> 
+		<div style="margin: 5px 0px; border-bottom: 1px solid #aaa;"></div> 
+	</div> 
+</div> 
+<!-- -------------------------------------------- --> 
+<form name="inputForm" id="inputForm" method="post" class="searchArea" onsubmit="return false;"> 
+	<input type="hidden" name="trxnMode" id="trxnMode">   
+	<input type="hidden" name="selectedRowIdx" id="selectedRowIdx" value="0">   
+	<input type="hidden" name="srhOrderName" id="srhOrderName" value="">   
+	<input type="hidden" name="srhOrderBy" id="srhOrderBy" value="">   
+	<input type="hidden" name="srhOrderAsc" id="srhOrderAsc" value="">   
+	<div class="row" style="line-height:30px;">   
+		<div class="col-sm-3 col-md-3" style="margin-top:10px;"> 
+			<div class="input-group"> 
+				<select type="select" name="srhOption" id="srhOption" class="form-select" style="border: 1;background-color:#fff;"> 
+
+				</select> 
+				<input type="text" name="srhText" id="srhText" class="form-control"> 
+			</div> 
+		</div> 
+		<div class="col-sm-6 col-md-6" style="margin-top:10px;"> 
+		</div> 
+		<div class="col-sm-3 col-md-3 text-end" style="margin-top: 10px;"> 
+			<span class="mb-2 me-2 btn-icon btn btn-secondary" th:onclick="fn_searchPage('1')"> 
+				<i class="pe-7s-search btn-icon-wrapper"></i>검색 
+			</span> 
+			<span class="mb-2 me-2 btn-transition btn btn-outline-primary" th:onclick="gfn_detail_view()" id="detail_button"> 
+				<i class="lnr-chevron-down-circle" style="font-size: 12pt;"></i> 상세검색 
+			</span> 
+		</div> 
+	</div> 
+	<div id="div_detail_search" style="display: none;"> 
+		<div class="row" style="line-height:30px;">   
+		<div class="col-sm-3 col-md-3" style="margin-top:10px;"> 
+			<div class="input-group"> 
+				<div class="input-group-text" style="background-color:#fff;"> 
+					<span>코드아이디</span> 
+				</div> 
+				<input type="text" name="srhCodeId"  id="srhCodeId" value="" class="form-control"> 
+			</div> 
+		</div> 
+		</div> 
+	</div> 
+	<div class="row" style="line-height:30px;">   
+		<div class="col-sm-12 col-md-12 text-end"> 
+			<div style="margin: 10px 0px; border-bottom: 1px solid #f0f0f0;"></div> 
+		</div> 
+	</div> 
+	<a name="gridTop" id="gridTop"></a> 
+	<div class="row"> 
+		<div class="col-sm-12 col-md-12 text-end"> 
+			<a class="mb-2 me-2 btn-transition btn btn-outline-primary" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg" th:onclick="fn_modalOpen('/sysCode/sysCodeReg','새로등록');" style="corsor: pointer;"> 
+				<i class="lnr-file-empty"></i> 새로작성 
+			</a> 
+			<span class="mb-2 me-2 btn-transition btn btn-outline-success" th:onclick="fn_list_trxn('list_update')"> 
+				<i class="lnr-pencil"></i> 수정저장 
+			</span> 
+			<span class="mb-2 me-2 btn-transition btn btn-outline-danger" th:onclick="fn_list_trxn('list_delete')"> 
+				<i class="lnr-cross"></i> 삭제 
+			</span> 
+			<span class="mb-2 me-2 btn-transition btn btn-outline-primary" th:onclick="gfn_gridHeightFit()" style="font-size:13pt;padding:2px 10px;" title="작업영역 위치 맞추기">  
+				<i class="lnr-line-spacing" id="grid_height"></i>  
+			</span>  
+		</div> 
+	</div> 
+        
+	<!-- ---------------------------------------------------------- --> 
+	<table style="width: 100%;" cellpadding=0 cellspacing=0> 
+		<tr> 
+			<td id="tdLeftTitle" th:style="|width:${divLeftWidth}px|"> 
+				<div id="divLeftTitle" th:style="|width:${divLeftWidth}px;border-right:0px;|"> 
+					<table id="LeftTableHeader" class="table_list_grid" style="width: 100%; table-layout: fixed;"> 
+						<thead> 
+							<tr id="tr_leftTitle" style="height:40px;text-align:center;"> 
+								<th style="width:30px;"> 
+									<input type="checkbox" id="chkbAll" th:onclick="gfn_chkAll()"> 
+								</th> 
+								<th style="width:30px;"> 
+									<span>보기</span> 
+								</th> 
+								<th style="width:120px;">
+									<span>코드아이디</span> 
+									<a th:onclick="gfn_setAll_input('codeId')" style="cursor: pointer; color: blue;"> 
+										<i class="fa-regular fa-angles-down fa-fw"></i> 
+									</a> 
+									<span id="sort_code_id" th:onclick="gfn_sort('code_id','code_id','desc')" class="sortArrow">▽</span> 
+								</th> 
+								<th style="width:120px;">
+									<span>코드값</span> 
+									<a th:onclick="gfn_setAll_input('codeValue')" style="cursor: pointer; color: blue;"> 
+										<i class="fa-regular fa-angles-down fa-fw"></i> 
+									</a> 
+									<span id="sort_code_value" th:onclick="gfn_sort('code_value','code_value','desc')" class="sortArrow">▽</span> 
+								</th> 
+								<th style="width:120px;">
+									<span>코드 텍스트</span> 
+									<a th:onclick="gfn_setAll_input('codeText')" style="cursor: pointer; color: blue;"> 
+										<i class="fa-regular fa-angles-down fa-fw"></i> 
+									</a> 
+									<span id="sort_code_text" th:onclick="gfn_sort('code_text','code_text','desc')" class="sortArrow">▽</span> 
+								</th> 
+							</tr> 
+						</thead> 
+					</table> 
+				</div> 
+			</td> 
+			<td id="tdRightTitle" class="pcDisp"> 
+				<div id="divRightTitle" style="width: 500px;"> 
+					<table class="table_list_grid" style="width: 5000px; table-layout: fixed;"> 
+						<thead> 
+							<tr id="tr_rightTitle"  style="height:40px;text-align:center;"> 
+								<th style="width:120px;">
+									<span>정렬순서</span> 
+									<a th:onclick="gfn_setAll_input('sortOrder')" style="cursor: pointer; color: blue;"> 
+										<i class="fa-regular fa-angles-down fa-fw"></i> 
+									</a> 
+									<span id="sort_sort_order" th:onclick="gfn_sort('sort_order','sort_order','desc')" class="sortArrow">▽</span> 
+								</th> 
+								<th style="width:120px;">
+									<span>코드설명</span> 
+									<a th:onclick="gfn_setAll_input('codeMemo')" style="cursor: pointer; color: blue;"> 
+										<i class="fa-regular fa-angles-down fa-fw"></i> 
+									</a> 
+									<span id="sort_code_memo" th:onclick="gfn_sort('code_memo','code_memo','desc')" class="sortArrow">▽</span> 
+								</th> 
+								<th style="width:120px;">
+									<span>등록 일시</span> 
+									<span id="sort_insert_datetime" th:onclick="gfn_sort('insert_datetime','insert_datetime','desc')" class="sortArrow">▽</span> 
+								</th> 
+								<th style="width:120px;">
+									<span>수정 일시</span> 
+									<span id="sort_update_datetime" th:onclick="gfn_sort('update_datetime','update_datetime','desc')" class="sortArrow">▽</span> 
+								</th> 
+								<th></th> 
+							</tr> 
+						</thead> 
+					</table> 
+				</div> 
+			</td> 
+		</tr> 
+		<tr> 
+			<td id="tdLeftData"> 
+				<div id="divLeftData" class="scrollbar_left" th:style="|width:${divLeftWidth}px;border-right:0px;|" onscroll="cfn_splitGrid_scrollLeft(this.scrollLeft,this.scrollTop);"> 
+					<table id="LeftDataTable" class="table_list_grid" width="100%" style="table-layout: fixed;"> 
+						<tbody id="tbody_left_list"> 
+						</tbody> 
+					</table> 
+				</div> 
+			</td> 
+			<td valign="top" id="tdRightData" class="pcDisp"> 
+				<div id="divRightData" class="scrollbar_right" onscroll="cfn_splitGrid_scrollRight(this.scrollLeft,this.scrollTop);" style="width: 500px;"> 
+					<table id="RightDataTable" class="table_list_grid" style="width: 2980px; table-layout: fixed;"> 
+						<tbody id="tbody_right_list"> 
+						</tbody> 
+					</table> 
+				</div> 
+			</td> 
+		</tr> 
+	</table> 
+ 	<div class="row" style="margin-top:10px;"> 
+ 		<div class="col-sm-12 col-md-2 text-end"> 
+ 			<div class="input-group"> 
+ 				<div class="input-group-text" style="border: px; background-color: #f0f0f0; cursor: pointer;"> 
+ 					<span class="">자료수</span> 
+ 				</div> 
+ 				<select type="select" name="pageRow" id="pageRow" class="form-select" style="border:; background-color: #fff;" th:onchange="fn_searchPage('1')"> 
+ 					<option value="20">20개</option> 
+ 					<option value="50">50개</option> 
+ 					<option value="100">100개</option> 
+ 				</select> 
+ 			</div> 
+ 		</div> 
+ 		<div class="col-sm-12 col-md-10 text-left"> 
+ 			<input type="hidden" name="currPage" id="currPage" value="1"> 
+ 			<nav aria-label="Page navigation example"> 
+ 				<ul class="pagination justify-content-left" id="ul_pageNavigation"> 
+ 				</ul> 
+ 			</nav> 
+ 		</div> 
+ 	</div> 
+	<!-- ---------------------------------------------------------- --> 
+</form>   
+<br>   
+ 
+</th:block> 
+<th:block layout:fragment="customScript"> 
+<script type="text/javascript"> 
+	$(document).ready(function() { 
+          
+          $(".close-sidebar-btn").on("click", function () { 
+          	gfn_scrollbar_sidebar(Number('[[${divLeftWidth}]]'), 300 ); 
+          }); 
+          gfn_splitGridResize(308, Number('[[${divLeftWidth}]]'), 360); 
+          
+ 
+ 
+          fn_search(); 
+          
+          $(".datePickerInput").datepicker({
+          	format : 'yyyy-mm-dd',
+				autoHide: true
+			});
+	});      
+          
+	$(window).resize(function() { 
+          
+		gfn_splitGridResize(308, Number('[[${divLeftWidth}]]'), 360); 
+          
+	});      
+          
+	function fn_searchPage(vPage) { 
+			$("#currPage").val(vPage); 
+		fn_search(); 
+          
+	}        
+	function fn_search() { 
+          
+		$.ajax({ 
+			url : '/sysCode/sysCodeListAjax', 
+			type : 'post', 
+			data : $(document.inputForm).serialize(), 
+			dataType : 'json', 
+			async : true, 
+			success : function(data) { 
+				fn_disp_list(data); 
+			},   
+			beforeSend : function() { 
+				gfn_process_view("조회중입니다. 잠시만 기다려 주세요..."); 
+			},   
+			complete : function() { 
+				gfn_process_hide(); 
+			},   
+			error : function(jqXHR, textStatus, errorThrown) { 
+				alert("조회에실패하였습니다."); 
+			}    
+		});    
+          
+	}        
+          
+	function fn_disp_list(data) { 
+		$("#tbody_left_list").empty(); 
+		$("#tbody_right_list").empty(); 
+		var list = data.rsList; 
+		var shtml = "";  
+		var k = 0;  
+		for (var i = Number(data.startRow); i < Number(data.endRow); i++) { 
+ 
+			shtml += '<tr style="height:40px;"  onclick="cfn_trSelectBorder(\'' + (k+1) + '\')" id="ltr_' + k + '"> '; 
+			shtml += '  <td style="width:30px;" align="center"> '; 
+			shtml += '    <input type="checkbox" name="chkb" id="chkb" onclick="gfn_chkb(' + k + ')"> '; 
+			shtml += '    <input type="hidden" name="chkbFlag" id="chkbFlag" value="false"> '; 
+      		shtml += '    <input type="hidden" name="codeId" id="codeId" value="' + cfnNull(list[i].codeId)+'">  '; 
+      		shtml += '    <input type="hidden" name="codeValue" id="codeValue" value="' + cfnNull(list[i].codeValue)+'">  '; 
+			shtml += '  </td> '; 
+			shtml += '  <td  style="width:30px;text-align:center;"> ';
+ 			shtml += '    <a data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg" onclick="fn_modalOpen(\'/sysCode/sysCodeReg?codeId=' + cfnNull(list[i].codeId)+'&codeValue=' + cfnNull(list[i].codeValue)+'\',\'정보 수정\');"  style="cursor:pointer;"> ';
+			shtml += '      <i class="linearicons-register" style="font-size:12pt;"></i> ';
+			shtml += '    </a>'; 
+			shtml += '  </td>'; 
+			shtml += '  <td style="width:120px;white-space:normal;"> ';    
+			shtml += '    ' + gfn_inputText('codeId', cfnNull(list[i].codeId),'string','width:95%;',i)+'';  
+			shtml += '  </td>';  
+			shtml += '  <td style="width:120px;white-space:normal;"> ';    
+			shtml += '    ' + gfn_inputText('codeValue', cfnNull(list[i].codeValue),'string','width:95%;',i)+'';  
+			shtml += '  </td>';  
+			shtml += '  <td style="width:120px;white-space:normal;"> ';    
+			shtml += '    ' + gfn_inputText('codeText', cfnNull(list[i].codeText),'string','width:95%;',i)+'';  
+			shtml += '  </td>';  
+			shtml += '</tr> '; 
+			k++; 
+		} 
+		$("#tbody_left_list").append(shtml); 
+ 
+		k = 0;  
+		shtml = ""; 
+		for (var i = Number(data.startRow); i < Number(data.endRow); i++) { 
+ 
+			shtml += '<tr style="height:40px;" onclick="cfn_trSelectBorder(\'' + (k + 1) + '\')" id="rtr_' + k + '"> '; 
+			shtml += '  <td style="width:120px;text-align:center;"> ';    
+			shtml += '    ' + gfn_inputText('sortOrder', cfnFmtMoney(list[i].sortOrder),'string','text-align:right;',i)+'';  
+			shtml += '  </td>';  
+			shtml += '  <td style="width:120px;text-align:center;"> ';    
+			shtml += '    ' + gfn_inputText('codeMemo', cfnNull(list[i].codeMemo),'string','width:95%;',i)+'';  
+			shtml += '  </td>';  
+			shtml += '  <td style="width:120px;text-align:left;white-space:normal;"> ';    
+			shtml += '    ' + cfnNull(list[i].insertDatetime) + '';  
+			shtml += '  </td>';  
+			shtml += '  <td style="width:120px;text-align:left;white-space:normal;"> ';    
+			shtml += '    ' + cfnNull(list[i].updateDatetime) + '';  
+			shtml += '  </td>';  
+			shtml += ' <td></td> '; 
+			shtml += '</tr> '; 
+			k++; 
+		} 
+		$("#tbody_right_list").append(shtml); 
+          
+		gfn_splitGrid_sameHeight(list.length); 
+          
+      $("#ul_pageNavigation").html(data.pageNavigation);     
+	}        
+          
+	function fn_modalOpen(vPageUrl,vTitle) { 
+		$("#modal_title").html("<b>"+vTitle+"</b>"); 
+		document.modal_iframe.location.href = vPageUrl; 
+		cfn_modalPop("modal_contents", "popMargin", 30, 30); 
+	}        
+          
+	function fn_list_trxn(vTrxnMode) { 
+		if (vTrxnMode == "list_delete") { 
+			if (confirm("선택한 자료를 삭제 하시갰습니까?") == false) { 
+				return false; 
+			}    
+		}      
+		$("#trxnMode").val(vTrxnMode); 
+		$.ajax({ 
+			url : '/sysCode/sysCodeListTrxn', 
+			type : 'post', 
+			data : $(document.inputForm).serialize(), 
+			dataType : 'json', 
+			success : function(data) { 
+				if (data.rsMsg != "SUCCESS") { 
+					alert("실패하였습니다."); 
+				} else { 
+					if (vTrxnMode == "list_delete") { 
+						alert("삭제하였습니다."); 
+					} 
+					if (vTrxnMode == "list_update") { 
+						alert("수정하였습니다."); 
+					} 
+					fn_search(); 
+				}  
+			},   
+			beforeSend : function() { 
+				gfn_process_view("처리중입니다. 잠시만 기다려 주세요..."); 
+			},   
+			complete : function() { 
+				gfn_process_hide(); 
+			},   
+			error : function(jqXHR, textStatus, errorThrown) { 
+				alert("실패하였습니다."); 
+			}    
+		});    
+	}        
+</script> 
+</th:block> 

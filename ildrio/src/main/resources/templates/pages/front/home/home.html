@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ko" layout:decorator="~{../layout/DefaultLayout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+
+<th:block layout:fragment="customCss">
+</th:block>
+
+
+<th:block layout:fragment="pageTitleEntry">
+
+	<!-- START SECTION BANNER -->
+	<div class="banner_section slide_medium shop_banner_slider staggered-animation-wrap">
+		<div id="carouselExampleControls" class="carousel slide carousel-fade light_arrow" data-bs-ride="carousel">
+			<div class="carousel-inner">
+				<div class="carousel-item background_bg active" th:style="'background-image: url(/resources/assets/images/banner16.jpg);'">
+					<div class="banner_slide_content banner_content_inner">
+						<div class="container">
+							<div class="row">
+								<div class="col-lg-7 col-10">
+									<div class="banner_content overflow-hidden">
+										<h2 class="staggered-animation animated slideInLeft" data-animation="slideInLeft" data-animation-delay="0.5s" style="animation-delay: 0.5s; opacity: 1;">일드리오</h2>
+										<h5 class="mb-3 mb-sm-4 staggered-animation font-weight-light animated slideInLeft" data-animation="slideInLeft" data-animation-delay="1s" style="animation-delay: 1s; opacity: 1;">당신에게 딱 맞는 일을 드립니다.</h5>
+										<a href="/member/join" class="btn btn-fill-out staggered-animation text-uppercase animated slideInLeft" data-animation="slideInLeft" data-animation-delay="1.5s" style="animation-delay: 1.5s; opacity: 1;">인재등록</a>
+										<a href="/jobInfo/jobInfoNew" class="btn btn-fill-out staggered-animation text-uppercase animated slideInLeft" data-animation="slideInLeft" data-animation-delay="1.5s" style="animation-delay: 1.5s; opacity: 1;">채용공고등록</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="carousel-item background_bg" th:style="'background-image: url(/resources/assets/images/banner17.jpg);'">
+					<div class="banner_slide_content banner_content_inner">
+						<div class="container">
+							<div class="row">
+								<div class="col-lg-8 col-10">
+									<div class="banner_content overflow-hidden">
+										<h2 class="staggered-animation animated slideInLeft" data-animation="slideInLeft" data-animation-delay="0.5s" style="animation-delay: 0.5s; opacity: 1;">일드리오</h2>
+										<h5 class="mb-3 mb-sm-4 staggered-animation font-weight-light animated slideInLeft" data-animation="slideInLeft" data-animation-delay="1s" style="animation-delay: 1s; opacity: 1;">능력있는 인재를 매칭해 드립니다.</h5>
+										<a href="/jobInfo/jobInfoNew" class="btn btn-fill-out staggered-animation text-uppercase animated slideInLeft" data-animation="slideInLeft" data-animation-delay="1.5s" style="animation-delay: 1.5s; opacity: 1;">인재등록</a>
+										<a href="/jobInfo/jobInfoNew" class="btn btn-fill-out staggered-animation text-uppercase animated slideInLeft" data-animation="slideInLeft" data-animation-delay="1.5s" style="animation-delay: 1.5s; opacity: 1;">채용공고등록</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-bs-slide="prev">
+				<i class="ion-chevron-left"></i>
+			</a>
+			<a class="carousel-control-next" href="#carouselExampleControls" role="button" data-bs-slide="next">
+				<i class="ion-chevron-right"></i>
+			</a>
+		</div>
+	</div>
+</th:block>
+<!-- //END SECTION BANNER -->
+<th:block layout:fragment="pageContentsEntry">
+	<div class="section pb_20">
+		<div class="container">
+			<div class="row" id="job_list"></div>
+		</div>
+	</div>
+
+
+</th:block>
+
+</html>
+<th:block layout:fragment="customScript">
+	<script type="text/javascript">
+		$(document).ready(function() {
+
+			fn_jobInfo_list();
+
+		});
+		function fn_jobInfo_list() {
+
+			var formData = "";
+
+			$.ajax({
+				url : '/jobInfo/jobInfoListAjax',
+				type : 'post',
+				data : formData,
+				dataType : 'json',
+				async : false,
+				success : function(data) {
+					$("#job_list").empty();
+					var list = data.rsList;
+					var src = "";
+					for (var i = 0; i < list.length; i++) {
+
+						src += '<div class="col-sm-4" style="margin-top:10px;"> ';
+						src += '  <div class="card" > ';
+						src += '    <div class="card-body"> ';
+						src += '      <h5 class="card-title">' + cfnNull(list[i].jobTitle) + '</h5> ';
+						src += '      <h7 class="card-subtitle mb-2 text-body-secondary">근무일 :' + cfnNull(list[i].workDate) + '</h7> ';
+						src += '      <br><h7 class="card-text">' + cfnNull(list[i].dailyWageInfo) + '</h7> ';
+						src += '      <br><h7 class="card-text">' + cfnNull(list[i].minAge) + '~' + cfnNull(list[i].maxAge) + '세 ' + cfnNull(list[i].genderType) + '</h7> ';
+						src += '      <br><a href="/jobInfo/jobInfoView?jobNo=' + cfnNull(list[i].jobNo) + '" class="card-link">지원하기</a> ';
+						src += '    </div> ';
+						src += '  </div> ';
+						src += '</div> ';
+					}
+
+					$("#job_list").append(src);
+
+				}
+			});
+
+		}
+	</script>
+</th:block>

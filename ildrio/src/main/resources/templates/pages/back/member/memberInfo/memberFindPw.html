@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ko" layout:decorator="~{../layout/DefaultLayout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+<th:block layout:fragment="customCss">
+
+</th:block>
+
+<th:block layout:fragment="pageTitleEntry">
+<!-- START SECTION BREADCRUMB -->
+	<div class="breadcrumb_section bg_gray page-title-mini">
+		<div class="container">
+			<!-- STRART CONTAINER -->
+			<div class="row align-items-center">
+				<div class="col-12">
+					<div class="page-title">비밀번호 찾기</div>
+				</div>
+			</div>
+		</div>
+		<!-- END CONTAINER-->
+	</div>
+	<!-- END SECTION BREADCRUMB -->
+</th:block>
+
+<th:block layout:fragment="pageContentsEntry">
+	<div style="padding: 0px 30px 30px 30px;">
+		
+		<form name="inputForm" id="inputForm" method="post">
+			<input type="hidden" name="trxnMode" id="trxnMode">
+			<a name="bookmark_1" id="bookmark_1"></a>
+			<div class="mb-3 row">
+				<label for="memberId" class="col-sm-2 col-form-label">  아이디</label>
+				<div class="col-sm-10">
+					<input type="text" name="memberId" id="memberId" value="" class="form-control" maxlength="200">
+				</div>
+			</div>
+			<div class="mb-3 row">
+				<label for="memberName" class="col-sm-2 col-form-label"> 성명</label>
+				<div class="col-sm-10">
+					<input type="text" name="memberName" id="memberName" value="" class="form-control" maxlength="200">
+				</div>
+			</div>
+			<div class="mb-3 row">
+				<label for="mobileNo" class="col-sm-2 col-form-label"> 핸드폰번호</label>
+				<div class="col-sm-10">
+				<div class="input-group">
+					<input type="text" name="mobileNo" id="mobileNo" value="" class="form-control hpNoFormat" maxlength="80">
+				<span class="input-group-text">인증번호 발송</span>
+				</div>
+				</div>
+			</div>
+			<div class="mb-3 row">
+				<label for="mobileNo" class="col-sm-2 col-form-label"> 인증번호 확인</label>
+				<div class="col-sm-10">
+					<div class="input-group">
+					<input type="text" name="certKey" id="certKey" value="" class="form-control hpNoFormat" maxlength="80">
+					<span class="input-group-text">인증번호 확인</span>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div id="trxn_button" style="text-align:center;">
+		<a onclick="fn_trxn(\'insert\');"  class="btn btn-primary">비밀번호 찾기</a>
+	</div>
+	<br>
+	<div style="text-align: center;">
+		아직 회원이 아니신가요?
+		<a href="/member/join">회원가입</a>
+	</div>
+	<div style="text-align: center;">
+		<a href="/memberInfo/memberFindId">아이디 찾기</a>
+		<span style="margin:10px;"> </span>
+		<a href="/memberInfo/memberFindPw">비밀번호 찾기</a>
+	</div>
+	<br>
+</th:block>
+<th:block layout:fragment="customModal">
+</th:block>
+<th:block layout:fragment="customScript">
+	<!-- -------------------------------------------- -->
+	<script type="text/javascript">   
+  $(document).ready(function() {   
+   
+   });   
+   
+    
+ 
+    
+  // 등록 처리   
+  function fn_trxn(vTrxnMode) {   
+   
+		if (vTrxnMode == "delete") { 
+			if (confirm("자료를 삭제 하시갰습니까?") == false) { 
+				return false; 
+			} 
+		} 
+    	$("#trxnMode").val(vTrxnMode);    
+   
+    	if (fn_chkForm() == false) {   
+      	return false;   
+    	}   
+   
+   
+    $.ajax({   
+      url : '/memberInfo/memberInfoTrxn',   
+      type : 'post',   
+      data : $(document.inputForm).serialize(),   
+      dataType : 'json',  
+      async : true,  
+      success : function(data) {  
+        if (data.rsMsg == "FAIL") {   
+          alert("실패하였습니다.");   
+        } else {   
+          if (data.rsMsg == "DUPLICATE") {  
+            alert("이미 등록된 자료가 있습니다..");   
+          } else {   
+			  alert(data.rsMsg); 
+            parent.fn_memberInfo_list();   
+			  if (vTrxnMode != "update") { 
+            	 	parent.pfn_modalClose();   
+            }   
+          }   
+        }   
+      }   
+    });   
+   
+  }  
+    
+  // 입력 필수 항목 체크   
+  function fn_chkForm() {   
+   
+    return true;  
+  } 
+</script>
+</th:block>

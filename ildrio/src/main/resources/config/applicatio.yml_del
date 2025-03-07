@@ -1,0 +1,36 @@
+server:
+  port: 8080           # 원하는 포트로 변경
+  servlet:
+    context-path: /  # 웹 애플리케이션의 컨텍스트 경로 설정
+  tomcat:
+    accesslog:
+      enabled: true      # Tomcat 액세스 로그 활성화
+    basedir: /var/log/tomcat  # 로그 디렉토리 지정
+
+spring:
+  datasource:
+    url: jdbc:mariadb://117.52.20.183:3306/ILIKE_DB_V4 # 데이터베이스 URL 설정
+    username: ilikekim                       # 데이터베이스 사용자 이름 설정
+    password: kjs656500#db               # 데이터베이스 비밀번호 설정
+    driver-class-name: org.mariadb.jdbc.Driver
+  hikari:
+      maximum-pool-size: 1000
+      minimum-idle: 1000  
+  thymeleaf:
+    cache: true
+    suffix: .html
+    prefix: classpath:/templates/pages/
+
+mybatis:
+  type-aliases-package: ilike.shop.mapper
+  mapper-locations: classpath:mapper/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    
+logging:
+  config:
+    classpath:log4j2.xml
+  level:
+    #org.springframework.web: debug
+    org.springframework.web: info
+    ilike.shop: debug    

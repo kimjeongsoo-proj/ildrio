@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+<!-- begin :: head area -->
+<head th:include="~{../layout/fragments/AdminLayoutCss.html :: AdminLayoutCss}">
+<title layout:title-pattern="$LAYOUT_TITLE : $CONTENT_TITLE">ILIKE</title>
+</head>
+<!-- end :: head area -->
+<!-- begin :: body area-->
+<body>
+	<a name="top"></a>
+	<div class="topButton" onclick="location.href='#top'">
+		<i class="lnr-arrow-up"></i>
+	</div>
+	<div class="app-container app-theme-white body-tabs-shadow fixed-header fixed-sidebar">
+
+
+		<div class="app-header header-shadow bg-dark header-text-light" th:if="${ssMap.ssCompanyNo == 'ilikeAdmin'}">
+			<!--begin::Header-->
+			<th:block th:include="~{../layout/fragments/AdminLayoutHeaderMenu.html :: AdminLayoutHeaderMenu}"></th:block>
+			<!--end::Header-->
+
+		</div>
+		<div class="app-header header-shadow bg-night-sky header-text-light" th:if="${ssMap.ssCompanyNo != 'ilikeAdmin'}">
+			<!--begin::Header-->
+			<th:block th:include="~{../layout/fragments/AdminLayoutHeaderMenu.html :: AdminLayoutHeaderMenu}"></th:block>
+			<!--end::Header-->
+
+		</div>
+		<div class="app-main">
+			<div class="app-sidebar sidebar-shadow" id="left_side_menu">
+				<!--begin::Header-->
+				<th:block th:include="~{../layout/fragments/AdminLayoutSideMenu.html :: AdminLayoutSideMenu}"></th:block>
+				<!--end::Header-->
+
+			</div>
+			<div class="app-main__outer">
+				<div class="app-main__inner" style="background-color: #fff; padding: 0px 30px 30px 30px;">
+
+					<th:block layout:fragment="pageTitleEntry"></th:block>
+					<!--begin::pageContentsEntry-->
+					<th:block layout:fragment="pageContentsEntry"></th:block>
+					<!--end::pageContentsEntry-->
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+</body>
+<!--end::Content-->
+
+<!--begin::Footer-->
+<th:block th:include="~{../layout/fragments/AdminLayoutFooter.html :: AdminLayoutFooter}"></th:block>
+<!--end::Footer-->
+<th:block layout:fragment="customModal"></th:block>
+<!-- begin :: shopAdminScript area-->
+<th:block th:include="~{../layout/fragments/AdminLayoutScript.html :: AdminLayoutScript}"></th:block>
+<!-- end :: shopAdminScript area-->
+
+<!-- begin::개별적인 script -->
+<th:block layout:fragment="customScript"></th:block>
+<!-- end::개별적인 script -->
+
+<!-- end :: body area -->
+</html>

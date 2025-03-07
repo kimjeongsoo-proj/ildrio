@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+ 
+<mapper namespace="ilike.ildrio.mapper.job.JobInfoMapper">    
+ 
+ 
+ 
+	<select id="getListCount_jobInfo"  parameterType="ilike.ildrio.model.job.JobInfoModel"  resultType="java.lang.Integer"> 
+		SELECT FOUND_ROWS() totRow
+	</select> 
+	 
+	<select id="getList_jobInfo"  parameterType="ilike.ildrio.model.job.JobInfoModel" resultType="ilike.ildrio.model.job.JobInfoModel">  
+		<![CDATA[   
+		select	SQL_CALC_FOUND_ROWS  
+			 jif.job_no  
+			, jif.customer_no  
+			, jif.company_no  
+			, jif.job_title  
+			, jif.work_date  
+			, jif.job_state_code  
+			, jif.tax_type  
+			, jif.gender_type  
+			, jif.min_age  
+			, jif.max_age  
+			, jif.daily_wage_info  
+			, jif.holiday_note  
+			, jif.meal_provide_yn  
+			, jif.work_start_time  
+			, jif.work_end_time  
+			, jif.workplace_company_name  
+			, jif.workplace_postal_no  
+			, jif.workplace_postal_address  
+			, jif.workplace_detail_address  
+			, jif.workplace_note  
+			, jif.workplace_image  
+			, jif.work_manager_name  
+			, jif.work_manager_hpno  
+			, jif.work_qualification_detail  
+			, jif.work_welfare_detail  
+			, jif.onstruction_company_no  
+			, jif.job_detail  
+			, jif.apply_limit_hour  
+			, jif.admin_memo  
+			, jif.emergency_notice_yn  
+			, jif.insert_datetime  
+			, jif.update_datetime  
+		from .job_info jif
+	 	]]> 
+		<where>   
+			<if test="customerNo != null and customerNo != '' ">   
+				and jif.customer_no  like concat('%',#{customerNo},'%')   
+			</if>   
+			<if test="companyNo != null and companyNo != '' ">   
+				and jif.company_no  like concat('%',#{companyNo},'%')   
+			</if>   
+			<if test="jobTitle != null and jobTitle != '' ">   
+				and jif.job_title  like concat('%',#{jobTitle},'%')   
+			</if>   
+			<if test="srhFromWorkDate != null and srhFromWorkDate != '' ">   
+				<if test="srhToWorkDate != null and srhToWorkDate != '' ">   
+					and ( jif.work_date between #{srhFromWorkDate} and #{srhToWorkDate} )  
+				</if>   
+			</if>   
+			<if test="jobStateCode != null and jobStateCode != '' ">   
+				and jif.job_state_code  like concat('%',#{jobStateCode},'%')   
+			</if>   
+			<if test="genderType != null and genderType != '' ">   
+				and jif.gender_type = #{genderType}   
+			</if>   
+			<if test="workplacePostalAddress != null and workplacePostalAddress != '' ">   
+				and jif.workplace_postal_address  like concat('%',#{workplacePostalAddress},'%')   
+			</if>   
+			<if test="workManagerName != null and workManagerName != '' ">   
+				and jif.work_manager_name  like concat('%',#{workManagerName},'%')   
+			</if>   
+			<if test="workManagerHpno != null and workManagerHpno != '' ">   
+				and jif.work_manager_hpno  like concat('%',#{workManagerHpno},'%')   
+			</if>   
+			<if test="jobDetail != null and jobDetail != '' ">   
+				and jif.job_detail  like concat('%',#{jobDetail},'%')   
+			</if>   
+			<if test="applyLimitHour != null and applyLimitHour != '' ">   
+				and jif.apply_limit_hour = #{applyLimitHour}   
+			</if>   
+		</where>   
+		<if test="srhOrderBy != null and  srhOrderBy != '' ">   
+			order by 	${srhOrderBy} ${srhOrderAsc}   
+		</if>   
+		limit ${startRow} , ${pageRow}    
+	</select>  
+ 
+	<select id="subList_jobInfo"  parameterType="ilike.ildrio.model.job.JobInfoModel" resultType="ilike.ildrio.model.job.JobInfoModel">  
+	</select>  
+ 
+	<select id="getMap_jobInfo"  parameterType="ilike.ildrio.model.job.JobInfoModel" resultType="ilike.ildrio.model.job.JobInfoModel">  
+		<![CDATA[   
+		select  
+			 jif.job_no  
+			, jif.customer_no  
+			, jif.company_no  
+			, jif.job_title  
+			, jif.work_date  
+			, jif.job_state_code  
+			, jif.tax_type  
+			, jif.gender_type  
+			, jif.min_age  
+			, jif.max_age  
+			, jif.daily_wage_info  
+			, jif.holiday_note  
+			, jif.meal_provide_yn  
+			, jif.work_start_time  
+			, jif.work_end_time  
+			, jif.workplace_company_name  
+			, jif.workplace_postal_no  
+			, jif.workplace_postal_address  
+			, jif.workplace_detail_address  
+			, jif.workplace_note  
+			, jif.workplace_image  
+			, jif.work_manager_name  
+			, jif.work_manager_hpno  
+			, jif.work_qualification_detail  
+			, jif.work_welfare_detail  
+			, jif.onstruction_company_no  
+			, jif.job_detail  
+			, jif.apply_limit_hour  
+			, jif.admin_memo  
+			, jif.emergency_notice_yn  
+			, jif.insert_datetime  
+			, jif.update_datetime  
+		from .job_info jif
+		where jif.job_no = #{jobNo}  
+	 	]]> 
+	</select>  
+ 
+	<select id="getCount_jobInfo"  parameterType="ilike.ildrio.model.job.JobInfoModel"  resultType="java.lang.Integer">  
+		<![CDATA[   
+		select 	count(*) count  
+		from 	job_info  
+		where job_no = #{jobNo}  
+	 	]]> 
+	</select>  
+ 
+	<update id="insert_jobInfo"  parameterType="ilike.ildrio.model.job.JobInfoModel">  
+		<![CDATA[   
+		insert into job_info (  
+			 job_no   
+			, customer_no   
+			, company_no   
+			, job_title   
+			, work_date   
+			, job_state_code   
+			, tax_type   
+			, gender_type   
+			, min_age   
+			, max_age   
+			, daily_wage_info   
+			, holiday_note   
+			, meal_provide_yn   
+			, work_start_time   
+			, work_end_time   
+			, workplace_company_name   
+			, workplace_postal_no   
+			, workplace_postal_address   
+			, workplace_detail_address   
+			, workplace_note   
+			, workplace_image   
+			, work_manager_name   
+			, work_manager_hpno   
+			, work_qualification_detail   
+			, work_welfare_detail   
+			, onstruction_company_no   
+			, job_detail   
+			, apply_limit_hour   
+			, admin_memo   
+			, emergency_notice_yn   
+			, insert_datetime   
+			, update_datetime   
+	 	) values (  
+			 #{jobNo}  
+			, #{customerNo}  
+			, #{companyNo}  
+			, #{jobTitle}  
+			, #{workDate}  
+			, #{jobStateCode}  
+			, #{taxType}  
+			, #{genderType}  
+			, replace(#{minAge},',','')  
+			, replace(#{maxAge},',','')  
+			, #{dailyWageInfo}  
+			, #{holidayNote}  
+			, #{mealProvideYn}  
+			, #{workStartTime}  
+			, #{workEndTime}  
+			, #{workplaceCompanyName}  
+			, #{workplacePostalNo}  
+			, #{workplacePostalAddress}  
+			, #{workplaceDetailAddress}  
+			, #{workplaceNote}  
+			, #{workplaceImage}  
+			, #{workManagerName}  
+			, #{workManagerHpno}  
+			, #{workQualificationDetail}  
+			, #{workWelfareDetail}  
+			, #{onstructionCompanyNo}  
+			, #{jobDetail}  
+			, #{applyLimitHour}  
+			, #{adminMemo}  
+			, #{emergencyNoticeYn}  
+			, now()  
+			, now()  
+	 	)   
+	 	]]> 
+	</update>  
+ 
+	<update id="update_jobInfo"  parameterType="ilike.ildrio.model.job.JobInfoModel">  
+		<choose>   
+			<when test=" trxnMode == 'list_update' ">   
+				<![CDATA[   
+				update job_info set  
+					 update_datetime = now()  
+				where job_no = #{jobNo}  
+	 			]]> 
+			</when>   
+			<otherwise>   
+				<![CDATA[   
+				update job_info set  
+					 customer_no = #{customerNo}  
+					, company_no = #{companyNo}  
+					, job_title = #{jobTitle}  
+					, work_date = #{workDate}  
+					, job_state_code = #{jobStateCode}  
+					, tax_type = #{taxType}  
+					, gender_type = #{genderType}  
+					, min_age = replace(#{minAge},',','')  
+					, max_age = replace(#{maxAge},',','')  
+					, daily_wage_info = #{dailyWageInfo}  
+					, holiday_note = #{holidayNote}  
+					, meal_provide_yn = #{mealProvideYn}  
+					, work_start_time = #{workStartTime}  
+					, work_end_time = #{workEndTime}  
+					, workplace_company_name = #{workplaceCompanyName}  
+					, workplace_postal_no = #{workplacePostalNo}  
+					, workplace_postal_address = #{workplacePostalAddress}  
+					, workplace_detail_address = #{workplaceDetailAddress}  
+					, workplace_note = #{workplaceNote}  
+					, workplace_image = #{workplaceImage}  
+					, work_manager_name = #{workManagerName}  
+					, work_manager_hpno = #{workManagerHpno}  
+					, work_qualification_detail = #{workQualificationDetail}  
+					, work_welfare_detail = #{workWelfareDetail}  
+					, onstruction_company_no = #{onstructionCompanyNo}  
+					, job_detail = #{jobDetail}  
+					, apply_limit_hour = #{applyLimitHour}  
+					, admin_memo = #{adminMemo}  
+					, emergency_notice_yn = #{emergencyNoticeYn}  
+					, update_datetime = now()  
+				where job_no = #{jobNo}  
+	 			]]> 
+			</otherwise>   
+		</choose>   
+	</update>  
+ 
+	<update id="delete_jobInfo"  parameterType="ilike.ildrio.model.job.JobInfoModel">  
+		<![CDATA[   
+		delete from job_info   
+		where job_no = #{jobNo}  
+	 	]]> 
+	</update>  
+ 
+</mapper>

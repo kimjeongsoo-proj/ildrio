@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+ 
+<mapper namespace="ilike.ildrio.mapper.member.MemberLicenseMapper">    
+ 
+ 
+ 
+	<select id="getListCount_memberLicense"  parameterType="ilike.ildrio.model.member.MemberLicenseModel"  resultType="java.lang.Integer"> 
+		SELECT FOUND_ROWS() totRow
+	</select> 
+	 
+	<select id="getList_memberLicense"  parameterType="ilike.ildrio.model.member.MemberLicenseModel" resultType="ilike.ildrio.model.member.MemberLicenseModel">  
+		<![CDATA[   
+		select	SQL_CALC_FOUND_ROWS  
+			 mlc.member_no  
+			, mlc.license_name  
+			, mlc.license_image  
+			, mlc.license_memo  
+			, mlc.insert_datetime  
+			, mlc.update_datetime  
+		from member_license mlc
+	 	]]> 
+		<where>   
+			<if test="memberNo != null and memberNo != '' ">   
+				and mlc.member_no  like concat('%',#{memberNo},'%')   
+			</if>   
+		</where>   
+		<if test="srhOrderBy != null and  srhOrderBy != '' ">   
+			order by 	${srhOrderBy} ${srhOrderAsc}   
+		</if>   
+		limit ${startRow} , ${pageRow}    
+	</select>  
+ 
+	<select id="subList_memberLicense"  parameterType="ilike.ildrio.model.member.MemberLicenseModel" resultType="ilike.ildrio.model.member.MemberLicenseModel">  
+	</select>  
+ 
+	<select id="getMap_memberLicense"  parameterType="ilike.ildrio.model.member.MemberLicenseModel" resultType="ilike.ildrio.model.member.MemberLicenseModel">  
+		<![CDATA[   
+		select  
+			 mlc.member_no  
+			, mlc.license_name  
+			, mlc.license_image  
+			, mlc.license_memo  
+			, mlc.insert_datetime  
+			, mlc.update_datetime  
+		from member_license mlc
+		where mlc.member_no = #{memberNo}  
+		and mlc.license_name = #{licenseName}  
+	 	]]> 
+	</select>  
+ 
+	<select id="getCount_memberLicense"  parameterType="ilike.ildrio.model.member.MemberLicenseModel"  resultType="java.lang.Integer">  
+		<![CDATA[   
+		select 	count(*) count  
+		from 	member_license  
+		where member_no = #{memberNo}  
+		and license_name = #{licenseName}  
+	 	]]> 
+	</select>  
+ 
+	<update id="insert_memberLicense"  parameterType="ilike.ildrio.model.member.MemberLicenseModel">  
+		<![CDATA[   
+		insert into member_license (  
+			 member_no   
+			, license_name   
+			, license_image   
+			, license_memo   
+			, insert_datetime   
+			, update_datetime   
+	 	) values (  
+			 #{memberNo}  
+			, #{licenseName}  
+			, #{licenseImage}  
+			, #{licenseMemo}  
+			, now()  
+			, now()  
+	 	)   
+	 	]]> 
+	</update>  
+ 
+	<update id="update_memberLicense"  parameterType="ilike.ildrio.model.member.MemberLicenseModel">  
+		<choose>   
+			<when test=" trxnMode == 'list_update' ">   
+				<![CDATA[   
+				update member_license set  
+					 update_datetime = now()  
+				where member_no = #{memberNo}  
+				and license_name = #{licenseName}  
+	 			]]> 
+			</when>   
+			<otherwise>   
+				<![CDATA[   
+				update member_license set  
+					 license_image = #{licenseImage}  
+					, license_memo = #{licenseMemo}  
+					, update_datetime = now()  
+				where member_no = #{memberNo}  
+				and license_name = #{licenseName}  
+	 			]]> 
+			</otherwise>   
+		</choose>   
+	</update>  
+ 
+	<update id="delete_memberLicense"  parameterType="ilike.ildrio.model.member.MemberLicenseModel">  
+		<![CDATA[   
+		delete from member_license   
+		where member_no = #{memberNo}  
+		and license_name = #{licenseName}  
+	 	]]> 
+	</update>  
+ 
+</mapper>

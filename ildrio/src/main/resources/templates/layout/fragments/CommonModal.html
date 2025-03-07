@@ -1,0 +1,266 @@
+<th:block th:fragment="commonModal">
+	<!--Cart input Modal -->
+	<div class="modal fade" id="cartInputModal" tabindex="-1" aria-labelledby="cartInputModal_Label" aria-hidden="true">
+		<div class="modal-dialog modal-500 modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="cartInputModal_Label">장바구니 담기</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body" id="cart_popup_info"></div>
+				<div class="modal-footer">
+					<a type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</a>
+					<a class="btn btn-primary" onclick="sfn_addCart_trxn()">장바구니 담기</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal -->
+	<div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModal_Label" aria-hidden="true">
+		<div class="modal-dialog modal-500 modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="cartModal_Label">장바구니에 추가하였습니다.</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<img id="cartModal_goods_img">
+					<br>
+					<span id="cartModal_goods_name" style="font-size: 12pt; font-weight: bold;"></span>
+				</div>
+				<div class="modal-footer">
+					<a type="button" class="btn btn-secondary" data-bs-dismiss="modal">계속쇼핑</a>
+					<a class="btn btn-primary" href="/shopCart/shopCartList">장바구니로 이동</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- wishModal -->
+	<div class="modal fade" id="wishModal" tabindex="-1" aria-labelledby="wishModal_Label" aria-hidden="true">
+		<div class="modal-dialog modal-500 modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="wishModal_Label">관심상품에 추가하였습니다.</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<img id="wishModal_goods_img">
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">계속쇼핑</button>
+					<a type="button" class="btn btn-primary" href="/shopWish/shopWishGoodsList">관심상품으로 이동</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- brand modal -->
+	<div class="modal fade bd-example-modal-lg" id="brand_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg modal-dialog-centered" id="modal_contents">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="modal_title">브랜드</h5>
+					<button type="button" class="btn-close" id="modal_close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body" style="padding: 10px;">
+					<!-- 브랜드 -->
+					<ul class="nav nav-pills">
+						<li class="nav-item">
+							<a class="nav-link active" aria-current="page" onclick="sfn_modal_brand('goods_count desc')">상품 많은 순</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" onclick="sfn_modal_brand('brand_name')">브랜드명 순</a>
+						</li>
+					</ul>
+					<div class="row" id="more_brand_list" style="padding: 20px; width: 100%; height: 500px; overflow: auto;"></div>
+
+				</div>
+				<div class="modal-footer" id="modal_button" style="padding: 5px 20px;"></div>
+			</div>
+		</div>
+	</div>
+	<!-- // brand Modal -->
+
+	<!-- category modal -->
+	<div class="modal fade bd-example-modal-lg" id="category_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg modal-dialog-centered" id="modal_contents">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="modal_title">카테고리</h5>
+					<button type="button" class="btn-close" id="modal_close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body" style="padding: 10px;">
+					<!-- 카테고리 -->
+					<div class="row" id="more_cate3_list" style="padding: 20px; width: 100%; height: 500px; overflow: auto;"></div>
+
+				</div>
+				<div class="modal-footer" id="modal_button" style="padding: 5px 20px;"></div>
+			</div>
+		</div>
+	</div>
+	<!-- // brand Modal -->
+
+	<!-- Large modal -->
+	<div class="modal fade bd-example-modal-lg" id="modal_wrap" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog  modal-lg modal-dialog-centered" id="modal_contents">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="modal_wrap_title"></h5>
+					<button type="button" class="btn-close" id="modal_close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body" style="padding: 0;">
+					<iframe id="modal_wrap_iframe" name="modal_wrap_iframe" style="width: 100%; height: 500px;" src=""></iframe>
+				</div>
+				<div class="modal-footer" id="modal_button" style="padding: 5px 20px;">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- // Modal -->
+
+
+
+	<!--  모바일 메뉴 Modal -->
+	<div class="modal fade" id="mobileMenuModal" tabindex="-1" aria-labelledby="mobileMenuModal" aria-hidden="true">
+		<div class="modal-dialog modal-fullscreen-sm-down">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="mobileMenuModalLabel">메뉴</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body" id="mobileMenu_body">
+					<a name="menuTop"></a>
+					
+					
+					<ul class="navbar-nav attr-nav align-items-center header_icon_ul" id="mobile_header_menu_left">
+						<li>
+							<a th:href="|/shopToday/shopTodayGoodsList|" class="nav-link ">
+								<i class="linearicons-calendar-check header_icon" title="오늘본 공고"></i>
+								<span class="wishlist_count header_count" id="mobile_today_count" style="display: none;">0</span>
+							</a>
+						</li>
+						<li class="dropdown cart_dropdown">
+							<a th:href="|/shopCart/shopCartList|" class="nav-link cart_trigger">
+								<i class="linearicons-license header_icon" title="나의지원내용"></i>
+								<span class="cart_count  header_count" id="mobile_cart_count" style="display: none;"></span>
+							</a>
+						</li>
+						<li class="dropdown cart_dropdown">
+							<a th:href="|/shopCart/shopCartList|" class="nav-link cart_trigger">
+								<i class="linearicons-apartment header_icon" title="오늘의 현장"></i>
+								<span class="cart_count  header_count" id="mobile_cart_count" style="display: none;"></span>
+							</a>
+						</li>
+						
+					</ul>
+					
+					
+					<!-- 메뉴 -->
+					<!-- 카테고리 -->
+					<div class="card" style="width: 100%;">
+						<div class="card-header" style="font-size:15pt;">메뉴</div>
+						<ul class="list-group list-group-flush" >
+							<li class="list-group-item" style="padding: 0px 10px;"><a class="nav-link header_menu_link" href="/jobInfo/jobInfoList">긴급공고</a></li>
+							<li class="list-group-item" style="padding: 0px 10px;"><a class="nav-link header_menu_link" href="/jobInfo/jobInfoList">채용공조조회</a></li>
+						</ul>
+						<ul class="list-group list-group-flush" id="mobile_collectionInfo_list">
+						</ul>
+					</div>
+					<div class="card" style="width: 100%;">
+						<div class="card-header"  style="font-size:15pt;">직종검색</div>
+						<div style="padding: 0px 20px;">
+							<div class="accordion" id="mobile_shopCateList"></div>
+						</div>
+					</div>
+					<div class="card" style="width: 100%;">
+						<div class="card-header" style="font-size:15pt;">마이페이지</div>
+						
+						
+						
+						<ul class="list-group list-group-flush" >
+							<li class="list-group-item" style="padding: 0px 10px;"><a class="nav-link header_menu_link" href="#">오늘의 출근</a></li>
+							<li class="list-group-item" style="padding: 0px 10px;"><a class="nav-link header_menu_link" href="#">채용 확정</a></li>
+							<li class="list-group-item" style="padding: 0px 10px;"><a class="nav-link header_menu_link" href="#">지원 내역</a></li>
+							<li class="list-group-item" style="padding: 0px 10px;"><a class="nav-link header_menu_link" href="#">나의 정보 수정</a></li>
+							<li class="list-group-item" style="padding: 0px 10px;"><a class="nav-link header_menu_link" href="#">나의 기술 정보</a></li>
+							<li class="list-group-item" style="padding: 0px 10px;"><a class="nav-link header_menu_link" href="#">나의 관심 직종</a></li>
+							<li class="list-group-item" style="padding: 0px 10px;"><a class="nav-link header_menu_link" href="#">나의 근무 이력</a></li>
+						</ul>
+						<ul class="list-group list-group-flush" id="mobile_collectionInfo_list">
+						</ul>
+					</div>
+					
+				</div>
+				<div class="modal-footer">
+					<a href="#menuTop" type="button" class="btn btn-secondary">Top</a>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- processMsg -->
+
+	<div id="processMsg" style="position: absolute; width: 100px; height: 60px; z-index: 999; display: none; text-align: center;">
+		<button class="btn btn-light" type="button" disabled>
+			<span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+			<span role="status">Loading...</span>
+		</button>
+	</div>
+	<!-- // processMsg -->
+
+	<!-- popupPageModal -->
+	<div class="modal fade bd-example-modal-lg" id="popupPageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content" id="popupPageContent">
+				<div class="modal-header">
+					<h5 class="modal-title" id="popupPageModalTitle">Modal title</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body" style="padding: 0;">
+					<iframe id="modal_iframe" name="modal_iframe" style="width: 100%; height: 500px;" src=""></iframe>
+				</div>
+				<div class="modal-footer" id="modal_button" style="padding: 5px 20px;">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Large modal -->
+	<div class="modal fade" id="popupPageModalResize" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content" id="modal_resize_contents">
+				<div class="modal-header">
+					<h5 class="modal-title" id="modal_resize_title"></h5>
+					<button type="button" class="btn-close" id="modal_resize_close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body" style="padding: 0;">
+					<iframe id="modal_resize_iframe" name="modal_resize_iframe" style="width: 100%; height: 500px;" src=""></iframe>
+				</div>
+				<div class="modal-footer" id="modal_resize_button" style="padding: 5px 20px;"></div>
+			</div>
+		</div>
+	</div>
+
+	<!--  sub modal -->
+	<div class="modal fade bd-example-modal-lg" id="popupPageSubModal" tabindex="-1" role="dialog" aria-labelledby="mpopupPageSubModelLabel" aria-hidden="true">
+		<div class="modal-dialog" id="sub_modal_dialog">
+			<div class="modal-content" id="sub_modal_contents">
+				<div class="modal-header">
+					<h5 class="modal-title" id="sub_modal_title"></h5>
+					<button type="button" class="btn-close" id="sub_modal_close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body" style="padding: 0;">
+					<iframe id="sub_modal_iframe" name="sub_modal_iframe" style="width: 100%; height: 500px;" src=""></iframe>
+				</div>
+				<div class="modal-footer" id="sub_modal_button" style="padding: 5px 20px;"></div>
+			</div>
+		</div>
+	</div>
+
+</th:block>
+

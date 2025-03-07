@@ -1,0 +1,66 @@
+.tos{
+	padding:75px 0 0px;
+}
+
+.tos .tos_title{
+	text-align:center;
+	padding-bottom:45px;
+}
+
+.tos .tos_title h1{
+	font-size:39px;
+	color:#3E3E3E;
+	font-weight:700;
+}
+
+.tos .tos_tab{
+	border-bottom:1px solid #707070;
+}
+
+.tos .tos_tab ul{
+	width:928px;
+	margin:0 auto;
+}
+
+.tos .tos_tab ul::after{
+	content:'';
+	display:block;
+	clear:both;
+}
+
+.tos .tos_tab ul li{
+	float:left;
+	margin-right:45px;
+}
+
+.tos .tos_tab ul li.active a{
+	border-bottom:3px solid #5c88da;
+	color:#333;
+}
+
+.tos .tos_tab ul li a{
+	font-size:20px;
+	font-weight:700;
+	padding:0 10px 10px;
+	display:inline-block;
+	color:#848484;
+}
+
+.tos .tos_content{
+	width:928px;
+	margin:0 auto;
+}
+
+.tos .tos_content .tos_dv{
+	font-size:18px;
+	line-height:35px;
+	padding-bottom:50px;
+}
+
+.tos .tos_content .tos_dv h2{
+	font-weight:700;
+}
+
+.tos .tos_content .tos_dv p{
+	color:#9F9F9F;
+}

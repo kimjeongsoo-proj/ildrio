@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+ 
+<mapper namespace="ilike.ildrio.mapper.member.MemberInfoMapper">    
+ 
+ 
+ 
+	<select id="getListCount_memberInfo"  parameterType="ilike.ildrio.model.member.MemberInfoModel"  resultType="java.lang.Integer"> 
+		SELECT FOUND_ROWS() totRow
+	</select> 
+	 
+	<select id="getList_memberInfo"  parameterType="ilike.ildrio.model.member.MemberInfoModel" resultType="ilike.ildrio.model.member.MemberInfoModel">  
+		<![CDATA[   
+		select	SQL_CALC_FOUND_ROWS  
+			 mif.member_no  
+			, mif.member_id  
+			, mif.member_password  
+			, mif.member_name  
+			, mif.email_address  
+			, mif.mobile_no  
+			, mif.brith_date  
+			, mif.jumin_no  
+			, mif.gender_type  
+			, mif.postal_no  
+			, mif.postal_address  
+			, mif.detail_address  
+			, mif.photo_image  
+			, mif.sign_image  
+			, mif.age_agree_yn  
+			, mif.service_agree_yn  
+			, mif.personal_agree_yn  
+			, mif.oauth_provider  
+			, mif.oauth_cert_key  
+			, mif.last_login_datetime  
+			, mif.password_change_datetime  
+			, mif.cookie_session  
+			, mif.work_type  
+			, mif.jumin_image  
+			, mif.jumin_back_image  
+			, mif.safe_education_yn  
+			, mif.safe_education_image  
+			, mif.safe_education_hours  
+			, mif.foreigner_yn  
+			, mif.stay_start_date  
+			, mif.stay_end_date  
+			, mif.agency_company_no  
+			, mif.agency_status_code  
+			, mif.bank_name  
+			, mif.bank_account_no  
+			, mif.bank_account_name  
+			, mif.insert_datetime  
+			, mif.update_datetime  
+		from member_info mif
+	 	]]> 
+		<where>   
+			<if test="srhTotalText != null and srhTotalText != '' ">   
+				and (   
+				
+				 mif.member_id like concat('%',#{srhTotalText},'%')   
+				or mif.member_name like concat('%',#{srhTotalText},'%')   
+				or mif.mobile_no like concat('%',#{srhTotalText},'%')       
+				)   
+			</if>   
+			<if test="memberId != null and memberId != '' ">   
+				and mif.member_id  = #{memberId}   
+			</if>   
+			<if test="memberName != null and memberName != '' ">   
+				and mif.member_name  = #{memberName}   
+			</if>   
+			<if test="mobileNo != null and mobileNo != '' ">   
+				and mif.mobile_no  = #{mobileNo}   
+			</if>   
+		</where>   
+		<if test="srhOrderBy != null and  srhOrderBy != '' ">   
+			order by 	${srhOrderBy} ${srhOrderAsc}   
+		</if>   
+		limit ${startRow} , ${pageRow}    
+	</select>  
+ 
+	<select id="subList_memberInfo"  parameterType="ilike.ildrio.model.member.MemberInfoModel" resultType="ilike.ildrio.model.member.MemberInfoModel">  
+	</select>  
+ 
+	<select id="getMap_memberInfo"  parameterType="ilike.ildrio.model.member.MemberInfoModel" resultType="ilike.ildrio.model.member.MemberInfoModel">  
+		<![CDATA[   
+		select  
+			 mif.member_no  
+			, mif.member_id  
+			, mif.member_password  
+			, mif.member_name  
+			, mif.email_address  
+			, mif.mobile_no  
+			, mif.brith_date  
+			, mif.jumin_no  
+			, mif.gender_type  
+			, mif.postal_no  
+			, mif.postal_address  
+			, mif.detail_address  
+			, mif.photo_image  
+			, mif.sign_image  
+			, mif.age_agree_yn  
+			, mif.service_agree_yn  
+			, mif.personal_agree_yn  
+			, mif.oauth_provider  
+			, mif.oauth_cert_key  
+			, mif.last_login_datetime  
+			, mif.password_change_datetime  
+			, mif.cookie_session  
+			, mif.work_type  
+			, mif.jumin_image  
+			, mif.jumin_back_image  
+			, mif.safe_education_yn  
+			, mif.safe_education_image  
+			, mif.safe_education_hours  
+			, mif.foreigner_yn  
+			, mif.stay_start_date  
+			, mif.stay_end_date  
+			, mif.agency_company_no  
+			, mif.agency_status_code  
+			, mif.bank_name  
+			, mif.bank_account_no  
+			, mif.bank_account_name  
+			, mif.insert_datetime  
+			, mif.update_datetime  
+		from member_info mif
+		where 1 = 1  
+	 	]]> 
+	 	<choose>
+	 		<when test="selectMode == 'login' "> 
+	 			and mif.member_id  = #{memberId}  
+				and mif.member_password  = #{memberPassword}    
+	 		</when>
+	 		<otherwise>
+	 			and mif.member_id  = #{memberId}  
+	 		</otherwise>
+	 	</choose>
+	 	
+	</select>  
+ 
+	<select id="getCount_memberInfo"  parameterType="ilike.ildrio.model.member.MemberInfoModel"  resultType="java.lang.Integer">  
+		<![CDATA[   
+		select 	count(*) count  
+		from 	member_info  
+		where member_id = #{memberId}  
+	 	]]> 
+	</select>  
+ 
+	<update id="insert_memberInfo"  parameterType="ilike.ildrio.model.member.MemberInfoModel">  
+		<![CDATA[   
+		insert into member_info (  
+			 member_id   
+			, member_password   
+			, member_name   
+			, mobile_no   
+			, insert_datetime   
+			, update_datetime   
+	 	) values (  
+			 #{memberId}  
+			, #{password}  
+			, #{memberName}  
+			, #{mobileNo}  
+			, now()  
+			, now()  
+	 	)   
+	 	]]> 
+	</update>  
+ 
+	<update id="update_memberInfo"  parameterType="ilike.ildrio.model.member.MemberInfoModel">  
+		<choose>   
+			<when test=" trxnMode == 'list_update' ">   
+				<![CDATA[   
+				update member_info set  
+					 update_datetime = now()  
+				where member_no = #{memberNo}  
+	 			]]> 
+			</when>   
+			<otherwise>   
+				<![CDATA[   
+				update member_info set  
+					 member_id = #{memberId}  
+					, member_password = #{memberPassword}  
+					, member_name = #{memberName}  
+					, email_address = #{emailAddress}  
+					, mobile_no = #{mobileNo}  
+					, brith_date = #{brithDate}  
+					, jumin_no = #{juminNo}  
+					, gender_type = #{genderType}  
+					, postal_no = #{postalNo}  
+					, postal_address = #{postalAddress}  
+					, detail_address = #{detailAddress}  
+					, photo_image = #{photoImage}  
+					, sign_image = #{signImage}  
+					, age_agree_yn = #{ageAgreeYn}  
+					, service_agree_yn = #{serviceAgreeYn}  
+					, personal_agree_yn = #{personalAgreeYn}  
+					, jumin_image = #{juminImage}  
+					, jumin_back_image = #{juminBackImage}  
+					, safe_education_yn = #{safeEducationYn}  
+					, safe_education_image = #{safeEducationImage}  
+					, safe_education_hours = #{safeEducationHours}  
+					, foreigner_yn = #{foreignerYn}  
+					, stay_start_date = #{stayStartDate}  
+					, stay_end_date = #{stayEndDate}  
+					, agency_company_no = #{agencyCompanyNo}  
+					, agency_status_code = #{agencyStatusCode}  
+					, bank_name = #{bankName}  
+					, bank_account_no = #{bankAccountNo}  
+					, bank_account_name = #{bankAccountName}  
+					, update_datetime = now()  
+				where member_id = #{memberId}  
+	 			]]> 
+			</otherwise>   
+		</choose>   
+	</update>  
+ 
+	<update id="delete_memberInfo"  parameterType="ilike.ildrio.model.member.MemberInfoModel">  
+		<![CDATA[   
+		delete from member_info   
+		where member_no = #{memberNo}  
+	 	]]> 
+	</update>  
+ 
+ 	<update id="insert_memberMobileCert"  parameterType="ilike.ildrio.model.member.MemberInfoModel">  
+		<![CDATA[   
+		insert into member_mobile_cert (  
+			  member_name   
+			, mobile_no 
+			, cert_key
+			, cert_no 
+			, insert_datetime   
+			, update_datetime   
+	 	) values (  
+			  #{memberName}  
+			, #{mobileNo}  
+			, #{certKey}  
+			, #{certNo}  
+			, now()  
+			, now()  
+	 	) on duplicate key update
+	 	      cert_key = #{certKey}  
+			, cert_no = #{certNo} 
+			, update_datetime = now()   
+	 	]]> 
+	</update> 
+	
+	<select id="getMap_memberMobileCert"  parameterType="ilike.ildrio.model.member.MemberInfoModel" resultType="ilike.ildrio.model.member.MemberInfoModel">  
+		<![CDATA[ 
+			select
+				  member_name   
+				, mobile_no 
+				, cert_key
+				, cert_no 
+				, insert_datetime   
+				, update_datetime   
+			from	member_mobile_cert
+			where  	member_name = #{memberName}   
+			and 	mobile_no = #{mobileNo}  
+			and 	cert_key = #{certKey}  
+			and 	cert_no = #{certNo}  
+		]]> 
+	</select>   
+</mapper>

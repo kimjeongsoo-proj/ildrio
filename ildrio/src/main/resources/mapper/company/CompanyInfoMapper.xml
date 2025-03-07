@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+ 
+<mapper namespace="ilike.ildrio.mapper.company.CompanyInfoMapper">    
+ 
+ 
+ 
+	<select id="getListCount_companyInfo"  parameterType="ilike.ildrio.model.company.CompanyInfoModel"  resultType="java.lang.Integer"> 
+		SELECT FOUND_ROWS() totRow
+	</select> 
+	 
+	<select id="getList_companyInfo"  parameterType="ilike.ildrio.model.company.CompanyInfoModel" resultType="ilike.ildrio.model.company.CompanyInfoModel">  
+		<![CDATA[   
+		select	SQL_CALC_FOUND_ROWS  
+			 cop.company_no  
+			, cop.company_id  
+			, cop.company_password  
+			, cop.compay_name  
+			, cop.business_no  
+			, cop.ceo_name  
+			, cop.postal_no  
+			, cop.postal_address  
+			, cop.detail_address  
+			, cop.insert_datetime  
+			, cop.update_datetime  
+		from company_info cop
+	 	]]> 
+		<where>   
+			<if test="compayName != null and compayName != '' ">   
+				and cop.compay_name  like concat('%',#{compayName},'%')   
+			</if>   
+			<if test="ceoName != null and ceoName != '' ">   
+				and cop.ceo_name  like concat('%',#{ceoName},'%')   
+			</if>   
+		</where>   
+		<if test="srhOrderBy != null and  srhOrderBy != '' ">   
+			order by 	${srhOrderBy} ${srhOrderAsc}   
+		</if>   
+		limit ${startRow} , ${pageRow}    
+	</select>  
+ 
+	<select id="subList_companyInfo"  parameterType="ilike.ildrio.model.company.CompanyInfoModel" resultType="ilike.ildrio.model.company.CompanyInfoModel">  
+	</select>  
+ 
+	<select id="getMap_companyInfo"  parameterType="ilike.ildrio.model.company.CompanyInfoModel" resultType="ilike.ildrio.model.company.CompanyInfoModel">  
+		<![CDATA[   
+		select  
+			 cop.company_no  
+			, cop.company_id  
+			, cop.company_password  
+			, cop.compay_name  
+			, cop.business_no  
+			, cop.ceo_name  
+			, cop.postal_no  
+			, cop.postal_address  
+			, cop.detail_address  
+			, cop.insert_datetime  
+			, cop.update_datetime  
+		from company_info cop
+		where cop.company_no = #{companyNo}  
+	 	]]> 
+	</select>  
+ 
+	<select id="getCount_companyInfo"  parameterType="ilike.ildrio.model.company.CompanyInfoModel"  resultType="java.lang.Integer">  
+		<![CDATA[   
+		select 	count(*) count  
+		from 	company_info  
+		where company_id = #{companyId}  
+	 	]]> 
+	</select>  
+ 
+	<update id="insert_companyInfo"  parameterType="ilike.ildrio.model.company.CompanyInfoModel">  
+		<![CDATA[   
+		insert into company_info (  
+			 company_no   
+			, company_id   
+			, company_password   
+			, compay_name   
+			, business_no   
+			, ceo_name   
+			, postal_no   
+			, postal_address   
+			, detail_address   
+			, insert_datetime   
+			, update_datetime   
+	 	) values (  
+			 #{companyNo}  
+			, #{companyId}  
+			, #{companyPassword}  
+			, #{compayName}  
+			, #{businessNo}  
+			, #{ceoName}  
+			, #{postalNo}  
+			, #{postalAddress}  
+			, #{detailAddress}  
+			, now()  
+			, now()  
+	 	)   
+	 	]]> 
+	</update>  
+ 
+	<update id="update_companyInfo"  parameterType="ilike.ildrio.model.company.CompanyInfoModel">  
+		<choose>   
+			<when test=" trxnMode == 'list_update' ">   
+				<![CDATA[   
+				update company_info set  
+					 update_datetime = now()  
+				where company_no = #{companyNo}  
+	 			]]> 
+			</when>   
+			<otherwise>   
+				<![CDATA[   
+				update company_info set  
+					 company_id = #{companyId}  
+					, company_password = #{companyPassword}  
+					, compay_name = #{compayName}  
+					, business_no = #{businessNo}  
+					, ceo_name = #{ceoName}  
+					, postal_no = #{postalNo}  
+					, postal_address = #{postalAddress}  
+					, detail_address = #{detailAddress}  
+					, update_datetime = now()  
+				where company_no = #{companyNo}  
+	 			]]> 
+			</otherwise>   
+		</choose>   
+	</update>  
+ 
+	<update id="delete_companyInfo"  parameterType="ilike.ildrio.model.company.CompanyInfoModel">  
+		<![CDATA[   
+		delete from company_info   
+		where company_no = #{companyNo}  
+	 	]]> 
+	</update>  
+ 
+</mapper>

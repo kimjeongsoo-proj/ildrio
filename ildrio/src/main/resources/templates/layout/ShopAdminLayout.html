@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+<head th:include="~{../layout/fragments/ShopAdminHeader.html :: shopAdminHeader}">
+<title layout:title-pattern="$LAYOUT_TITLE : $CONTENT_TITLE">ILIKE</title>
+</head>
+<body class="pd_wrap">
+
+	<th:block th:include="~{../layout/fragments/ShopAdminMenu.html :: shopAdminMenu}"></th:block>
+
+	<th:block layout:fragment="pageTitleEntry"></th:block>
+	<div class="main_content">
+		<div class="section pb_20">
+			<div class="container">
+				<th:block layout:fragment="pageContentsEntry"></th:block>
+			</div>
+		</div>
+	</div>
+
+	<th:block th:include="~{../layout/fragments/ShopAdminModal.html :: shopAdminModal}"></th:block>
+
+	<th:block th:include="~{../layout/fragments/ShopAdminFooter.html :: shopAdminFooter}"></th:block>
+
+	<th:block th:include="~{../layout/fragments/ShopAdminScript.html :: shopAdminScript}"></th:block>
+
+</body>
+</html>

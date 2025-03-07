@@ -1,0 +1,417 @@
+<!doctype html> 
+<html lang="ko" layout:decorator="~{../layout/AdminLayout.html}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"> 
+<th:block layout:fragment="customCss"> 
+ <style>
+ 	#div_detail_search .form-control {margin-top: 10px; } 
+ 	#div_detail_search .col-form-label {margin-top: 10px; } 
+ </style>
+</th:block> 
+ 
+<th:block layout:fragment="pageTitleEntry"> 
+ 
+</th:block> 
+ 
+<th:block layout:fragment="pageContentsEntry"> 
+	<div class="card-header-tab card-header" style="padding: 0;"> 
+		<div class="card-header-title"> 
+			<h5 style="font-weight: 900;">회사정보</h5> 
+		</div> 
+		<ul class="nav"> 
+			<li class="nav-item"> 
+				<a data-bs-toggle="tab" href="#tab-eg5-0" class="nav-link active" onclick="fn_tab('SHOP_GOODS')"> 
+					<span>탭1</span> 
+					<span id="span_shopGoodsCount" style="color: red"></span> 
+				</a> 
+			</li> 
+			<li class="nav-item"> 
+				<a data-bs-toggle="tab" href="#tab-eg5-1" class="nav-link" onclick="fn_tab('DELETE_GOODS')"> 
+					<span>탭2</span> 
+					<span id="span_deleteGoodsCount" style="color: red"></span> 
+				</a> 
+			</li> 
+			<li class="nav-item"> 
+				<a data-bs-toggle="tab" href="#tab-eg5-2" class="nav-link" onclick="fn_tab('SUPPLY_GOODS')"> 
+					<span>탭3</span> 
+					<span id="span_supplyGoodsCount" style="color: red"></span> 
+				</a> 
+			</li> 
+		</ul> 
+	</div> 
+	<!-- -------------------------------------------- --> 
+	<form name="searchForm" id="searchForm" method="post" class="searchArea" onsubmit="return false;"> 
+		<input type="hidden" name="selectedRowIdx" id="selectedRowIdx" value="0"> 
+		<input type="hidden" name="srhOrderBy" id="srhOrderBy" value=""> 
+		<input type="hidden" name="srhOrderAsc" id="srhOrderAsc" value=""> 
+		<input type="hidden" name="srhOrderName" id="srhOrderName" value=""> 
+		<div class="row" style="line-height: 30px;margin-top:10px;"> 
+			<div class="col-sm-3 col-md-3"> 
+				<div class="input-group"> 
+					<label for="" class="col-form-label text-end" style="width:100px; white-space: nowrap;margin-right: 10px;">화사명</label> 
+					<input type="text" name="compayName" id="compayName" class="form-control "> 
+				</div> 
+			</div> 
+			<div class="col-sm-3 col-md-3"> 
+				<div class="input-group"> 
+					<label for="" class="col-form-label text-end" style="width:100px; white-space: nowrap;margin-right: 10px;">대표자명</label> 
+					<input type="text" name="ceoName" id="ceoName" class="form-control "> 
+				</div> 
+			</div> 
+			<div class="col-sm-3 col-md-3"> 
+				<span class="btn btn-secondary" onclick="fn_searchPage('1')"> 
+					<i class="pe-7s-search btn-icon-wrapper"></i>검색 
+				</span> 
+				<span class="btn btn-outline-primary" onclick="gfn_detail_view()" id="detail_button">  
+					<i class="lnr-chevron-down-circle" style="font-size: 12pt;"></i> 상세검색  
+				</span> 
+			</div> 
+		</div> 
+		<div id="div_detail_search" style="display: none;">  
+			<div class="row" style="line-height: 30px;">   
+			</div> 
+		</div> 
+		<div class="row" style="line-height: 30px; margin-top: 10px;"> 
+			<div class="col-sm-4 col-md-4"> 
+ 				<span id="span_data_count"></span>
+ 			</div>
+			<div class="col-sm-8 col-md-8  text-end"> 
+ 
+				<div class="tab-content"> 
+					<div class="tab-pane text-end active" id="tab-eg5-0" role="tabpanel"> 
+						<a class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#popupPageModalResize" onclick="pfn_modalPop('popMargin',10, 10,'회사정보 등록','/companyInfo/companyInfoReg');">새로작성</a> 
+						<span class="btn btn-outline-success" onclick="fn_list_trxn('list_update')">선택저장 </span> 
+						<span class="btn btn-outline-danger" onclick="fn_list_trxn('list_delete')">선택삭제</span> 
+						<span class="btn btn-outline-primary" onclick="gfn_gridHeightFit()" style="padding: 6px 10px; text-align: center;" title="작업영역 위치 맞추기"> 
+							<i class="linearicons-line-spacing" id="grid_height" style="font-size: 12pt;"></i> 
+						</span> 
+					</div> 
+				</div> 
+			</div> 
+		</div> 
+	</form> 
+	<!-- ---------------------------------------------------------- --> 
+	<a name="gridTop" id="gridTop"></a> 
+	<form name="inputForm" id="inputForm" method="post" class="searchArea" onsubmit="return false;"> 
+		<input type="hidden" name="trxnMode" id="trxnMode"> 
+		<table style="width: 100%; margin-top: 10px;" cellpadding=0 cellspacing=0 id="grid_table_wrap"> 
+			<tr> 
+				<td id="tdLeftTitle" style="width: 500px"> 
+					<div id="divLeftTitle" th:style="|width:${divLeftWidth}px;border-right:0px;|"> 
+						<table id="LeftTableHeader" class="table_list_grid2" style="width:1000px;table-layout: fixed;"> 
+							<thead id="thead_left_title"> 
+							</thead> 
+						</table> 
+					</div> 
+				</td> 
+				<td id="tdRightTitle" class="pcDisp"> 
+					<div id="divRightTitle" style="width: 500px;"> 
+						 <table id="RightTableHeader" class="table_list_grid2" style="width: 5000px; table-layout: fixed;"> 
+							<thead id="thead_right_title"> 
+							</thead> 
+						</table> 
+					</div> 
+				</td> 
+			</tr> 
+			<tr> 
+				<td id="tdLeftData"> 
+					<div id="divLeftData" class="scrollbar_left" style="width: 500px; border-right: 0px;" onscroll="cfn_splitGrid_scrollLeft(this.scrollLeft,this.scrollTop);"> 
+						<table id="LeftDataTable" class="table_list_grid2"  style="width:1000px;table-layout: fixed;"> 
+							<tbody id="tbody_left_list"> 
+							</tbody> 
+						</table> 
+					</div> 
+				</td> 
+				<td valign="top" id="tdRightData" class="pcDisp"> 
+					<div id="divRightData" class="scrollbar_right" onscroll="cfn_splitGrid_scrollRight(this.scrollLeft,this.scrollTop);" style="width: 500px;"> 
+						<table id="RightDataTable" class="table_list_grid2" style="width: 4980px; table-layout: fixed;"> 
+							<tbody id="tbody_right_list"> 
+							</tbody> 
+						</table> 
+					</div> 
+				</td> 
+			</tr> 
+		</table> 
+	</form> 
+	<!-- ---------------------------------------------------------- --> 
+	 
+	<form name="pageForm" id="pageForm" method="post"> 
+		<div class="row" style="margin-top: 10px;"> 
+			<div class="col-sm-12 col-md-2 text-end"> 
+				<div class="input-group"> 
+					<div class="input-group-text" style="border: px; background-color: #f0f0f0; cursor: pointer;"> 
+						<span class="">자료수</span> 
+					</div> 
+					<select type="select" name="pageRow" id="pageRow" class="form-select" style="border:; background-color: #fff;" th:onchange="fn_searchPage('1')"> 
+						<option value="20">20개</option> 
+						<option value="50">50개</option> 
+						<option value="100">100개</option> 
+						<option value="500">500개</option> 
+					</select> 
+				</div> 
+			</div> 
+			<div class="col-sm-12 col-md-10 text-left"> 
+				<input type="hidden" name="currPage" id="currPage" value="1"> 
+				<nav aria-label="Page navigation example"> 
+					<ul class="pagination justify-content-left" id="ul_pageNavigation"> 
+					</ul> 
+				</nav> 
+			</div> 
+		</div> 
+	</form> 
+</th:block> 
+<th:block layout:fragment="customModal"> 
+</th:block> 
+<th:block layout:fragment="customScript"> 
+	<script type="text/javascript"> 
+		var divLeftWidth = "500"; //디폴트 width 
+ 
+		$(document).ready(function() { 
+ 
+ 			//selectbox 조회
+			//fn_subList_companyInfo('list_'); 
+ 
+ 			//그리드 스플릿 자동 맞춤
+			gfn_splitGridResize2(Number(divLeftWidth)); 
+ 
+ 			//그리드 제목
+			fn_companyInfo_title(); 
+ 
+ 			//그리드 데이터
+			fn_companyInfo_list(); 
+ 
+ 			//제목 & 리스트 td width 자동 맞춤
+			gfn_splistGridTdResize(); 
+ 
+		}); 
+ 
+ 		//윈도우 크기변경 리사이즈
+		$(window).resize(function() { 
+			gfn_splitGridResize2(Number(divLeftWidth)); 
+		}); 
+ 
+ 		//페이지 이동 검색
+		function fn_searchPage(vPage) { 
+			$("#currPage").val(vPage); 
+			fn_companyInfo_list(); 
+		} 
+ 
+ 		//그리드 제목
+		function fn_companyInfo_title() { 
+ 
+			//thead_left_title  
+			$("#thead_left_title").empty(); 
+			var src = ""; 
+			src += '<tr style="height: 40px;text-align:center;"> '; 
+			src += '	<th style="width: 30px;"> '; 
+			src += '		<input type="checkbox" id="chkbAll" onclick="gfn_chkAll()"> '; 
+			src += '	</th> '; 
+			src += '	<th style="width: 40px;">'; 
+			src += '		<span>보기</span> '; 
+			src += '	</th> '; 
+			src += '	<th style="width:120px;"> '; 
+			src += '		<span>회사번호</span> '; 
+			src += '	</th> ';  
+			src += '	<th style="width:120px;"> '; 
+			src += '		<span>화사명</span> '; 
+			src += '	</th> ';  
+			src += '	<th style="width:120px;"> '; 
+			src += '		<span>대표자명</span> '; 
+			src += '	</th> ';  
+			src += '	<th></th> ';  
+			src += '</tr> '; 
+			$("#thead_left_title").append(src); 
+ 
+			//thead_right_title  
+			$("#thead_right_title").empty(); 
+			src = ""; 
+			src += '<tr style="height: 40px;text-align:center;"> '; 
+			src += '	<th style="width:120px;"> '; 
+			src += '		<span>회사아이디</span> '; 
+			src += '	</th> ';  
+			src += '	<th style="width:120px;"> '; 
+			src += '		<span>회사비밀번호</span> '; 
+			src += '	</th> ';  
+			src += '	<th style="width:120px;"> '; 
+			src += '		<span>사업자등록번호</span> '; 
+			src += '	</th> ';  
+			src += '	<th style="width:120px;"> '; 
+			src += '		<span>우편번호</span> '; 
+			src += '	</th> ';  
+			src += '	<th style="width:120px;"> '; 
+			src += '		<span>우편주소</span> '; 
+			src += '	</th> ';  
+			src += '	<th style="width:120px;"> '; 
+			src += '		<span>상세주소</span> '; 
+			src += '	</th> ';  
+			src += '	<th style="width:120px;"> '; 
+			src += '		<span>입력일시</span> '; 
+			src += '	</th> ';  
+			src += '	<th style="width:120px;"> '; 
+			src += '		<span>수정일시</span> '; 
+			src += '	</th> ';  
+			src += '	<th></th> '; 
+			src += '</tr> '; 
+ 
+			$("#thead_right_title").append(src); 
+		} 
+		function fn_companyInfo_list() { 
+ 
+ 			var formData = $(document.searchForm).serialize(); 
+ 			formData +=  "&" + $(document.pageForm).serialize(); 
+ 			formData +=  "&" + $(document.deatilSearchForm).serialize(); 
+ 
+			$.ajax({ 
+				url : '/companyInfo/companyInfoListAjax', 
+				type : 'post', 
+				data : formData, 
+				dataType : 'json', 
+				async : false, 
+				success : function(data) { 
+					if (window.innerWidth > 1000) { 
+						fn_companyInfo_disp(data); 
+					} 
+					$("#detailSearchModal").modal('hide'); 
+				}, 
+				beforeSend : function() { 
+					gfn_process_view("조회중입니다. 잠시만 기다려 주세요..."); 
+				}, 
+				complete : function() { 
+					gfn_process_hide(); 
+				}, 
+				error : function(jqXHR, textStatus, errorThrown) { 
+					alert("조회에실패하였습니다."); 
+				} 
+			}); 
+ 
+		} 
+ 
+		function fn_companyInfo_disp(data) { 
+			$("#tbody_left_list").empty(); 
+			$("#tbody_right_list").empty(); 
+			var list = data.rsList; 
+			var src = ""; 
+			var k = 0; 
+			for (var i = 0 ; i < list.length; i++) { 
+ 
+				src += '<tr style="height:30px;text-align:center;"  onclick="cfn_trSelectBorder(\'' + (k + 1) + '\')" id="ltr_' + k + '"> '; 
+				src += '  <td style="width:30px;" align="center"> '; 
+				src += '    <input type="checkbox" name="chkb" id="chkb" onclick="gfn_chkb(' + k + ')"> '; 
+				src += '    <input type="hidden" name="chkbFlag" id="chkbFlag" value="false"> '; 
+				src += '    <input type="hidden" name="companyNo" id="companyNo" value="' + cfnNull(list[i].companyNo) + '">  '; 
+				src += '  </td> '; 
+				src += '  <td  style="width:60px;"> '; 
+				src += '    <a data-bs-toggle="modal" data-bs-target="#popupPageModalResize"  onclick="pfn_modalPop(\'popMargin\', 50, 50, \'수정\' ,\'/companyInfo/companyInfoReg?companyNo=' + cfnNull(list[i].companyNo) + '\');"  style="cursor:pointer;"> '; 
+				src += '    	<img src="blank" style="max-width:55px; max-height:25px;">'; 
+				src += '    </a>'; 
+				src += '  </td> '; 
+				src += '  <td style="width:120px;text-align:center;"> '; 
+				src += '    ' + gfn_valueText('companyNo', cfnNull(list[i].companyNo), 'string', 'width:95%;', i) + ''; 
+				src += '  </td>'; 
+				src += '  <td style="width:120px;text-align:center;"> '; 
+				src += '    ' + gfn_valueText('compayName', cfnNull(list[i].compayName), 'string', 'width:95%;', i) + ''; 
+				src += '  </td>'; 
+				src += '  <td style="width:120px;text-align:center;"> '; 
+				src += '    ' + gfn_valueText('ceoName', cfnNull(list[i].ceoName), 'string', 'width:95%;', i) + ''; 
+				src += '  </td>'; 
+			src += '	<td></td> ';  
+				src += '</tr> '; 
+				k++;
+			} 
+			$("#tbody_left_list").append(src); 
+			k = 0; 
+			src = ""; 
+			for (var i = 0 ; i < list.length; i++) { 
+				 
+				src += '<tr style="height:30px;text-align:center;" onclick="cfn_trSelectBorder(\'' + (k + 1) + '\')" id="rtr_' + k + '"> '; 
+				src += '  <td style="width:120px;text-align:center;"> '; 
+				src += '    ' + gfn_valueText('companyId', cfnNull(list[i].companyId), 'string', 'width:95%;', i) + ''; 
+				src += '  </td>'; 
+				src += '  <td style="width:120px;text-align:center;"> '; 
+				src += '    ' + gfn_valueText('companyPassword', cfnNull(list[i].companyPassword), 'string', 'width:95%;', i) + ''; 
+				src += '  </td>'; 
+				src += '  <td style="width:120px;text-align:center;"> '; 
+				src += '    ' + gfn_valueText('businessNo', cfnNull(list[i].businessNo), 'string', 'width:95%;', i) + ''; 
+				src += '  </td>'; 
+				src += '  <td style="width:120px;text-align:center;"> '; 
+				src += '    ' + gfn_valueText('postalNo', cfnNull(list[i].postalNo), 'string', 'width:95%;', i) + ''; 
+				src += '  </td>'; 
+				src += '  <td style="width:120px;text-align:center;"> '; 
+				src += '    ' + gfn_valueText('postalAddress', cfnNull(list[i].postalAddress), 'string', 'width:95%;', i) + ''; 
+				src += '  </td>'; 
+				src += '  <td style="width:120px;text-align:center;"> '; 
+				src += '    ' + gfn_valueText('detailAddress', cfnNull(list[i].detailAddress), 'string', 'width:95%;', i) + ''; 
+				src += '  </td>'; 
+				src += '  <td style="width:120px;text-align:center;"> '; 
+				src += '    ' + gfn_valueText('insertDatetime', cfnNull(list[i].insertDatetime), 'string', 'width:95%;', i) + ''; 
+				src += '  </td>'; 
+				src += '  <td style="width:120px;text-align:center;"> '; 
+				src += '    ' + gfn_valueText('updateDatetime', cfnNull(list[i].updateDatetime), 'string', 'width:95%;', i) + ''; 
+				src += '  </td>'; 
+				src += '  <td style="width:1000px;"></td> '; 
+				src += '  <td></td> '; 
+				src += '</tr> '; 
+				k++;
+			} 
+			$("#tbody_right_list").append(src); 
+ 
+			gfn_splitGrid_sameHeight(list.length); 
+			 
+			gfn_syncHeaderColumnWith(); 
+ 
+			$("#ul_pageNavigation").html(data.gridPageNavigation); 
+ 
+			$("#span_data_count").html("자료수 : "+ cfnFmtMoney(data.totRow)+"") 
+		} 
+		function fn_list_trxn(vTrxnMode) { 
+			if (vTrxnMode == "list_delete") { 
+				if (confirm("선택한 자료를 삭제 하시갰습니까?") == false) { 
+					return false; 
+				} 
+			} 
+			$("#trxnMode").val(vTrxnMode); 
+			$.ajax({ 
+				url : '/companyInfo/companyInfoListTrxn', 
+				type : 'post', 
+				data : $(document.inputForm).serialize(), 
+				dataType : 'json', 
+				success : function(data) { 
+					if (data.rsMsg == "FAIL") { 
+						alert("실패하였습니다."); 
+					} else { 
+ 
+						alert(data.rsMsg); 
+ 
+						fn_companyInfo_list(); 
+					} 
+				}, 
+				error : function(jqXHR, textStatus, errorThrown) { 
+					alert("실패하였습니다."); 
+				} 
+			}); 
+		} 
+ 
+		function fn_tab(vOption) { 
+			$("#srhRegState").val(vOption); 
+			fn_searchPage('1'); 
+		} 
+ 
+		function fn_subList_companyInfo(trxnMode) { 
+ 
+ 			var formData = $(document.searchForm).serialize(); 
+ 			formData += "&trxnMode="+trxnMode; 
+ 
+			$.ajax({ 
+				url : '/companyInfo/companyInfoSubListAjax', 
+				type : 'post', 
+				data : formData, 
+				dataType : 'json', 
+				async : true, 
+				success : function(data) { 
+ 					var list = data.rsList; 
+				} 
+			}); 
+ 
+		} 
+ 
+ 
+	</script> 
+</th:block> 

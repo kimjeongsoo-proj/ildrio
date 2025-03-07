@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="ko" layout:decorator="~{../layout/AdminLayoutPopup.html}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+<th:block layout:fragment="customCss">
+
+</th:block>
+
+<th:block layout:fragment="pageTitleEntry">
+
+</th:block>
+
+<th:block layout:fragment="pageContentsEntry">
+	<div style="padding: 0px 30px 30px 30px;">
+		<div class="app-page-title">
+			<div class="page-title-wrapper">
+				<div class="page-title-heading">
+					<div class="page-title-icon">
+						<i class="linearicons-pencil5 text-success"></i>
+					</div>
+					<div>
+						<span class="span_page_title">
+							<b>메뉴관리 등록 & 수정 </b>
+						</span>
+						<div class="page-title-subheading">메뉴관리 등록 & 수정</div>
+					</div>
+				</div>
+				<div class="page-title-actions"></div>
+			</div>
+		</div>
+		<form name="inputForm" id="inputForm" method="post">
+			<input type="hidden" name="trxnMode" id="trxnMode">
+			<input type="hidden" name="menuUpCode" id="menuUpCode" th:value="${rsModel.menuUpCode}" class="form-control" maxlength="80">
+			<input type="text" name="nowSort" id="nowSort" th:value="${rsModel.menuSort}" class="form-control" maxlength="80">
+			<a name="bookmark_1" id="bookmark_1"></a>
+			<div class="card">
+				<div class="card-header">
+					<h5>
+						<b> 메뉴관리</b>
+					</h5>
+				</div>
+				<div clase="card-body" style="padding: 20px;">
+					<div class="mb-3 row">
+						<label for="groupCode" class="col-sm-2 col-form-label text-end"> 그룹코드</label>
+						<div class="col-sm-2">
+							<input type="text" name="groupCode" id="groupCode" th:value="${rsModel.groupCode}" class="form-control" maxlength="80">
+						</div>
+						<label for="menuCode" class="col-sm-2 col-form-label text-end"> 메뉴코드</label>
+						<div class="col-sm-2">
+							<input type="text" name="menuCode" id="menuCode" th:value="${rsModel.menuCode}" class="form-control" maxlength="80" readonly>
+						</div>
+						<label for="menuLevel" class="col-sm-2 col-form-label text-end"> 메뉴레벨</label>
+						<div class="col-sm-2">
+							<input type="text" name="menuLevel" id="menuLevel" th:value="${rsModel.menuLevel}" class="form-control" maxlength="100" readonly>
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="namePath" class="col-sm-2 col-form-label text-end"> 메뉴명경로</label>
+						<div class="col-sm-6">
+							<input type="text" name="namePath" id="namePath" th:value="${rsModel.namePath}" class="form-control" maxlength="2000" readonly>
+						</div>
+						<label for="menuSort" class="col-sm-2 col-form-label text-end"> 메뉴순서 이동</label>
+						<div class="col-sm-2">
+							<select name="menuSort" id="menuSort" class="form-select form-control">
+							</select>
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="menuName" class="col-sm-2 col-form-label text-end">* 메뉴명</label>
+						<div class="col-sm-6">
+							<input type="text" name="menuName" id="menuName" th:value="${rsModel.menuName}" class="form-control" maxlength="400">
+						</div>
+						<label for="menuIcon" class="col-sm-2 col-form-label text-end"> 메뉴아이콘</label>
+						<div class="col-sm-2">
+							<input type="text" name="menuIcon" id="menuIcon" th:value="${rsModel.menuIcon}" class="form-control" maxlength="400">
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="linkUrl" class="col-sm-2 col-form-label text-end"> 링크주소</label>
+						<div class="col-sm-6">
+							<input type="text" name="linkUrl" id="linkUrl" th:value="${rsModel.linkUrl}" class="form-control" maxlength="800">
+						</div>
+						<label for="defaultCode" class="col-sm-2 col-form-label text-end"> 디폴트메뉴코드</label>
+						<div class="col-sm-2">
+							<input type="text" name="defaultCode" id="defaultCode" th:value="${rsModel.defaultCode}" class="form-control" maxlength="200">
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="targetType" class="col-sm-2 col-form-label text-end"> 링크타겟</label>
+						<div class="col-sm-2">
+							<input type="text" name="targetType" id="targetType" th:value="${rsModel.targetType}" class="form-control" maxlength="200">
+						</div>
+						<label for="useYn" class="col-sm-2 col-form-label text-end"> 사용여부</label>
+						<div class="col-sm-2">
+							<select name="useYn" id="useYn" class="form-select form-control" th:utext="${@sysCodeUtil.getSysCodeValue('yn','select',rsModel.useYn)}">
+							</select>
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="helpHtml" class="col-sm-2 col-form-label text-end"> 메뉴도움말</label>
+						<div class="col-sm-10">
+							<textarea name="helpHtml" id="helpHtml" class="input9f0" style="width: 100%;" th:text="${rsModel.helpHtml}"></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</th:block>
+<th:block layout:fragment="customModal">
+</th:block>
+<th:block layout:fragment="customScript">
+	<!-- -------------------------------------------- -->
+	<script type="text/javascript">
+		$(document).ready(function() {
+			fn_sysMenu_sort();
+			fn_modalButton();
+		});
+
+		// 버튼 처리    
+		function fn_modalButton() {
+			var src = '';
+			src += '<a onclick="modal_resize_iframe.cfn_bookmark(\'bookmark_1\');" class="btn btn-outline-secondary">북마크 1</a> ';
+
+			if ("[[${rsModel.trxnMode}]]" == "insert") {
+				src += '<a onclick="modal_resize_iframe.fn_trxn(\'insert\');"  class="btn btn-primary">등록</a> ';
+			} else {
+				src += '<a onclick="modal_resize_iframe.fn_trxn(\'update\');"  class="btn btn-primary">수정</a> ';
+				src += '<a onclick="modal_resize_iframe.fn_trxn(\'delete\');"  class="btn btn-danger" id="modal_close">삭제</a> ';
+			}
+			src += '<a  class="btn btn-secondary" data-bs-dismiss="modal">닫기</a>';
+			$("#modal_resize_button", parent.document).html(src);
+		}
+
+		// 등록 처리   
+		function fn_trxn(vTrxnMode) {
+
+			if (vTrxnMode == "delete") {
+				if (confirm("자료를 삭제 하시갰습니까?") == false) {
+					return false;
+				}
+			}
+			$("#trxnMode").val(vTrxnMode);
+
+			if (fn_chkForm() == false) {
+				return false;
+			}
+
+			$.ajax({
+				url : '/sysMenu/sysMenuTrxn',
+				type : 'post',
+				data : $(document.inputForm).serialize(),
+				dataType : 'json',
+				async : true,
+				success : function(data) {
+					if (data.rsMsg == "FAIL") {
+						alert("실패하였습니다.");
+					} else {
+						if (data.rsMsg == "DUPLICATE") {
+							alert("이미 등록된 자료가 있습니다..");
+						} else {
+							alert(data.rsMsg);
+							parent.fn_sysMenu_list();
+							//if (vTrxnMode != "update") {
+								parent.pfn_modalClose();
+							//}
+						}
+					}
+				}
+			});
+
+		}
+
+		// 입력 필수 항목 체크   
+		function fn_chkForm() {
+
+			if (cfn_isValid_Empty("메뉴명", $("#menuName").val(), 1, 400) == false) {
+				$("#menuName").focus();
+				return false;
+			}
+			return true;
+		}
+		function fn_sysMenu_sort() {
+
+			var formData = "trxnMode=list_next";
+			formData += "&groupCode=[[${rsModel.groupCode}]]";
+			formData += "&menuCode=[[${rsModel.menuUpCode}]]";
+			
+			var nowMenuSort = "[[${rsModel.menuSort}]]";
+
+			$.ajax({
+				url : '/sysMenu/sysMenuSubListAjax',
+				type : 'post',
+				data : formData,
+				dataType : 'json',
+				async : true,
+				success : function(data) {
+					var list = data.rsList;
+					var src = '';
+					var lastSort = 0;
+					if (list.length > 0) {
+
+						for (var i = 0; i < list.length; i++) {
+							if(nowMenuSort == cfnNull(list[i].menuSort)){
+								src += '<option value="'+Number(list[i].menuSort)+'" selected>' + list[i].menuName + '</option>';
+							}else if(Number(nowMenuSort) > Number(list[i].menuSort)){
+								src += '<option value="'+(Number(list[i].menuSort)-0 )+'">' + list[i].menuName + '  [이전으로]</option>';
+							}else{
+								src += '<option value="'+(Number(list[i].menuSort)-1 )+'">' + list[i].menuName + '  [이전으로]</option>';
+							}
+							lastSort = Number(list[i].menuSort);
+						}
+						src += '<option value="'+lastSort+'">마지막으로</option>';
+						$("#inputForm #menuSort").append(src);
+					}
+
+				}
+			});
+
+		}
+	</script>
+</th:block>

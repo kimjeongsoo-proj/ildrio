@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration> <!-- 해당 설정파일에서 사용하는 프로퍼티 -->
+	<Properties>
+		<Property name="logNm">Spring Log4j2 Test</Property>
+		<Property name="layoutPattern">%style{%d{yyyy/MM/dd HH:mm:ss,SSS}}{cyan} %highlight{[%-5p]}{FATAL=bg_red,
+			ERROR=red,
+			INFO=green, DEBUG=blue} [%C{2}] %style{[%t]}{yellow}- %m%n
+		</Property>
+	</Properties> <!-- LogEvent를 전달해주는 Appender -->
+	<Appenders>
+		<Console name="Console_Appender" target="SYSTEM_OUT">
+			<PatternLayout pattern="${layoutPattern}" />
+		</Console>
+	</Appenders> <!-- 실제 Logger -->
+	<Loggers>
+		<Logger name="org.springframework" additivity="false">
+			<AppenderRef ref="Console_Appender" />
+		</Logger>
+		<Logger name="ilike.ildrio" level="DEBUG" additivity="false">
+			<AppenderRef ref="Console_Appender" />
+		</Logger>
+
+		<logger name="net.sf.ehcache">
+			<level value="WARN" />
+		</logger>
+		<logger name="jdbc.sqlonly" additivity="false">
+			<level value="info" />
+			<appender-ref ref="console" />
+		</logger>
+		<Root level="INFO" additivity="false">
+			<AppenderRef ref="Console_Appender" />
+		</Root>
+	</Loggers>
+</Configuration>

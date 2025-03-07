@@ -1,0 +1,166 @@
+<!doctype html> 
+<html lang="ko" layout:decorator="~{../layout/AdminLayoutPopup.html}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"> 
+<th:block layout:fragment="customCss"> 
+ 
+</th:block> 
+ 
+<th:block layout:fragment="pageTitleEntry"> 
+ 
+</th:block> 
+ 
+<th:block layout:fragment="pageContentsEntry"> 
+	<div style="padding:0px 30px 30px 30px;">  
+	<div class="app-page-title">  
+  	<div class="page-title-wrapper">  
+    		<div class="page-title-heading">  
+    			<div class="page-title-icon">  
+    				<i class="linearicons-pencil5 text-success"></i>  
+    			</div>  
+    			<div>  
+    				<span class="span_page_title"> 
+    					<b>회원자격증 등록 & 수정 </b> 
+    				</span>  
+    				<div class="page-title-subheading">회원자격증 등록 & 수정</div> 
+    			</div>  
+    		</div>  
+    		<div class="page-title-actions">  
+    		</div>  
+  	</div> 
+	</div> 
+	<form name="inputForm" id="inputForm" method="post">    
+  	<input type="hidden" name="trxnMode" id="trxnMode">   
+  	<a name="bookmark_1" id="bookmark_1"></a>   
+  	<div class="card">   
+    		<div class="card-header">   
+        		<h5><b> 회원자격증</b></h5>  
+    		</div>   
+    		<div clase="card-body" style="padding: 20px;">   
+      		<div class="mb-3 row">   
+                	<label for="memberNo" class="col-sm-2 col-form-label text-end"> 회원번호</label>   
+            		<div class="col-sm-10">   
+                    <input type="text"  name="memberNo" id="memberNo" th:value="${rsModel.memberNo}"  class="form-control"   maxlength="80"> 
+            		</div>   
+      		</div>   
+      		<div class="mb-3 row">   
+                	<label for="licenseName" class="col-sm-2 col-form-label text-end"> 자격증명</label>   
+            		<div class="col-sm-10">   
+                    <input type="text"  name="licenseName" id="licenseName" th:value="${rsModel.licenseName}"  class="form-control"   maxlength="400"> 
+            		</div>   
+      		</div>   
+      		<div class="mb-3 row">   
+                	<label for="licenseImage" class="col-sm-2 col-form-label text-end"> 자격증이미지</label>   
+            		<div class="col-sm-10">   
+				  	<div class="input-group"> 
+				  		<div class="input-group-text" style="min-width: 60px; padding:0px; background-color: #fff;"> 
+				  			<a data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg" onclick="cfn_modalImage($('#licenseImage').val())" style="cursor: pointer;"> 
+				  				<img th:src="|${rsModel.licenseImage}|" id="img_licenseImage" style="height: 50px; max-width: 200px;"> 
+				  			</a> 
+				  		</div> 
+				  		<div style="padding: 10px 0px 10px 10px;"> 
+				  			<div class="input-group"> 
+				  				<input type="text" name="licenseImage" id="licenseImage" th:value="${rsModel.licenseImage}" class="form-control"  maxlength="400"> 
+				  				<div class="input-group-text" style="background-color: #e4f3f7;"> 
+				  					<label for="file_licenseImage" style="cursor: pointer;"> 
+				  						<spna>파일선택</spna> 
+				  					</label> 
+				  				</div> 
+				  				<div class="input-group-text" style="background-color: #f5dad0;cursor: pointer;" onclick="cfn_imgDel('licenseImage');"> 
+				  					<i class="linearicons-cross2"></i>
+				  				</div> 
+				  			</div> 
+				  			<div class="input-group" style="margin-top: 0px; display: none;"> 
+				  				<input type="file" id="file_licenseImage" name="file_licenseImage" class="form-control" onchange="cfn_imageFileSelect(this.value,'licenseImage')"  maxlength="400"> 
+				  				<div class="input-group-text" style="background-color: #fff; width: 150px;" id="btn_licenseImage"> 
+				  					<i class="linearicons-picture"></i>&nbsp; 
+				  					<span onclick="cfn_upattachFile('licenseImage','')" style="cursor: pointer;">이미지를 업로드</span> 
+				  				</div> 
+				  			</div> 
+				  		</div> 
+				  	</div> 
+            		</div>   
+      		</div>   
+      		<div class="mb-3 row">   
+                	<label for="licenseMemo" class="col-sm-2 col-form-label text-end"> 자격증메모</label>   
+            		<div class="col-sm-10">   
+                    <input type="text"  name="licenseMemo" id="licenseMemo" th:value="${rsModel.licenseMemo}"  class="form-control"   maxlength="4000"> 
+            		</div>   
+      		</div>   
+      	</div> 
+  	</div>  
+	</form> 
+	</div>  
+</th:block> 
+<th:block layout:fragment="customModal"> 
+</th:block> 
+<th:block layout:fragment="customScript"> 
+<!-- -------------------------------------------- -->   
+<script type="text/javascript">   
+  $(document).ready(function() {   
+   
+   
+    fn_modalButton();   
+  });   
+   
+    
+  // 버튼 처리    
+	function fn_modalButton(){   
+		var src = '';   
+		src += '<a onclick="modal_resize_iframe.cfn_bookmark(\'bookmark_1\');" class="btn btn-outline-secondary">북마크 1</a> ';    
+   
+		if ("[[${rsModel.trxnMode}]]" == "insert") {   
+			src += '<a onclick="modal_resize_iframe.fn_trxn(\'insert\');"  class="btn btn-primary">등록</a> ';   
+		} else {   
+			src += '<a onclick="modal_resize_iframe.fn_trxn(\'update\');"  class="btn btn-primary">수정</a> ';   
+			src += '<a onclick="modal_resize_iframe.fn_trxn(\'delete\');"  class="btn btn-danger" id="modal_close">삭제</a> ';   
+		}   
+		src += '<a  class="btn btn-secondary" data-bs-dismiss="modal">닫기</a>';   
+		$("#modal_resize_button",parent.document).html(src);   
+	}   
+    
+  // 등록 처리   
+  function fn_trxn(vTrxnMode) {   
+   
+		if (vTrxnMode == "delete") { 
+			if (confirm("자료를 삭제 하시갰습니까?") == false) { 
+				return false; 
+			} 
+		} 
+    	$("#trxnMode").val(vTrxnMode);    
+   
+    	if (fn_chkForm() == false) {   
+      	return false;   
+    	}   
+   
+   
+    $.ajax({   
+      url : '/memberLicense/memberLicenseTrxn',   
+      type : 'post',   
+      data : $(document.inputForm).serialize(),   
+      dataType : 'json',  
+      async : true,  
+      success : function(data) {  
+        if (data.rsMsg == "FAIL") {   
+          alert("실패하였습니다.");   
+        } else {   
+          if (data.rsMsg == "DUPLICATE") {  
+            alert("이미 등록된 자료가 있습니다..");   
+          } else {   
+			  alert(data.rsMsg); 
+            parent.fn_memberLicense_list();   
+			  if (vTrxnMode != "update") { 
+            	 	parent.pfn_modalClose();   
+            }   
+          }   
+        }   
+      }   
+    });   
+   
+  }  
+    
+  // 입력 필수 항목 체크   
+  function fn_chkForm() {   
+   
+    return true;  
+  } 
+</script> 
+</th:block> 

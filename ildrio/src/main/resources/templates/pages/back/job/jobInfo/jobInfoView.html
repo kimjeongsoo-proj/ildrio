@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="ko" layout:decorator="~{../layout/AdminLayoutView.html}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+<th:block layout:fragment="customCss">
+
+</th:block>
+
+<th:block layout:fragment="pageTitleEntry">
+
+</th:block>
+
+<th:block layout:fragment="pageContentsEntry">
+	<div style="padding: 0px 30px 30px 30px;">
+		<div class="app-page-title">
+			<div class="page-title-wrapper">
+				<div class="page-title-heading">
+					<div class="page-title-icon">
+						<i class="linearicons-pencil5 text-success"></i>
+					</div>
+					<div>
+						<span class="span_page_title">
+							<b>채용정보 </b>
+						</span>
+						<div class="page-title-subheading">채용정보</div>
+					</div>
+				</div>
+				<div class="page-title-actions"></div>
+			</div>
+		</div>
+		<form name="inputForm" id="inputForm" method="post">
+			<input type="hidden" name="trxnMode" id="trxnMode">
+			<a name="bookmark_1" id="bookmark_1"></a>
+			<div class="mb-3 row">
+				<label for="jobNo" class="col-sm-2 col-form-label"> 채용번호</label>
+				<div class="col-sm-10">
+					<input type="text" name="jobNo" id="jobNo" th:value="${rsModel.jobNo}" class="form-control" maxlength="80" readonly>
+				</div>
+			</div>
+			<div class="mb-3 row">
+				<label for="customerNo" class="col-sm-2 col-form-label"> 거래처번호</label>
+				<div class="col-sm-10">
+					<input type="text" name="customerNo" id="customerNo" th:value="${rsModel.customerNo}" class="form-control" maxlength="200" readonly>
+				</div>
+			</div>
+			<div class="mb-3 row">
+				<label for="companyNo" class="col-sm-2 col-form-label"> 회사번호</label>
+				<div class="col-sm-10">
+					<input type="text" name="companyNo" id="companyNo" th:value="${rsModel.companyNo}" class="form-control" maxlength="200" readonly>
+				</div>
+			</div>
+			<div class="mb-3 row">
+				<label for="jobTitle" class="col-sm-2 col-form-label"> 채용제목</label>
+				<div class="col-sm-10">
+					<input type="text" name="jobTitle" id="jobTitle" th:value="${rsModel.jobTitle}" class="form-control" maxlength="800" readonly>
+				</div>
+			</div>
+			<div class="mb-3 row">
+				<label for="workDate" class="col-sm-2 col-form-label">* 근무일자</label>
+				<div class="col-sm-10">
+					<input type="text" name="workDate" id="workDate" th:value="${rsModel.workDate}" class="form-control  datePickerInput" maxlength="40" readonly>
+				</div>
+			</div>
+			<div class="mb-3 row">
+				<label for="jobStateCode" class="col-sm-2 col-form-label"> 채용상태코드</label>
+				<div class="col-sm-10">
+					<input type="text" name="jobStateCode" id="jobStateCode" th:value="${rsModel.jobStateCode}" class="form-control" maxlength="40" readonly>
+				</div>
+			</div>
+			<div class="mb-3 row">
+				<label for="taxType" class="col-sm-2 col-form-label"> 세금유형</label>
+				<div class="col-sm-10">
+					<input type="text" name="taxType" id="taxType" th:value="${rsModel.taxType}" class="form-control" maxlength="40" readonly>
+				</div>
+			</div>
+			<div class="mb-3 row">
+				<label for="genderType" class="col-sm-2 col-form-label"> 성별유형</label>
+				<div class="col-sm-10">
+					<input type="text" name="genderType" id="genderType" th:value="${rsModel.genderType}" class="form-control" maxlength="40" readonly>
+				</div>
+			</div>
+			<div class="mb-3 row">
+				<label for="minAge" class="col-sm-2 col-form-label"> 최소연령 </label>
+				<div class="col-sm-10">
+					<input type="text" name="minAge" id="minAge" th:value="${rsModel.minAge}" class="form-control integerFormat" maxlength="100" readonly>
+				</div>
+			</div>
+			<div class="mb-3 row">
+				<label for="maxAge" class="col-sm-2 col-form-label"> 최대연령</label>
+				<div class="col-sm-10">
+					<input type="text" name="maxAge" id="maxAge" th:value="${rsModel.maxAge}" class="form-control integerFormat" maxlength="100" readonly>
+				</div>
+			</div>
+			<div class="mb-3 row">
+				<label for="dailyWageInfo" class="col-sm-2 col-form-label"> 일급여정보</label>
+				<div class="col-sm-10">
+					<textarea name="dailyWageInfo" id="dailyWageInfo" class="form-control" style="height: 60px;" th:text="${rsModel.dailyWageInfo}" maxlength="200" readonly></textarea>
+				</div>
+			</div>
+			<div class="mb-3 row">
+				<label for="holidayNote" class="col-sm-2 col-form-label"> 휴일참고사항</label>
+				<div class="col-sm-10">
+					<textarea name="holidayNote" id="holidayNote" class="form-control" style="height: 60px;" th:text="${rsModel.holidayNote}" maxlength="200" readonly></textarea>
+				</div>
+			</div>
+			<div class="mb-3 row">
+				<label for="mealProvideYn" class="col-sm-2 col-form-label"> 식사제공유형</label>
+				<div class="col-sm-10">
+					<input type="text" name="mealProvideYn" id="mealProvideYn" th:value="${rsModel.mealProvideYn}" class="form-control" maxlength="4" readonly>
+				</div>
+			</div>
+			<div class="mb-3 row">
+				<label for="workStartTime" class="col-sm-2 col-form-label"> 근무시작시간</label>
+				<div class="col-sm-10">
+					<input type="text" name="workStartTime" id="workStartTime" th:value="${rsModel.workStartTime}" class="form-control" maxlength="200" readonly>
+				</div>
+			</div>
+			<div class="mb-3 row">
+				<label for="workEndTime" class="col-sm-2 col-form-label"> 근무종료시간</label>
+				<div class="col-sm-10">
+					<input type="text" name="workEndTime" id="workEndTime" th:value="${rsModel.workEndTime}" class="form-control" maxlength="200" readonly>
+				</div>
+			</div>
+			<div class="mb-3 row">
+				<label for="workplaceCompanyName" class="col-sm-2 col-form-label"> 근무지회사명</label>
+				<div class="col-sm-10">
+					<input type="text" name="workplaceCompanyName" id="workplaceCompanyName" th:value="${rsModel.workplaceCompanyName}" class="form-control" maxlength="800" readonly>
+				</div>
+			</div>
+			<div class="mb-3 row">
+				<label for="workplacePostalNo" class="col-sm-2 col-form-label"> 근무지우편번호</label>
+				<div class="col-sm-10">
+					<!-- 주소  -->
+					<div id="wrap" style="display: none; border: 1px solid; width: 100%; height: 300px; margin: 5px 0; position: relative">
+						<img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor: pointer; position: absolute; right: 0px; top: -1px; z-index: 1" onclick="foldDaumPostcode()" alt="접기 버튼">
+					</div>
+					<div class="input-group">
+						<div class="input-group-append">
+							<span class="input-group-text" onclick="fn_postAddr('workplacePostalNo', 'workplacePostalAddress')" style="background-color: #c0c0c0; cursor: pointer;">우편번호</span>
+						</div>
+						<input class="form-control" type="text" id="workplacePostalNo" name="workplacePostalNo" th:value="${rsModel.workplacePostalNo}" readonly>
+					</div>
+				</div>
+			</div>
+			<div class="mb-3 row">
+				<label for="workplacePostalAddress" class="col-sm-2 col-form-label"> 근무지우편주소</label>
+				<div class="col-sm-10">
+					<input type="text" name="workplacePostalAddress" id="workplacePostalAddress" th:value="${rsModel.workplacePostalAddress}" class="form-control" maxlength="800" readonly>
+				</div>
+			</div>
+			<div class="mb-3 row">
+				<label for="workplaceDetailAddress" class="col-sm-2 col-form-label"> 근무지상세주소</label>
+				<div class="col-sm-10">
+					<input type="text" name="workplaceDetailAddress" id="workplaceDetailAddress" th:value="${rsModel.workplaceDetailAddress}" class="form-control" maxlength="800" readonly>
+				</div>
+			</div>
+			<div class="mb-3 row">
+				<label for="workplaceNote" class="col-sm-2 col-form-label"> 근무지참고사항</label>
+				<div class="col-sm-10">
+					<textarea name="workplaceNote" id="workplaceNote" class="form-control" style="height: 60px;" th:text="${rsModel.workplaceNote}" maxlength="65535" readonly></textarea>
+				</div>
+			</div>
+			<div class="mb-3 row">
+				<label for="workplaceImage" class="col-sm-2 col-form-label"> 근무지약도</label>
+				<div class="col-sm-10">
+					<div class="input-group">
+						<div class="input-group-text" style="min-width: 60px; padding: 0px; background-color: #fff;">
+							<a data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg" onclick="cfn_modalImage($('#workplaceImage').val())" style="cursor: pointer;">
+								<img th:src="|${rsModel.workplaceImage}|" id="img_workplaceImage" style="height: 50px; max-width: 200px;">
+							</a>
+						</div>
+						<div style="padding: 10px 0px 10px 10px;">
+							<div class="input-group">
+								<input type="text" name="workplaceImage" id="workplaceImage" th:value="${rsModel.workplaceImage}" class="form-control" maxlength="400">
+								<div class="input-group-text" style="background-color: #e4f3f7;">
+									<label for="file_workplaceImage" style="cursor: pointer;"> <spna>파일선택</spna>
+									</label>
+								</div>
+								<div class="input-group-text" style="background-color: #f5dad0; cursor: pointer;" onclick="cfn_imgDel('workplaceImage');">
+									<i class="linearicons-cross2"></i>
+								</div>
+							</div>
+							<div class="input-group" style="margin-top: 0px; display: none;">
+								<input type="file" id="file_workplaceImage" name="file_workplaceImage" class="form-control" onchange="cfn_imageFileSelect(this.value,'workplaceImage')" maxlength="400">
+								<div class="input-group-text" style="background-color: #fff; width: 150px;" id="btn_workplaceImage">
+									<i class="linearicons-picture"></i>&nbsp;
+									<span onclick="cfn_upattachFile('workplaceImage','')" style="cursor: pointer;">이미지를 업로드</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="mb-3 row">
+				<label for="workManagerName" class="col-sm-2 col-form-label"> 근무담당자명</label>
+				<div class="col-sm-10">
+					<input type="text" name="workManagerName" id="workManagerName" th:value="${rsModel.workManagerName}" class="form-control" maxlength="200" readonly>
+				</div>
+			</div>
+			<div class="mb-3 row">
+				<label for="workManagerHpno" class="col-sm-2 col-form-label"> 근무담당자핸드폰번호</label>
+				<div class="col-sm-10">
+					<input type="text" name="workManagerHpno" id="workManagerHpno" th:value="${rsModel.workManagerHpno}" class="form-control" maxlength="200" readonly>
+				</div>
+			</div>
+			<div class="mb-3 row">
+				<label for="workQualificationDetail" class="col-sm-2 col-form-label"> 근무자격상세</label>
+				<div class="col-sm-10">
+					<textarea name="workQualificationDetail" id="workQualificationDetail" class="form-control" style="height: 60px;" th:text="${rsModel.workQualificationDetail}" maxlength="200" readonly></textarea>
+				</div>
+			</div>
+			<div class="mb-3 row">
+				<label for="workWelfareDetail" class="col-sm-2 col-form-label"> 근무복지상세</label>
+				<div class="col-sm-10">
+					<textarea name="workWelfareDetail" id="workWelfareDetail" class="form-control" style="height: 60px;" th:text="${rsModel.workWelfareDetail}" maxlength="200" readonly></textarea>
+				</div>
+			</div>
+			<div class="mb-3 row">
+				<label for="onstructionCompanyNo" class="col-sm-2 col-form-label"> 건설자번호</label>
+				<div class="col-sm-10">
+					<input type="text" name="onstructionCompanyNo" id="onstructionCompanyNo" th:value="${rsModel.onstructionCompanyNo}" class="form-control" maxlength="200" readonly>
+				</div>
+			</div>
+			<div class="mb-3 row">
+				<label for="jobDetail" class="col-sm-2 col-form-label"> 채용상세</label>
+				<div class="col-sm-10">
+					<textarea name="jobDetail" id="jobDetail" class="form-control" style="height: 60px;" th:text="${rsModel.jobDetail}" maxlength="65535" readonly></textarea>
+				</div>
+			</div>
+			<div class="mb-3 row">
+				<label for="applyLimitHour" class="col-sm-2 col-form-label"> 지원마감시간</label>
+				<div class="col-sm-10">
+					<input type="text" name="applyLimitHour" id="applyLimitHour" th:value="${rsModel.applyLimitHour}" class="form-control" maxlength="8" readonly>
+				</div>
+			</div>
+			<div class="mb-3 row">
+				<label for="adminMemo" class="col-sm-2 col-form-label"> 관리자메모</label>
+				<div class="col-sm-10">
+					<textarea name="adminMemo" id="adminMemo" class="form-control" style="height: 60px;" th:text="${rsModel.adminMemo}" maxlength="200" readonly></textarea>
+				</div>
+			</div>
+			<div class="mb-3 row">
+				<label for="emergencyNoticeYn" class="col-sm-2 col-form-label"> 긴급공지여부</label>
+				<div class="col-sm-10">
+					<input type="text" name="emergencyNoticeYn" id="emergencyNoticeYn" th:value="${rsModel.emergencyNoticeYn}" class="form-control" maxlength="4" readonly>
+				</div>
+			</div>
+		</form>
+		<div class="card">
+			<div class="card-header">직종 : 배관</div>
+			<div class="card-body">
+				<h5 class="card-title">기술등금 : 기공</h5>
+				<p class="card-text">모집인원 : 5명</p>
+				<p class="card-text">일금여 : 200,000원</p>
+				<a href="#" class="btn btn-primary">지원하기</a>
+			</div>
+		</div>
+		<br>
+		<div class="card">
+			<div class="card-header">직종 : 배관</div>
+			<div class="card-body">
+				<h5 class="card-title">기술등금 : 조공</h5>
+				<p class="card-text">모집인원 : 5명</p>
+				<p class="card-text">일금여 : 140,000원</p>
+				<a href="#" class="btn btn-primary">지원하기</a>
+			</div>
+		</div>
+		<br>
+		<div id="trxn_button" style="text-align: center;">
+			<a onclick="history.back();" class="btn btn-secondary">뒤로</a>
+		</div>
+	</div>
+</th:block>
+<th:block layout:fragment="customModal">
+</th:block>
+<th:block layout:fragment="customScript">
+	<!-- -------------------------------------------- -->
+	<script type="text/javascript">
+		$(document).ready(function() {
+
+		});
+
+		// 등록 처리   
+		function fn_trxn(vTrxnMode) {
+
+			if (vTrxnMode == "delete") {
+				if (confirm("자료를 삭제 하시갰습니까?") == false) {
+					return false;
+				}
+			}
+			$("#trxnMode").val(vTrxnMode);
+
+			if (fn_chkForm() == false) {
+				return false;
+			}
+
+			$.ajax({
+				url : '/jobInfo/jobInfoTrxn',
+				type : 'post',
+				data : $(document.inputForm).serialize(),
+				dataType : 'json',
+				async : true,
+				success : function(data) {
+					if (data.rsMsg == "FAIL") {
+						alert("실패하였습니다.");
+					} else {
+						if (data.rsMsg == "DUPLICATE") {
+							alert("이미 등록된 자료가 있습니다..");
+						} else {
+							alert(data.rsMsg);
+							parent.fn_jobInfo_list();
+							if (vTrxnMode != "update") {
+								parent.pfn_modalClose();
+							}
+						}
+					}
+				}
+			});
+
+		}
+
+		// 입력 필수 항목 체크   
+		function fn_chkForm() {
+
+			if (cfn_isValid_Empty("근무일자", $("#workDate").val(), 1, 40) == false) {
+				$("#workDate").focus();
+				return false;
+			}
+			if (cfn_isValid_Currency("최소연령 ", $("#minAge").val(), 1, 20) == false) {
+				$("#minAge").focus();
+				return false;
+			}
+			if (cfn_isValid_Currency("최대연령", $("#maxAge").val(), 1, 20) == false) {
+				$("#maxAge").focus();
+				return false;
+			}
+			return true;
+		}
+	</script>
+</th:block>

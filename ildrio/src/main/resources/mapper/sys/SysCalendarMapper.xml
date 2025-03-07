@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+ 
+<mapper namespace="ilike.ildrio.mapper.sys.SysCalendarMapper">    
+ 
+ 
+ 
+	<select id="getListCount_sysCalendar"  parameterType="ilike.ildrio.model.sys.SysCalendarModel"  resultType="java.lang.Integer"> 
+		SELECT FOUND_ROWS() totRow
+	</select> 
+	 
+	<select id="getList_sysCalendar"  parameterType="ilike.ildrio.model.sys.SysCalendarModel" resultType="ilike.ildrio.model.sys.SysCalendarModel">  
+		<![CDATA[   
+		select	SQL_CALC_FOUND_ROWS  
+			 cal.cal_date  
+			, cal.cal_year  
+			, cal.cal_month  
+			, cal.cal_day  
+			, cal.cal_weekday  
+			, cal.holiday_yn  
+			, cal.holiday_name  
+		from  sys_calendar cal
+	 	]]> 
+		<where>   
+			<if test="calYear != null and calYear != '' ">   
+				and cal.cal_year  like concat('%',#{calYear},'%')   
+			</if>   
+			<if test="calMonth != null and calMonth != '' ">   
+				and cal.cal_month  like concat('%',#{calMonth},'%')   
+			</if>   
+		</where>   
+		<if test="srhOrderBy != null and  srhOrderBy != '' ">   
+			order by 	${srhOrderBy} ${srhOrderAsc}   
+		</if>   
+		limit ${startRow} , ${pageRow}    
+	</select>  
+ 
+	<select id="subList_sysCalendar"  parameterType="ilike.ildrio.model.sys.SysCalendarModel" resultType="ilike.ildrio.model.sys.SysCalendarModel">  
+	</select>  
+ 
+	<select id="getMap_sysCalendar"  parameterType="ilike.ildrio.model.sys.SysCalendarModel" resultType="ilike.ildrio.model.sys.SysCalendarModel">  
+		<![CDATA[   
+		select  
+			 cal.cal_date  
+			, cal.cal_year  
+			, cal.cal_month  
+			, cal.cal_day  
+			, cal.cal_weekday  
+			, cal.holiday_yn  
+			, cal.holiday_name  
+		from  sys_calendar cal
+		where cal.cal_date = #{calDate}  
+	 	]]> 
+	</select>  
+ 
+	<select id="getCount_sysCalendar"  parameterType="ilike.ildrio.model.sys.SysCalendarModel"  resultType="java.lang.Integer">  
+		<![CDATA[   
+		select 	count(*) count  
+		from 	sys_calendar  
+		where cal_date = #{calDate}  
+	 	]]> 
+	</select>  
+ 
+	<update id="insert_sysCalendar"  parameterType="ilike.ildrio.model.sys.SysCalendarModel">  
+		<![CDATA[   
+		insert into sys_calendar (  
+			 cal_date   
+			, cal_year   
+			, cal_month   
+			, cal_day   
+			, cal_weekday   
+			, holiday_yn   
+			, holiday_name   
+	 	) values (  
+			 #{calDate}  
+			, #{calYear}  
+			, #{calMonth}  
+			, #{calDay}  
+			, #{calWeekday}  
+			, #{holidayYn}  
+			, #{holidayName}  
+	 	)   
+	 	]]> 
+	</update>  
+ 
+	<update id="update_sysCalendar"  parameterType="ilike.ildrio.model.sys.SysCalendarModel">  
+		<choose>   
+			<when test=" trxnMode == 'list_update' ">   
+				<![CDATA[   
+				update sys_calendar set  
+					 cal_year = #{calYear}  
+					, cal_month = #{calMonth}  
+					, cal_day = #{calDay}  
+					, cal_weekday = #{calWeekday}  
+					, holiday_yn = #{holidayYn}  
+					, holiday_name = #{holidayName}  
+				where cal_date = #{calDate}  
+	 			]]> 
+			</when>   
+			<otherwise>   
+				<![CDATA[   
+				update sys_calendar set  
+					 cal_year = #{calYear}  
+					, cal_month = #{calMonth}  
+					, cal_day = #{calDay}  
+					, cal_weekday = #{calWeekday}  
+					, holiday_yn = #{holidayYn}  
+					, holiday_name = #{holidayName}  
+				where cal_date = #{calDate}  
+	 			]]> 
+			</otherwise>   
+		</choose>   
+	</update>  
+ 
+	<update id="delete_sysCalendar"  parameterType="ilike.ildrio.model.sys.SysCalendarModel">  
+		<![CDATA[   
+		delete from sys_calendar   
+		where cal_date = #{calDate}  
+	 	]]> 
+	</update>  
+ 
+</mapper>

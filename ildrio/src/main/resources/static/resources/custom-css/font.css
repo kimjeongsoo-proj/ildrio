@@ -1,0 +1,33 @@
+@charset "utf-8";
+
+
+@font-face {
+    font-family: 'AppleSDGothicNeoL';
+    font-style: normal;
+    font-weight: 300;
+    src: local('../../resources/web/fonts/AppleSDGothicNeoL.ttf'),
+    url('fonts/AppleSDGothicNeoL.eot') format('embedded-opentype'),
+    url('fonts/AppleSDGothicNeoL.woff') format('woff'),
+    url('fonts/AppleSDGothicNeoL.otf') format('opentype'),
+}
+
+@font-face {
+    font-family: 'AppleSDGothicNeoM';
+    font-style: normal;
+    font-weight: 500;
+    src: local('../../resources/web/fonts/AppleSDGothicNeoM.ttf'),
+    url('fonts/AppleSDGothicNeoM.eot') format('embedded-opentype'),
+    url('fonts/AppleSDGothicNeoM.woff') format('woff'),
+    url('fonts/AppleSDGothicNeoM.otf') format('opentype'),
+}
+
+@font-face {
+    font-family: 'AppleSDGothicNeoB';
+    font-style: bold;
+    font-weight: 700;
+    src: local('../../resources/web/fonts/AppleSDGothicNeoB.ttf'),
+    url('fonts/AppleSDGothicNeoB.otf') format('embedded-opentype'),
+    url('fonts/AppleSDGothicNeoB.woff') format('woff'),
+    url('fonts/AppleSDGothicNeoB.otf') format('opentype'),
+}
+

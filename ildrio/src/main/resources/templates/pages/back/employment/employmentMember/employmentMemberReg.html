@@ -1,0 +1,214 @@
+<!doctype html> 
+<html lang="ko" layout:decorator="~{../layout/AdminLayoutPopup.html}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"> 
+<th:block layout:fragment="customCss"> 
+ 
+</th:block> 
+ 
+<th:block layout:fragment="pageTitleEntry"> 
+ 
+</th:block> 
+ 
+<th:block layout:fragment="pageContentsEntry"> 
+	<div style="padding:0px 30px 30px 30px;">  
+	<div class="app-page-title">  
+  	<div class="page-title-wrapper">  
+    		<div class="page-title-heading">  
+    			<div class="page-title-icon">  
+    				<i class="linearicons-pencil5 text-success"></i>  
+    			</div>  
+    			<div>  
+    				<span class="span_page_title"> 
+    					<b>고용인원 등록 & 수정 </b> 
+    				</span>  
+    				<div class="page-title-subheading">고용인원 등록 & 수정</div> 
+    			</div>  
+    		</div>  
+    		<div class="page-title-actions">  
+    		</div>  
+  	</div> 
+	</div> 
+	<form name="inputForm" id="inputForm" method="post">    
+  	<input type="hidden" name="trxnMode" id="trxnMode">   
+  	<a name="bookmark_1" id="bookmark_1"></a>   
+  	<div class="card">   
+    		<div class="card-header">   
+        		<h5><b> 고용인원</b></h5>  
+    		</div>   
+    		<div clase="card-body" style="padding: 20px;">   
+      		<div class="mb-3 row">   
+                	<label for="jobNo" class="col-sm-2 col-form-label text-end"> 채용번호</label>   
+            		<div class="col-sm-2">   
+                    <input type="text"  name="jobNo" id="jobNo" th:value="${rsModel.jobNo}"  class="form-control"   maxlength="80"> 
+            		</div>   
+                	<label for="techCode" class="col-sm-2 col-form-label text-end"> 기술코드</label>   
+            		<div class="col-sm-2">   
+                    <input type="text"  name="techCode" id="techCode" th:value="${rsModel.techCode}"  class="form-control"   maxlength="80"> 
+            		</div>   
+      		</div>   
+      		<div class="mb-3 row">   
+                	<label for="careerCode" class="col-sm-2 col-form-label text-end"> 경력코드</label>   
+            		<div class="col-sm-10">   
+                    <input type="text"  name="careerCode" id="careerCode" th:value="${rsModel.careerCode}"  class="form-control"   maxlength="80"> 
+            		</div>   
+      		</div>   
+      		<div class="mb-3 row">   
+                	<label for="memberNo" class="col-sm-2 col-form-label text-end"> 회원번호</label>   
+            		<div class="col-sm-10">   
+                    <input type="text"  name="memberNo" id="memberNo" th:value="${rsModel.memberNo}"  class="form-control"   maxlength="80"> 
+            		</div>   
+      		</div>   
+      		<div class="mb-3 row">   
+                	<label for="jobApplyNo" class="col-sm-2 col-form-label text-end"> 재용지원번호</label>   
+            		<div class="col-sm-10">   
+                    <input type="text"  name="jobApplyNo" id="jobApplyNo" th:value="${rsModel.jobApplyNo}"  class="form-control"   maxlength="80"> 
+            		</div>   
+      		</div>   
+      		<div class="mb-3 row">   
+                	<label for="dailyWage" class="col-sm-2 col-form-label text-end"> 일일임금</label>   
+            		<div class="col-sm-10">   
+                    <input type="text"  name="dailyWage" id="dailyWage" th:value="${rsModel.dailyWage}"  class="form-control"   maxlength="100"> 
+            		</div>   
+      		</div>   
+      		<div class="mb-3 row">   
+                	<label for="requestWage" class="col-sm-2 col-form-label text-end"> 요청임금</label>   
+            		<div class="col-sm-10">   
+                    <input type="text"  name="requestWage" id="requestWage" th:value="${rsModel.requestWage}"  class="form-control"   maxlength="100"> 
+            		</div>   
+      		</div>   
+      		<div class="mb-3 row">   
+                	<label for="comissionFee" class="col-sm-2 col-form-label text-end"> 수수료</label>   
+            		<div class="col-sm-10">   
+                    <input type="text"  name="comissionFee" id="comissionFee" th:value="${rsModel.comissionFee}"  class="form-control"   maxlength="100"> 
+            		</div>   
+      		</div>   
+      		<div class="mb-3 row">   
+                	<label for="payWage" class="col-sm-2 col-form-label text-end"> 지불임금</label>   
+            		<div class="col-sm-10">   
+                    <input type="text"  name="payWage" id="payWage" th:value="${rsModel.payWage}"  class="form-control"   maxlength="100"> 
+            		</div>   
+      		</div>   
+      		<div class="mb-3 row">   
+                	<label for="employmentMemo" class="col-sm-2 col-form-label text-end"> 고용메모</label>   
+            		<div class="col-sm-10">   
+                    <input type="text"  name="employmentMemo" id="employmentMemo" th:value="${rsModel.employmentMemo}"  class="form-control"   maxlength="4000"> 
+            		</div>   
+      		</div>   
+      		<div class="mb-3 row">   
+                	<label for="employmentStatus" class="col-sm-2 col-form-label text-end"> 고용상태</label>   
+            		<div class="col-sm-10">   
+                    <input type="text"  name="employmentStatus" id="employmentStatus" th:value="${rsModel.employmentStatus}"  class="form-control"   maxlength="40"> 
+            		</div>   
+      		</div>   
+      		<div class="mb-3 row">   
+                	<label for="billingNo" class="col-sm-2 col-form-label text-end"> 청구번호</label>   
+            		<div class="col-sm-10">   
+                    <input type="text"  name="billingNo" id="billingNo" th:value="${rsModel.billingNo}"  class="form-control"   maxlength="80"> 
+            		</div>   
+      		</div>   
+      		<div class="mb-3 row">   
+                	<label for="insertDatetime" class="col-sm-2 col-form-label text-end"> 입력일시</label>   
+            		<div class="col-sm-10">   
+                    <input type="text"  name="insertDatetime" id="insertDatetime" th:value="${rsModel.insertDatetime}"  class="form-control"   maxlength="200"> 
+            		</div>   
+      		</div>   
+      		<div class="mb-3 row">   
+                	<label for="updateDatetime" class="col-sm-2 col-form-label text-end"> 수정일시</label>   
+            		<div class="col-sm-10">   
+                    <input type="text"  name="updateDatetime" id="updateDatetime" th:value="${rsModel.updateDatetime}"  class="form-control"   maxlength="200"> 
+            		</div>   
+      		</div>   
+      	</div> 
+  	</div>  
+	</form> 
+	</div>  
+</th:block> 
+<th:block layout:fragment="customModal"> 
+</th:block> 
+<th:block layout:fragment="customScript"> 
+<!-- -------------------------------------------- -->   
+<script type="text/javascript">   
+  $(document).ready(function() {   
+   
+   
+    fn_modalButton();   
+  });   
+   
+    
+  // 버튼 처리    
+	function fn_modalButton(){   
+		var src = '';   
+		src += '<a onclick="modal_resize_iframe.cfn_bookmark(\'bookmark_1\');" class="btn btn-outline-secondary">북마크 1</a> ';    
+   
+		if ("[[${rsModel.trxnMode}]]" == "insert") {   
+			src += '<a onclick="modal_resize_iframe.fn_trxn(\'insert\');"  class="btn btn-primary">등록</a> ';   
+		} else {   
+			src += '<a onclick="modal_resize_iframe.fn_trxn(\'update\');"  class="btn btn-primary">수정</a> ';   
+			src += '<a onclick="modal_resize_iframe.fn_trxn(\'delete\');"  class="btn btn-danger" id="modal_close">삭제</a> ';   
+		}   
+		src += '<a  class="btn btn-secondary" data-bs-dismiss="modal">닫기</a>';   
+		$("#modal_resize_button",parent.document).html(src);   
+	}   
+    
+  // 등록 처리   
+  function fn_trxn(vTrxnMode) {   
+   
+		if (vTrxnMode == "delete") { 
+			if (confirm("자료를 삭제 하시갰습니까?") == false) { 
+				return false; 
+			} 
+		} 
+    	$("#trxnMode").val(vTrxnMode);    
+   
+    	if (fn_chkForm() == false) {   
+      	return false;   
+    	}   
+   
+   
+    $.ajax({   
+      url : '/employmentMember/employmentMemberTrxn',   
+      type : 'post',   
+      data : $(document.inputForm).serialize(),   
+      dataType : 'json',  
+      async : true,  
+      success : function(data) {  
+        if (data.rsMsg == "FAIL") {   
+          alert("실패하였습니다.");   
+        } else {   
+          if (data.rsMsg == "DUPLICATE") {  
+            alert("이미 등록된 자료가 있습니다..");   
+          } else {   
+			  alert(data.rsMsg); 
+            parent.fn_employmentMember_list();   
+			  if (vTrxnMode != "update") { 
+            	 	parent.pfn_modalClose();   
+            }   
+          }   
+        }   
+      }   
+    });   
+   
+  }  
+    
+  // 입력 필수 항목 체크   
+  function fn_chkForm() {   
+   
+    if (cfn_isValid_Currency("일일임금" ,$("#dailyWage").val(),1,20) == false) {  
+      $("#dailyWage").focus();  
+      return false;  
+    }  
+    if (cfn_isValid_Currency("요청임금" ,$("#requestWage").val(),1,20) == false) {  
+      $("#requestWage").focus();  
+      return false;  
+    }  
+    if (cfn_isValid_Currency("수수료" ,$("#comissionFee").val(),1,20) == false) {  
+      $("#comissionFee").focus();  
+      return false;  
+    }  
+    if (cfn_isValid_Currency("지불임금" ,$("#payWage").val(),1,20) == false) {  
+      $("#payWage").focus();  
+      return false;  
+    }  
+    return true;  
+  } 
+</script> 
+</th:block> 

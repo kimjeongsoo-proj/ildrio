@@ -1,0 +1,150 @@
+<!doctype html> 
+<html lang="ko" layout:decorator="~{../layout/AdminLayoutPopup.html}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"> 
+<th:block layout:fragment="customCss"> 
+ 
+</th:block> 
+ 
+<th:block layout:fragment="pageTitleEntry"> 
+ 
+</th:block> 
+ 
+<th:block layout:fragment="pageContentsEntry"> 
+	<div style="padding:0px 30px 30px 30px;">  
+	<div class="app-page-title">  
+  	<div class="page-title-wrapper">  
+    		<div class="page-title-heading">  
+    			<div class="page-title-icon">  
+    				<i class="linearicons-pencil5 text-success"></i>  
+    			</div>  
+    			<div>  
+    				<span class="span_page_title"> 
+    					<b>달력 등록 & 수정 </b> 
+    				</span>  
+    				<div class="page-title-subheading">달력 등록 & 수정</div> 
+    			</div>  
+    		</div>  
+    		<div class="page-title-actions">  
+    		</div>  
+  	</div> 
+	</div> 
+	<form name="inputForm" id="inputForm" method="post">    
+  	<input type="hidden" name="trxnMode" id="trxnMode">   
+  	<a name="bookmark_1" id="bookmark_1"></a>   
+  	<div class="card">   
+    		<div class="card-header">   
+        		<h5><b> 달력</b></h5>  
+    		</div>   
+    		<div clase="card-body" style="padding: 20px;">   
+      		<div class="mb-3 row">   
+                	<label for="calDate" class="col-sm-2 col-form-label text-end"> 달력일자</label>   
+            		<div class="col-sm-2">   
+                    <input type="text"  name="calDate" id="calDate" th:value="${rsModel.calDate}"  class="form-control"   maxlength="40"> 
+            		</div>   
+                	<label for="calYear" class="col-sm-2 col-form-label text-end"> 년도</label>   
+            		<div class="col-sm-2">   
+                    <input type="text"  name="calYear" id="calYear" th:value="${rsModel.calYear}"  class="form-control"   maxlength="16"> 
+            		</div>   
+                	<label for="calMonth" class="col-sm-2 col-form-label text-end"> 월</label>   
+            		<div class="col-sm-2">   
+                    <input type="text"  name="calMonth" id="calMonth" th:value="${rsModel.calMonth}"  class="form-control"   maxlength="8"> 
+            		</div>   
+      		</div>   
+      		<div class="mb-3 row">   
+                	<label for="calDay" class="col-sm-2 col-form-label text-end"> 일</label>   
+            		<div class="col-sm-2">   
+                    <input type="text"  name="calDay" id="calDay" th:value="${rsModel.calDay}"  class="form-control"   maxlength="8"> 
+            		</div>   
+                	<label for="calWeekday" class="col-sm-2 col-form-label text-end"> 요일</label>   
+            		<div class="col-sm-2">   
+                    <input type="text"  name="calWeekday" id="calWeekday" th:value="${rsModel.calWeekday}"  class="form-control"   maxlength="40"> 
+            		</div>   
+                	<label for="holidayYn" class="col-sm-2 col-form-label text-end"> 휴일여부</label>   
+            		<div class="col-sm-2">   
+                    <input type="text"  name="holidayYn" id="holidayYn" th:value="${rsModel.holidayYn}"  class="form-control"   maxlength="4"> 
+            		</div>   
+      		</div>   
+      		<div class="mb-3 row">   
+                	<label for="holidayName" class="col-sm-2 col-form-label text-end"> 휴일명</label>   
+            		<div class="col-sm-2">   
+                    <input type="text"  name="holidayName" id="holidayName" th:value="${rsModel.holidayName}"  class="form-control"   maxlength="200"> 
+            		</div>   
+      		</div>   
+      	</div> 
+  	</div>  
+	</form> 
+	</div>  
+</th:block> 
+<th:block layout:fragment="customModal"> 
+</th:block> 
+<th:block layout:fragment="customScript"> 
+<!-- -------------------------------------------- -->   
+<script type="text/javascript">   
+  $(document).ready(function() {   
+   
+   
+    fn_modalButton();   
+  });   
+   
+    
+  // 버튼 처리    
+	function fn_modalButton(){   
+		var src = '';   
+		src += '<a onclick="modal_resize_iframe.cfn_bookmark(\'bookmark_1\');" class="btn btn-outline-secondary">북마크 1</a> ';    
+   
+		if ("[[${rsModel.trxnMode}]]" == "insert") {   
+			src += '<a onclick="modal_resize_iframe.fn_trxn(\'insert\');"  class="btn btn-primary">등록</a> ';   
+		} else {   
+			src += '<a onclick="modal_resize_iframe.fn_trxn(\'update\');"  class="btn btn-primary">수정</a> ';   
+			src += '<a onclick="modal_resize_iframe.fn_trxn(\'delete\');"  class="btn btn-danger" id="modal_close">삭제</a> ';   
+		}   
+		src += '<a  class="btn btn-secondary" data-bs-dismiss="modal">닫기</a>';   
+		$("#modal_resize_button",parent.document).html(src);   
+	}   
+    
+  // 등록 처리   
+  function fn_trxn(vTrxnMode) {   
+   
+		if (vTrxnMode == "delete") { 
+			if (confirm("자료를 삭제 하시갰습니까?") == false) { 
+				return false; 
+			} 
+		} 
+    	$("#trxnMode").val(vTrxnMode);    
+   
+    	if (fn_chkForm() == false) {   
+      	return false;   
+    	}   
+   
+   
+    $.ajax({   
+      url : '/sysCalendar/sysCalendarTrxn',   
+      type : 'post',   
+      data : $(document.inputForm).serialize(),   
+      dataType : 'json',  
+      async : true,  
+      success : function(data) {  
+        if (data.rsMsg == "FAIL") {   
+          alert("실패하였습니다.");   
+        } else {   
+          if (data.rsMsg == "DUPLICATE") {  
+            alert("이미 등록된 자료가 있습니다..");   
+          } else {   
+			  alert(data.rsMsg); 
+            parent.fn_sysCalendar_list();   
+			  if (vTrxnMode != "update") { 
+            	 	parent.pfn_modalClose();   
+            }   
+          }   
+        }   
+      }   
+    });   
+   
+  }  
+    
+  // 입력 필수 항목 체크   
+  function fn_chkForm() {   
+   
+    return true;  
+  } 
+</script> 
+</th:block> 

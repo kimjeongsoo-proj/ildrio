@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="ko" layout:decorator="~{../layout/AdminLayoutPopup.html}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+<th:block layout:fragment="customCss">
+	<!-- customCss 시작 -->
+
+	<!-- customCss 종료 -->
+</th:block>
+
+<th:block layout:fragment="pageContentsEntry">
+
+	<!-- -------------------------------------------- -->
+	<div class="app-page-title">
+		<div class="page-title-wrapper">
+			<div class="page-title-heading">
+				<div class="page-title-icon">
+					<i class="pe-7s-graph text-success"></i>
+				</div>
+				<div>
+					<span class="span_page_title">
+						<b>공통코드 </b>
+					</span>
+					<div class="page-title-subheading">공통코드</div>
+				</div>
+			</div>
+			<div class="page-title-actions">
+				<button type="button" data-bs-toggle="tooltip" title="" data-bs-placement="bottom" class="btn-shadow me-3 btn btn-dark" data-bs-original-title="Example Tooltip">
+					<i class="fa fa-star"></i>
+				</button>
+			</div>
+		</div>
+	</div>
+	<!-- -------------------------------------------- -->
+	<c:if test="${rsModel ne null}">
+		<c:set var="readonlyFlag" value="readonly" />
+	</c:if>
+	<form name="inputForm" id="inputForm" method="post">
+		<input type="hidden" name="trxnMode" id="trxnMode">
+		<a name="bookmark_1" id="bookmark_1"></a>
+		<div class="mb-3 card">
+			<div class="card-header-tab card-header">
+				<div class="card-header-title font-size-lg text-capitalize fw-normal">
+					<i class="header-icon lnr-cloud-download icon-gradient bg-happy-itmeo"></i> 공통코드
+				</div>
+				<div class="btn-actions-pane-right text-capitalize actions-icon-btn"></div>
+			</div>
+			<div clase="card-body" style="padding: 20px;">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="position-relative mb-3">
+							<label for="codeId" class="form-label">코드아이디 (필수)</label>
+							<input type="text" name="codeId" id="codeId" value="root" class="form-control " readonly>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="position-relative mb-3">
+							<label for="codeValue" class="form-label">코드값 (필수)</label>
+							<input type="text" name="codeValue" id="codeValue" th:value="${rsModel.codeValue}" class="form-control ">
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="position-relative mb-3">
+							<label for="codeText" class="form-label">코드 텍스트 (필수)</label>
+							<input type="text" name="codeText" id="codeText" th:value="${rsModel.codeText}" class="form-control ">
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="position-relative mb-3">
+							<label for="sortOrder" class="form-label">정렬순서</label>
+							<input type="text" name="sortOrder" id="sortOrder" th:value="${rsModel.sortOrder}" class="form-control ">
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="position-relative mb-3">
+							<label for="codeMemo" class="form-label">코드설명</label>
+							<input type="text" name="codeMemo" id="codeMemo" th:value="${rsModel.codeMemo}" class="form-control ">
+						</div>
+					</div>
+				</div>
+			</div>
+	</form>
+
+</th:block>
+<th:block layout:fragment="customScript">
+	<!-- -------------------------------------------- -->
+	<script type="text/javascript">
+		$(document).ready(function() {
+
+			$(".datePickerInput").datepicker({
+				format : 'yyyy-mm-dd',
+				autoHide : true
+			});
+
+			fn_modalButton();
+		});
+
+		function fn_modalButton() {
+			var src = '';
+			src += '<a onclick="modal_iframe.cfn_bookmark(\'bookmark_1\');" class="btn btn-outline-secondary">북마크 1</a> ';
+
+			if ("[[${rsModel.codeValue}]]" == "") {
+				src += '<a onclick="modal_iframe.fn_trxn(\'insert\');"  class="btn btn-primary">등록</a> ';
+			} else {
+				src += '<a onclick="modal_iframe.fn_trxn(\'update\');"  class="btn btn-primary">수정</a> ';
+				src += '<a onclick="modal_iframe.fn_trxn(\'delete\');"  class="btn btn-danger">삭제</a> ';
+			}
+			src += '<a  class="btn btn-secondary" data-bs-dismiss="modal">닫기</a>';
+			$("#modal_button", parent.document).html(src);
+		}
+		function fn_trxn(vTrxnMode) {
+
+			$("#trxnMode").val(vTrxnMode);
+
+			if (vTrxnMode == "delete") {
+				if (confirm("삭제하시갰습니까?") == false) {
+					return false;
+				}
+			}
+
+			if (fn_chkForm() == false) {
+				return false;
+			}
+
+			$.ajax({
+				url : '/sysCode/sysCodeTrxn',
+				type : 'post',
+				data : $(document.inputForm).serialize(),
+				dataType : 'json',
+				async : true,
+				success : function(data) {
+					if (data.rsltMsg == "FAIL") {
+						alert("실패하였습니다.");
+					} else {
+						if (data.rsltMsg == "DUPLICATE") {
+							alert("이미 등록된 자료가 있습니다..");
+						} else {
+							alert(data.rsMsg);
+							parent.fn_search_sysCode_root();
+							parent.fn_modalClose();
+						}
+					}
+				}
+			});
+
+		}
+		function fn_chkForm() {
+
+			if ($("#codeId").val() == "") {
+				alert("[코드아이디] 필수 입력항목 입니다.");
+				$("#codeId").focus();
+				return false;
+			}
+			if ($("#codeValue").val() == "") {
+				alert("[코드값] 필수 입력항목 입니다.");
+				$("#codeValue").focus();
+				return false;
+			}
+			if ($("#codeText").val() == "") {
+				alert("[코드 텍스트] 필수 입력항목 입니다.");
+				$("#codeText").focus();
+				return false;
+			}
+			return true;
+		}
+	</script>
+</th:block>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+<head th:include="~{../layout/fragments/AdminLayoutCss.html :: AdminLayoutCss}">
+<title layout:title-pattern="$LAYOUT_TITLE : $CONTENT_TITLE">ILIKE</title>
+</head>
+<body class="pd_wrap">
+
+	<th:block th:include="~{../layout/fragments/AdminLayoutPopupHeader.html :: AdminLayoutPopupHeader}"></th:block>
+
+	<th:block layout:fragment="pageTitleEntry"></th:block>
+	<th:block layout:fragment="pageContentsEntry"></th:block>
+	<!--begin::Footer-->
+	<th:block th:include="~{../layout/fragments/AdminLayoutFooter.html :: AdminLayoutFooter}"></th:block>
+	<!--end::Footer-->
+	<th:block layout:fragment="customModal"></th:block>
+	<th:block th:include="~{../layout/fragments/AdminLayoutScript.html :: AdminLayoutScript}"></th:block>
+	<th:block layout:fragment="customScript">
+	</th:block>
+
+
+</body>
+</html>
+

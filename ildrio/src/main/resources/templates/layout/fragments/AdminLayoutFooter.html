@@ -1,0 +1,70 @@
+<th:block th:fragment="AdminLayoutFooter">
+
+
+	<!-- popupPageModal -->
+	<div class="modal fade" id="popupPageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content" id="popupPageContent">
+				<div class="modal-header">
+					<h5 class="modal-title" id="popupPageModalTitle">Modal title</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body" style="padding: 0;">
+					<iframe id="modal_iframe" name="modal_iframe" style="width: 100%; height: 500px;" src=""></iframe>
+				</div>
+				<div class="modal-footer" id="modal_button" style="padding: 5px 20px;">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- Large modal -->
+	<div class="modal fade bd-example-modal-lg" id="popupPageModalResize" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content" id="modal_resize_contents">
+				<div class="modal-header">
+					<h4 class="modal-title" id="modal_resize_title"  style="font-weight:bold;"></h4>
+					<button type="button" class="btn-close" id="modal_resize_close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body" style="padding: 0;">
+					<iframe id="modal_resize_iframe" name="modal_resize_iframe" style="width: 100%; height: 500px;" src=""></iframe>
+				</div>
+				<div class="modal-footer" style="padding: 5px 20px;justify-content: space-between;">
+					<div id="modal_resize_alink"></div>
+					<div id="modal_resize_button" style=""></div> 
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--  sub modal -->
+	<div class="modal fade bd-example-modal-lg" id="popupPageSubModal" tabindex="-1" role="dialog" aria-labelledby="mpopupPageSubModelLabel" aria-hidden="true">
+		<div class="modal-dialog" id="sub_modal_dialog">
+			<div class="modal-content" id="sub_modal_contents">
+				<div class="modal-header">
+					<h5 class="modal-title" id="sub_modal_title" style="font-weight:bold !important;"></h5>
+					<button type="button" class="btn-close" id="sub_modal_close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body" style="padding: 0;">
+					<iframe id="sub_modal_iframe" name="sub_modal_iframe" style="width: 100%; height: 500px;" src=""></iframe>
+				</div>
+				<div class="modal-footer" id="sub_modal_button" style="padding: 5px 20px;"></div>
+			</div>
+		</div>
+	</div>
+
+	<!-- processMsg -->
+
+	<div id="processMsg" style="position: absolute; width: 100px; height: 60px; z-index: 999; display: none; text-align: center;">
+		<button class="btn btn-light" type="button" disabled>
+			<span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+			<span role="status">Loading...</span>
+		</button>
+	</div>
+	<!-- // processMsg -->
+
+</th:block>
+

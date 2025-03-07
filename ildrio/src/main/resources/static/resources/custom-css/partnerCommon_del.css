@@ -1,0 +1,96 @@
+.gird_page_title {
+	line-height: 30px; 
+	margin-top: 20px; 
+}
+
+
+.fixMenu {
+	text-align: center;
+	padding: 0px;
+}
+
+.menuFixed {
+	position: fixed;
+	top: 60px;
+}
+
+.topButton {
+	border-radius: 8px;
+	position: fixed;
+	bottom: 5px;
+	right: 5px;
+	width: 40px;
+	height: 40px;
+	background-color: deepskyblue;
+	color: white;
+	z-index: 9999;
+	cursor: pointer;
+	font-size: 17pt;
+	padding: 5px;
+	text-align: center;
+}
+
+.form-control {
+	border: 1px solid #bbb;
+}
+
+.form-control[readonly] {
+	background-color: #f8f8f8;
+	border: 0;
+	color: #666;
+	opacity: 1;
+}
+
+.col-form-label {
+	font-size: 10pt;
+	font-weight: bold;
+}
+
+.vertical-nav-menu li a {
+	display: block;
+	line-height: 30px;
+	height: 30px;
+	padding: 0px 0px 0px 5px;
+	position: relative;
+	border-radius: 0.25rem;
+	color: #343a40;
+	white-space: nowrap;
+	transition: all .2s;
+	margin: 0.1rem 0;
+	font-size:9pt;
+}
+
+.vertical-nav-menu i.metismenu-icon {
+	text-align: center;
+	width: 20px;
+	height: 20px;
+	line-height: 30px;
+	position: absolute;
+	left: 2px;
+	top: 50%;
+	margin-top: -17px;
+	font-size: 15pt;
+	opacity: .3;
+	transition: color 300ms;
+}
+
+.metismenu-state-icon {
+	font-weight:900;
+}
+
+.vertical-nav-menu ul {
+	transition: padding 300ms;
+	padding: 0.5em 0 0 20px;
+}
+
+.vertical-nav-menu ul:before {
+	content: '';
+	height: 100%;
+	opacity: 1;
+	width: 3px;
+	background: #e0f3ff;
+	position: absolute;
+	left: 10px;
+	top: 0;
+	border-radius: 15px;
+}

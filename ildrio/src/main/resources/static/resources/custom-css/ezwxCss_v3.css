@@ -1,0 +1,236 @@
+@charset "utf-8";
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/*      table_list_grid                 */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+.table_list_grid {
+  border-top: 1px solid #eee; border-left: 0px solid #eee;
+}
+
+.table_list_grid thead { border-top: 0px solid #d0d0d0;}
+.table_list_grid thead th {
+  padding: 0px 2px 0px 2px; border-bottom: 1px solid #d0d0d0; border-right: 1px solid #e0e0e0; color: #777; text-overflow: ellipsis; white-space: nowrap; 
+  text-align: center; background-color:#f0f0f0;font-weight:bold;
+}
+
+.table_list_grid .td_last {
+  border-right: 0;
+}
+
+.table_list_grid td {
+  padding: 0px 2px 0px 2px; border-bottom: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #333;
+}
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/*      input                                              */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+.input9ff {
+  border: 0px solid #f0f0f0; font-family: Consolas; font-size: 10pt; height: 22px; padding-left: 2px; padding-right: 2px;
+}
+
+.input9f0 {
+  border: 1px solid #f0f0f0; font-family: Consolas; font-size: 10pt; height: 22px; padding-left: 2px; padding-right: 2px;
+}
+
+.input9c0 {
+  border: 1px solid #c0c0c0; font-family: Consolas; font-size: 10pt; height: 22px; padding-left: 2px; padding-right: 2px;
+}
+
+.input30px {
+  border: 1px solid #c0c0c0; font-family: Consolas; font-size: 10pt; height: 30px; padding-left: 2px; padding-right: 2px;
+}
+
+.input9e0 {
+  border: 1px solid #e0e0e0; font-family: Consolas; font-size: 10pt; height: 22px; padding-left: 2px; padding-right: 2px;
+}
+
+.input9c0sel {
+  border: 1px solid #c0c0c0; font-family: Consolas; font-size: 10pt; height: 22px; padding-left: 5px; padding-right: 5px;
+}
+
+.input9e0sel {
+  border: 1px solid #e0e0e0; font-family: Consolas; font-size: 10pt; height: 22px; padding-left: 3px; padding-right: 3px;
+}
+
+.input9ffsel {
+  border: 0px solid #f0f0f0; font-family: Consolas; font-size: 10pt; height: 22px; padding-left: 3px;
+}
+
+.input9f0esl {
+  border: 1px solid #f0f0f0; font-family: Consolas; font-size: 10pt; height: 22px; padding-left: 3px;
+}
+
+.input10ff {
+  border: 0px solid #f0f0f0; font-family: Consolas; font-size: 10pt; height: 25px; padding-left: 2px; padding-right: 2px;
+}
+
+.input10f0 {
+  border: 1px solid #f0f0f0; font-family: Consolas; font-size: 10pt; height: 25px; padding-left: 2px; padding-right: 2px;
+}
+
+.input10c0 {
+  border: 1px solid #c0c0c0; font-family: Consolas; font-size: 10pt; height: 25px; padding-left: 2px; padding-right: 2px;
+}
+
+.input10e0 {
+  border: 1px solid #e0e0e0; font-family: Consolas; font-size: 10pt; height: 25px; padding-left: 2px; padding-right: 2px;
+}
+
+.input10c0sel {
+  border: 1px solid #c0c0c0; font-family: Consolas; font-size: 10pt; height: 25px; padding-left: 5px; padding-right: 5px;
+}
+
+.input10e0sel {
+  border: 1px solid #e0e0e0; font-family: Consolas; font-size: 10pt; height: 25px; padding-left: 3px; padding-right: 3px;
+}
+
+.input10ffsel {
+  border: 0px solid #f0f0f0; font-family: Consolas; font-size: 10pt; height: 25px; padding-left: 3px;
+}
+
+.input10f0esl {
+  border: 1px solid #f0f0f0; font-family: Consolas; font-size: 10pt; height: 25px; padding-left: 3px;
+}
+
+/****************************/
+
+
+#divLeftTitle {
+  position: relative; border: 1px solid #e8e8e8; border-top: 0px; overflow-x: hidden;
+}
+
+#divRightTitle {
+  position: relative; border: 1px solid #e8e8e8; border-top: 0px; overflow-x: hidden;
+}
+
+#divLeftData {
+  position: relative; border: 1px solid #e8e8e8; border-top: 0px; overflow-x: scroll; overflow-y: scroll;
+}
+
+#divRightData {
+  position: relative; border: 1px solid #e8e8e8; border-top: 0px; overflow-y: scroll; overflow-x: scroll;
+}
+
+#divMemTitle {
+  position: relative; border: 1px solid #c0c0c0; border-top: 0px;
+}
+
+#divMemData {
+  position: relative; border: 1px solid #c0c0c0; border-top: 0px;
+}
+
+
+/****************************/
+.sortArrow {
+  color: #b0b0b0; cursor: pointer;
+}
+
+/*********************************************************/
+.tdOrderInfo span {
+	display: inline-block;
+	margin-right: 20px;
+}
+
+.searchAreaFixed {
+	position: fixed;
+	top: 60px;
+	z-index: 999;
+}
+
+.fontTabCount {
+	background-color: blue;
+	color: #fff;
+	border-radius: 8px;
+	padding: 2px 8px;
+	margin-left: 5px;
+}
+
+.fontCountBlue {
+	background-color: blue;
+	color: #fff;
+	border-radius: 8px;
+	padding: 0px 5px;
+	margin-left: 5px;
+}
+.fontCountRed {
+	background-color: red;
+	color: #fff;
+	border-radius: 8px;
+	padding: 0px 5px;
+	margin-left: 5px;
+}
+.fontCountGray {
+	background-color: lightgray;
+	color: #fff;
+	border-radius: 8px;
+	padding: 0px 5px;
+	margin-left: 5px;
+}
+
+.topButton {
+	border-radius: 8px;
+	position: fixed;
+	bottom: 10px;
+	right: 10px;
+	width: 40px;
+	height: 40px;
+	background-color: deepskyblue;
+	color:white;
+	z-index: 9999;
+	cursor: pointer;
+	font-size: 17pt;
+	padding: 5px;
+	text-align: center;
+}
+
+/*****/
+.blinking{
+  -webkit-animation: blink 1s ease-in-out infinite alternate;
+  -moz-animation: blink 1s ease-in-out infinite alternate;
+  animation: blink 1s ease-in-out infinite alternate;
+}
+@-webkit-keyframes blink{
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+@-moz-keyframes blink{
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+@keyframes blink{
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+/************************************/
+.firstChar {
+  cursor: pointer; margin-right: 3px; width: 20px; height: 20px; text-align: center; border: 1px solid #a0a0a0; background-color: #ffffff; display: inline-block; line-height: 20px;
+}
+
+/************************************/
+.scrollbar_left::-webkit-scrollbar {
+  width: 0px;
+  height:10px;
+}
+.scrollbar_left::-webkit-scrollbar-thumb {
+  background-color: #e0e0e0;
+}
+.scrollbar_left::-webkit-scrollbar-track {
+  background-color: #f8f8f8;
+}
+
+.scrollbar_right::-webkit-scrollbar {
+  width: 10px;
+  height:10px;
+}
+.scrollbar_right::-webkit-scrollbar-thumb {
+  background-color: #e0e0e0;
+  border-radius: 10px;
+}
+.scrollbar_right::-webkit-scrollbar-track {
+  background-color: #f8f8f8;
+  border-radius: 10px;
+  box-shadow: inset 0px 0px 5px white;
+}

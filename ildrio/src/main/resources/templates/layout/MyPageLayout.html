@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+<head th:include="~{../layout/fragments/CommonHead.html :: commonHead}">
+<title layout:title-pattern="$LAYOUT_TITLE : $CONTENT_TITLE">ILIKE</title>
+</head>
+<body class="pd_wrap">
+
+	<th:block th:include="~{../layout/fragments/MainHeader.html :: mainHeader}"></th:block>
+
+	<th:block layout:fragment="myPageContentsEntry">
+		<!-- START SECTION BREADCRUMB -->
+		<div class="breadcrumb_section bg_gray page-title-mini">
+			<div class="container">
+				<!-- STRART CONTAINER -->
+				<div class="row align-items-center">
+					<div class="col-md-12">
+						<div class="page-title">마이페이지</div>
+					</div>
+
+				</div>
+			</div>
+			<!-- END CONTAINER-->
+		</div>
+		<!-- END SECTION BREADCRUMB -->
+
+		<div class="section">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-3 col-md-4">
+
+
+						<th:block th:include="~{../layout/fragments/MyPageSide.html :: myPageSide}"></th:block>
+
+					</div>
+					<div class="col-lg-9 col-md-8">
+
+						<th:block layout:fragment="pageContentsEntry">
+						
+						
+
+						</th:block>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</th:block>
+
+
+	<th:block th:include="~{../layout/fragments/CommonModal.html :: commonModal}"></th:block>
+
+	<th:block th:include="~{../layout/fragments/CommonFooter.html :: commonFooter}"></th:block>
+
+	<th:block th:include="~{../layout/fragments/CommonScript.html :: commonScript}"></th:block>
+
+	<script>
+		sfn_mypage_menu();
+	</script>
+</body>
+</html>
+

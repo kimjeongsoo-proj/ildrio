@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="ko" layout:decorator="~{../layout/AdminLayout.html}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+<th:block layout:fragment="customCss">
+
+</th:block>
+
+<th:block layout:fragment="pageTitleEntry">
+
+</th:block>
+
+<th:block layout:fragment="pageContentsEntry">
+
+	<div class="card-header-tab card-header" style="padding: 0;">
+		<div class="card-header-title">
+			<h5 style="font-weight: 900;">공통코드</h5>
+		</div>
+		<ul class="nav">
+
+		</ul>
+	</div>
+	<!-- -------------------------------------------- -->
+	<form name="inputForm" id="inputForm" method="post" class="searchArea" onsubmit="return false;">
+		<input type="hidden" name="trxnMode" id="trxnMode">
+		<input type="hidden" name="selectedRowIdx" id="selectedRowIdx" value="0">
+		<input type="hidden" name="srhOrderName" id="srhOrderName" value="">
+		<input type="hidden" name="srhOrderBy" id="srhOrderBy" value="">
+		<input type="hidden" name="srhOrderAsc" id="srhOrderAsc" value="">
+		<input type="hidden" name="srhCodeId" id="srhCodeId" value="">
+
+		<div class="row" style="line-height: 30px; margin-top: 10px;">
+			<div class="col-sm-3 col-md-3">
+				<div class="input-group">
+					<label for="" class="col-form-label text-end" style="width: 100px; white-space: nowrap; margin-right: 10px;">코드아이디</label>
+					<input type="text" name="srhCodeValue" id="srhCodeValue" class="form-control"  value="">
+				</div>
+			</div>
+			<div class="col-sm-3 col-md-3">
+				<span class="btn btn-secondary" onclick="fn_sysCode_root()">
+					<i class="pe-7s-search btn-icon-wrapper"></i>검색
+				</span>
+			</div>
+			<div class="col-sm-6col-md-6 text-end">
+				<a class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#popupPageModalResize" onclick="pfn_modalPop('popSize', 1000, 600,'공통코드 등록','/sysCode/sysCodeNew');">공통코드등록</a>
+				<span class="btn btn-outline-success" onclick="fn_list_trxn('list_update')">수정저장 </span>
+				<span class="btn btn-outline-danger" onclick="fn_list_trxn('list_delete')">삭제</span>
+				<span class="btn btn-outline-success" onclick="fn_sysCode_scriptGen()" style="margin-left: 10px;">코드 스트립트 생성 </span>
+				<span class="btn btn-outline-primary" onclick="gfn_gridHeightFit()" style="padding: 6px 10px; text-align: center;" title="작업영역 위치 맞추기">
+					<i class="linearicons-line-spacing" id="grid_height" style="font-size: 12pt;"></i>
+				</span>
+			</div>
+		</div>
+		<a name="gridTop" id="gridTop"></a>
+
+		<!-- ---------------------------------------------------------- -->
+		<table style="width: 100%; margin-top: 10px;" cellpadding=0 cellspacing=0 id="grid_table_wrap">
+			<tr>
+				<td id="tdLeftTitle" style="width: 500px">
+					<div id="divLeftTitle" th:style="|width:${divLeftWidth}px;border-right:0px;|">
+						<table id="LeftTableHeader" class="table_list_grid2" style="width: 100%; table-layout: fixed;">
+							<thead id="thead_left_title">
+							</thead>
+						</table>
+					</div>
+				</td>
+				<td style="width: 10px;"></td>
+				<td id="tdRightTitle" class="pcDisp">
+					<div id="divRightTitle" style="width: 500px;">
+						<table id="RightTableHeader" class="table_list_grid2" style="width: 3000px; table-layout: fixed;">
+							<thead id="thead_right_title">
+							</thead>
+						</table>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td id="tdLeftData">
+					<div id="divLeftData" class="scrollbar_right" style="width: 500px; border-right: 0px;">
+						<table id="LeftDataTable" class="table_list_grid2" width="100%" style="table-layout: fixed;">
+							<tbody id="tbody_left_list">
+							</tbody>
+						</table>
+					</div>
+				</td>
+				<td style="width: 10px;"></td>
+				<td valign="top" id="tdRightData" class="pcDisp">
+					<div id="divRightData" class="scrollbar_right" onscroll="cfn_splitGrid_scrollRight(this.scrollLeft,'');" style="width: 500px;">
+						<table id="RightDataTable" class="table_list_grid2" style="width: 2980px; table-layout: fixed;">
+							<tbody id="tbody_right_list">
+							</tbody>
+						</table>
+					</div>
+				</td>
+			</tr>
+		</table>
+		
+		<!-- ---------------------------------------------------------- -->
+	</form>
+	<br>
+</th:block>
+<th:block layout:fragment="customScript">
+	<script type="text/javascript">
+		var divLeftWidth = "500";
+
+		$(document).ready(function() {
+
+			gfn_splitGridResize2(Number(divLeftWidth));
+
+			fn_sysCode_header();
+			fn_sysCode_root();
+
+		});
+
+		$(window).resize(function() {
+			gfn_splitGridResize2(Number(divLeftWidth));
+		});
+
+		function fn_searchPage(vPage) {
+			fn_sysCode_root();
+		}
+
+		function fn_sysCode_header() {
+
+			//thead_left_title 
+			$("#thead_left_title").empty();
+			var src = "";
+			src += '<tr style="height: 50px;text-align:center;"> ';
+			src += '	<th style="width: 40px;">';
+			src += '		<span>보기</span> ';
+			src += '	</th> ';
+			src += '	<th style="width: 200px;"> ';
+			src += '		<span>코드</span> ';
+			src += '		<span id="sort_code_value" onclick="gfn_sort(\'code_value\',\'code_value\',\'desc\')" class="sortArrow">▽</span>';
+			src += '	</th> ';
+			src += '	<th style="width: ;"> ';
+			src += '		<span>코드설명</span> ';
+			src += '		<span id="sort_code_text" onclick="gfn_sort(\'code_text\',\'code_text\',\'desc\')" class="sortArrow">▽</span>';
+			src += '	</th> ';
+			src += '</tr> ';
+			$("#thead_left_title").append(src);
+
+			//thead_right_title 
+			$("#thead_right_title").empty();
+			src = "";
+			src += '<tr style="height: 50px;text-align:center;"> ';
+			src += '	<th style="width: 30px;"> ';
+			src += '		<input type="checkbox" id="chkbAll" onclick="gfn_chkAll()"> ';
+			src += '	</th> ';
+			src += '	<th style="width: 150px;"> ';
+			src += '		<span>코드값</span> ';
+			src += '	</th> ';
+			src += '	<th style="width: 150px;"> ';
+			src += '		<span>코드 텍스트</span> ';
+			src += '	</th> ';
+			src += '	<th style="width: 150px;"> ';
+			src += '		<span>정렬순서</span> ';
+			src += '	</th> ';
+			src += '	<th style="width: 300px;"> ';
+			src += '		<span>코드설명</span> ';
+			src += '	</th> ';
+			src += '	<th></th> ';
+			src += '</tr> ';
+			$("#thead_right_title").append(src);
+		}
+
+		function fn_sysCode_list(vCodeId) {
+
+			$("#srhCodeId").val(vCodeId);
+			var formData = "srhCodeId=" + vCodeId;
+			formData += "&srhOrderBy=sort_order ";
+
+			$.ajax({
+				url : '/sysCode/sysCodeListAjax',
+				type : 'post',
+				data : formData,
+				dataType : 'json',
+				async : true,
+				success : function(data) {
+					if (window.innerWidth > 1000) {
+						fn_sysCode_disp(data, vCodeId);
+					} else {
+						fn_sysCode_mobile_disp(data);
+					}
+				},
+				beforeSend : function() {
+					gfn_process_view("조회중입니다. 잠시만 기다려 주세요...");
+				},
+				complete : function() {
+					gfn_process_hide();
+				},
+				error : function(jqXHR, textStatus, errorThrown) {
+					alert("조회에실패하였습니다.");
+				}
+			});
+
+		}
+
+		function fn_sysCode_disp(data, vCodeId) {
+			$("#tbody_right_list").empty();
+			var list = data.rsList;
+			var src = "";
+			var k = 0;
+			for (var i = 0; i < list.length; i++) {
+
+				src += '<tr style="height:30px;text-align:center;" > ';
+				src += '  <td style="width:30px;" align="center"> ';
+				src += '    <input type="checkbox" name="chkb" id="chkb" onclick="gfn_chkb(' + k + ')"> ';
+				src += '    <input type="hidden" name="chkbFlag" id="chkbFlag" value="false"> ';
+				src += '    <input type="hidden" name="codeId" id="codeId" value="' + cfnNull(list[i].codeId) + '">  ';
+				src += '  </td> ';
+				src += '  <td style="width:150px;white-space:normal;"> ';
+				src += '    ' + gfn_inputText('codeValue', cfnNull(list[i].codeValue), 'string', 'width:95%;text-align:center;', i) + '';
+				src += '  </td>';
+				src += '  <td style="width:150px;white-space:normal;"> ';
+				src += '    ' + gfn_inputText('codeText', cfnNull(list[i].codeText), 'string', 'width:95%;text-align:center;', i) + '';
+				src += '  </td>';
+				src += '  <td style="width:150px;white-space:normal;"> ';
+				src += '    ' + gfn_inputText('sortOrder', cfnNull(list[i].sortOrder), 'string', 'width:95%;text-align:center;', i) + '';
+				src += '  </td>';
+				src += '  <td style="width:300px;white-space:normal;"> ';
+				src += '    ' + gfn_inputText('codeMemo', cfnNull(list[i].codeMemo), 'string', 'width:95%;', i) + '';
+				src += '  </td>';
+				src += '  <td></td> ';
+				src += '</tr> ';
+
+				k++;
+			}
+			for (var i = list.length; i < (list.length + 20); i++) {
+
+				src += '<tr style="height:30px;text-align:center;" > ';
+				src += '  <td style="width:30px;" align="center"> ';
+				src += '    <input type="checkbox" name="chkb" id="chkb" onclick="gfn_chkb(' + k + ')"> ';
+				src += '    <input type="hidden" name="chkbFlag" id="chkbFlag" value="false"> ';
+				src += '    <input type="hidden" name="codeId" id="codeId" value="' + vCodeId + '">  ';
+				src += '  </td> ';
+				src += '  <td style="width:150px;white-space:normal;"> ';
+				src += '    ' + gfn_inputText('codeValue', '', 'string', 'width:95%;text-align:center;', i) + '';
+				src += '  </td>';
+				src += '  <td style="width:150px;white-space:normal;"> ';
+				src += '    ' + gfn_inputText('codeText', '', 'string', 'width:95%;text-align:center;', i) + '';
+				src += '  </td>';
+				src += '  <td style="width:150px;white-space:normal;"> ';
+				src += '    ' + gfn_inputText('sortOrder', '999', 'string', 'width:95%;text-align:center;', i) + '';
+				src += '  </td>';
+				src += '  <td style="width:300px;white-space:normal;"> ';
+				src += '    ' + gfn_inputText('codeMemo', '', 'string', 'width:95%;', i) + '';
+				src += '  </td>';
+				src += '  <td></td> ';
+				src += '</tr> ';
+			}
+			$("#tbody_right_list").append(src);
+
+		}
+
+		function fn_sysCode_mobile_disp(data) {
+
+			$("#grid_table_wrap").empty();
+
+			var list = data.rsList;
+			var src = "";
+			var k = 0;
+			for (var i = Number(data.startRow); i < Number(data.endRow); i++) {
+
+				src += '<tr style="height:40px;text-align:center;"  onclick="cfn_trSelectBorder(\'' + (k + 1) + '\')" id="ltr_' + k + '"> ';
+				src += '  <td style="width:30px;" align="center"> ';
+				src += '    <input type="checkbox" name="chkb" id="chkb" onclick="gfn_chkb(' + k + ')"> ';
+				src += '    <input type="hidden" name="chkbFlag" id="chkbFlag" value="false"> ';
+				src += '    <input type="hidden" name="codeId" id="codeId" value="' + cfnNull(list[i].codeId) + '">  ';
+				src += '    <input type="hidden" name="codeValue" id="codeValue" value="' + cfnNull(list[i].codeValue) + '">  ';
+				src += '  </td> ';
+				src += '  <td  style="width:40px;text-align:center;"> ';
+				src += '    <a data-bs-toggle="modal" data-bs-target="#popupPageModalResize"  onclick="pfn_modalPop(\'popMargin\', 50, 50, \'공통코드 수정\' ,\'/sysCode/sysCodeEdit?codeId=' + cfnNull(list[i].codeId) + '&codeValue=' + cfnNull(list[i].codeValue) + '\');"  style="cursor:pointer;"> ';
+				src += '      <i class="linearicons-register" style="font-size:15pt;"></i> ';
+				src += '    </a>';
+				src += '  </td> ';
+				src += '  <td style="width:150px;white-space:normal;"> ';
+				src += '    ' + gfn_inputText('codeValue', cfnNull(list[i].codeValue), 'string', 'width:95%;', i) + '';
+				src += '  </td>';
+				src += '  <td style="width:150px;white-space:normal;"> ';
+				src += '    ' + gfn_inputText('codeText', cfnNull(list[i].codeText), 'string', 'width:95%;', i) + '';
+				src += '  </td>';
+				src += '</tr> ';
+				k++;
+			}
+			$("#grid_table_wrap").append(src);
+
+		}
+
+		function fn_list_trxn(vTrxnMode) {
+			if (vTrxnMode == "list_delete") {
+				if (confirm("선택한 자료를 삭제 하시갰습니까?") == false) {
+					return false;
+				}
+			}
+			$("#trxnMode").val(vTrxnMode);
+			$.ajax({
+				url : '/sysCode/sysCodeListTrxn',
+				type : 'post',
+				data : $(document.inputForm).serialize(),
+				dataType : 'json',
+				success : function(data) {
+					if (data.rsMsg != "SUCCESS") {
+						alert("실패하였습니다.");
+					} else {
+						if (vTrxnMode == "list_delete") {
+							alert("삭제하였습니다.");
+						}
+						if (vTrxnMode == "list_update") {
+							alert("수정하였습니다.");
+						}
+						fn_sysCode_list($("#srhCodeId").val());
+					}
+				},
+				error : function(jqXHR, textStatus, errorThrown) {
+					alert("실패하였습니다.");
+				}
+			});
+		}
+
+		function fn_sysCode_root() {
+
+			$("#tbody_left_list").empty();
+
+			var formData = "srhCodeValue=" + $("#srhCodeValue").val();
+			formData += "&selectMode=rootCode";
+			formData += "&srhOrderBy=code_value";
+
+
+			$.ajax({
+				url : '/sysCode/sysCodeListAjax',
+				type : 'post',
+				data : formData,
+				dataType : 'json',
+				async : true,
+				success : function(data) {
+
+					var list = data.rsList;
+					var src = "";
+					var k = 0;
+					for (var i = 0; i < list.length; i++) {
+						k++;
+						src += '<tr style="height:40px;text-align:center;cursor:pointer;" onclick="cfn_trSelectBorder(\'' + k + '\');fn_sysCode_list(\'' + cfnNull(list[i].codeValue) + '\')" id="rtr_' + k + '"> ';
+						src += '  <td  style="width:40px;text-align:center;"> ';
+						src += '    <a data-bs-toggle="modal" data-bs-target="#popupPageModalResize"  onclick="pfn_modalPop(\'popSize\', 1000, 600, \'공통코드 수정\' ,\'/sysCode/sysCodeEdit?codeId=' + cfnNull(list[i].codeId) + '&codeValue=' + cfnNull(list[i].codeValue) + '\');"  style="cursor:pointer;"> ';
+						src += '      <i class="linearicons-register" style="font-size:15pt;"></i> ';
+						src += '    </a>';
+						src += '  </td> ';
+						src += '  <td  style="width:200px;text-align:left;"> ';
+						src += '    ' + cfnNull(list[i].codeValue) + ' ';
+						src += '  </td> ';
+						src += '  <td  style="width:;text-align:left;"> ';
+						src += '    ' + cfnNull(list[i].codeText) + ' ';
+						src += '  </td> ';
+						src += '</tr> ';
+					}
+					$("#tbody_left_list").append(src);
+				}
+			});
+
+		}
+
+		function fn_sysCode_scriptGen() {
+
+			$.ajax({
+				url : '/sysCode/sysCodeScriptGen',
+				type : 'post',
+				dataType : 'json',
+				async : true,
+				success : function(data) {
+					if (data.rsMsg != "SUCCESS") {
+						alert("실패하였습니다.");
+					} else {
+						alert("공통코드 스크립트를 생성 하였습니다.");
+					}
+				},
+				beforeSend : function() {
+					gfn_process_view("코드 생성중 입니다. 잠시만 기다려 주세요...");
+				},
+				complete : function() {
+					gfn_process_hide();
+				},
+				error : function(jqXHR, textStatus, errorThrown) {
+					alert("조회에실패하였습니다.");
+				}
+			});
+
+		}
+	</script>
+</th:block>

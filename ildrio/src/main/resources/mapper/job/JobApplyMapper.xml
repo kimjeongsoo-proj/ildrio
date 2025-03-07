@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+ 
+<mapper namespace="ilike.ildrio.mapper.job.JobApplyMapper">    
+ 
+ 
+ 
+	<select id="getListCount_jobApply"  parameterType="ilike.ildrio.model.job.JobApplyModel"  resultType="java.lang.Integer"> 
+		SELECT FOUND_ROWS() totRow
+	</select> 
+	 
+	<select id="getList_jobApply"  parameterType="ilike.ildrio.model.job.JobApplyModel" resultType="ilike.ildrio.model.job.JobApplyModel">  
+		<![CDATA[   
+		select	SQL_CALC_FOUND_ROWS  
+			 jap.job_apply_no  
+			, jap.job_no  
+			, jap.tech_code  
+			, jap.career_code  
+			, jap.member_no  
+			, jap.apply_datetime  
+		from job_apply jap
+	 	]]> 
+		<where>   
+			<if test="jobNo != null and jobNo != '' ">   
+				and jap.job_no  like concat('%',#{jobNo},'%')   
+			</if>   
+		</where>   
+		<if test="srhOrderBy != null and  srhOrderBy != '' ">   
+			order by 	${srhOrderBy} ${srhOrderAsc}   
+		</if>   
+		limit ${startRow} , ${pageRow}    
+	</select>  
+ 
+	<select id="subList_jobApply"  parameterType="ilike.ildrio.model.job.JobApplyModel" resultType="ilike.ildrio.model.job.JobApplyModel">  
+	</select>  
+ 
+	<select id="getMap_jobApply"  parameterType="ilike.ildrio.model.job.JobApplyModel" resultType="ilike.ildrio.model.job.JobApplyModel">  
+		<![CDATA[   
+		select  
+			 jap.job_apply_no  
+			, jap.job_no  
+			, jap.tech_code  
+			, jap.career_code  
+			, jap.member_no  
+			, jap.apply_datetime  
+		from job_apply jap
+		where jap.job_no = #{jobNo}  
+		and jap.tech_code = #{techCode}  
+		and jap.career_code = #{careerCode}  
+		and jap.member_no = #{memberNo}  
+	 	]]> 
+	</select>  
+ 
+	<select id="getCount_jobApply"  parameterType="ilike.ildrio.model.job.JobApplyModel"  resultType="java.lang.Integer">  
+		<![CDATA[   
+		select 	count(*) count  
+		from 	job_apply  
+		where job_apply_no = #{jobApplyNo}  
+		and job_no = #{jobNo}  
+		and tech_code = #{techCode}  
+		and career_code = #{careerCode}  
+		and member_no = #{memberNo}  
+	 	]]> 
+	</select>  
+ 
+	<update id="insert_jobApply"  parameterType="ilike.ildrio.model.job.JobApplyModel">  
+		<![CDATA[   
+		insert into job_apply (  
+			 job_apply_no   
+			, job_no   
+			, tech_code   
+			, career_code   
+			, member_no   
+			, apply_datetime   
+	 	) values (  
+			 #{jobApplyNo}  
+			, #{jobNo}  
+			, #{techCode}  
+			, #{careerCode}  
+			, #{memberNo}  
+			, now()  
+	 	)   
+	 	]]> 
+	</update>  
+ 
+	<update id="update_jobApply"  parameterType="ilike.ildrio.model.job.JobApplyModel">  
+		<choose>   
+			<when test=" trxnMode == 'list_update' ">   
+				<![CDATA[   
+				update job_apply set  
+				where job_no = #{jobNo}  
+				and tech_code = #{techCode}  
+				and career_code = #{careerCode}  
+				and member_no = #{memberNo}  
+	 			]]> 
+			</when>   
+			<otherwise>   
+				<![CDATA[   
+				update job_apply set  
+					 job_apply_no = #{jobApplyNo}  
+					, apply_datetime = replace(#{applyDatetime},',','')  
+				where job_no = #{jobNo}  
+				and tech_code = #{techCode}  
+				and career_code = #{careerCode}  
+				and member_no = #{memberNo}  
+	 			]]> 
+			</otherwise>   
+		</choose>   
+	</update>  
+ 
+	<update id="delete_jobApply"  parameterType="ilike.ildrio.model.job.JobApplyModel">  
+		<![CDATA[   
+		delete from job_apply   
+		where job_no = #{jobNo}  
+		and tech_code = #{techCode}  
+		and career_code = #{careerCode}  
+		and member_no = #{memberNo}  
+	 	]]> 
+	</update>  
+ 
+</mapper>

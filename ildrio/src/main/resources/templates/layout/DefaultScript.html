@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<!-- begin :: head area -->
+<head th:include="~{../layout/fragments/CommonHead.html :: commonHead}">
+<title layout:title-pattern="$LAYOUT_TITLE : $CONTENT_TITLE">MC-Mall</title>
+</head>
+<!-- end :: head area -->
+<!-- begin :: body area-->
+<body class="pd_wrap">
+
+	
+
+
+	<!--begin::pageContentsEntry-->
+	<th:block layout:fragment="pageContentsEntry"></th:block>
+	<div class="fixed_icon">
+		<ul>
+			<li style="display: none;"><a href="#" title="도움말"><img th:src="@{/resources/images/icon/fixed_icon.png}"
+					alt=""></a></li>
+			<li><a href="#" title="위로가기" class="scrollTop"><img
+					th:src="@{/resources/images/icon/scolltop_icon.png}" alt=""></a></li>
+		</ul>
+	</div>
+	<!--end::pageContentsEntry-->
+	
+	<div id="mask-overlay"></div>
+
+	<!--end::Content-->
+	<!--begin::Footer-->
+	<!--end::Footer-->
+
+	<!-- begin :: commonScript area-->
+	<th:block
+		th:include="~{../layout/fragments/CommonScript.html :: commonScript}"></th:block>
+	<!-- end :: commonScript area-->
+
+</body>
+<!-- end :: body area -->
+</html>

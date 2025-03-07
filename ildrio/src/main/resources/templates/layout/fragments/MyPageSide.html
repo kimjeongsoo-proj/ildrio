@@ -1,0 +1,70 @@
+<th:block th:fragment="myPageSide">
+
+
+<div class="card post_author" style="margin-top: 0; padding: 0px 10px;">
+		<div class="card-body">
+			<div class="author_img">
+				<img src="assets/images/user1.jpg" alt="user1">
+			</div>
+			<div class="author_info">
+				<h6 class="author_name">
+					<a href="#" class="mb-1 d-inline-block">김정수 님</a>
+				</h6>
+				<p>jescom</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="icon_box icon_box_style1" style="border:1px solid #ccc; padding:10px;">
+		<div class="icon">
+			<i class="flaticon-money-back"></i>
+		</div>
+		<div class="icon_box_content">
+			<h5>적릡포인트 23,000</h5>
+		</div>
+	</div>
+
+	<div class="accordion" id="accordion_cate1">
+		<div class="accordion-item">
+			<h2 class="accordion-header">
+				<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panels_menu_1" aria-expanded="true" aria-controls="panels_menu_1">주문 정보</button>
+			</h2>
+			<div id="panels_menu_1" class="accordion-collapse collapse show">
+				<div class="accordion-body">
+					<ul class="list_brand" id="mypage_menu_order">
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="accordion" id="accordion_cate2">
+		<div class="accordion-item">
+			<h2 class="accordion-header">
+				<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panels_menu_2" aria-expanded="true" aria-controls="panels_menu_2">나의 정보</button>
+			</h2>
+			<div id="panels_menu_2" class="accordion-collapse collapse show">
+				<div class="accordion-body">
+					<ul class="list_brand" id="mypage_menu_member">
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="accordion" id="accordion_cate3">
+		<div class="accordion-item">
+			<h2 class="accordion-header">
+				<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panels_menu_3" aria-expanded="true" aria-controls="panels_menu_3">고객센터</button>
+			</h2>
+			<div id="panels_menu_3" class="accordion-collapse collapse show">
+				<div class="accordion-body">
+					<ul class="list_brand" id="mypage_menu_customer">
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</th:block>

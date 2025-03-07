@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+<head th:include="~{../layout/fragments/AdminLayoutCss.html :: AdminLayoutCss}">
+<title layout:title-pattern="$LAYOUT_TITLE : $CONTENT_TITLE">ILIKE</title>
+</head>
+<body class="pd_wrap">
+
+	<th:block th:include="~{../layout/fragments/AdminLayoutPopupHeader.html :: AdminLayoutPopupHeader}"></th:block>
+	<div style="position: fixed; top: 0; left: 0; right: 0; height: 47px;z-index:9999; background-color: #FF8000;padding:10px 5px;">
+		<div class="container" >
+		
+			<a onclick="history.back()" style="cursor:pointer;"><i class="linearicons-chevron-left" style="color:white;font-size:15pt;font-weight:bold;"></i></a>
+		    <span style="color:white;font-size:14pt;padding-left:30px;font-weight:bold;" id="span_top_title"></span>
+		</div>
+	</div>
+	<th:block layout:fragment="pageTitleEntry"></th:block>
+	<div class="section" style="">
+		<div class="container" style="padding-top: 30px;"><br>
+			<th:block layout:fragment="pageContentsEntry"></th:block>
+		</div>
+	</div>
+	<!--begin::Footer-->
+	<th:block th:include="~{../layout/fragments/AdminLayoutFooter.html :: AdminLayoutFooter}"></th:block>
+	<!--end::Footer-->
+	<th:block layout:fragment="customModal"></th:block>
+	<th:block th:include="~{../layout/fragments/AdminLayoutScript.html :: AdminLayoutScript}"></th:block>
+	<th:block layout:fragment="customScript">
+	</th:block>
+
+
+</body>
+</html>
+

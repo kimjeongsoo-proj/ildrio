@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+ 
+<mapper namespace="ilike.ildrio.mapper.sys.SysMenuMapper">    
+ 
+ 
+ 
+	<select id="getListCount_sysMenu"  parameterType="ilike.ildrio.model.sys.SysMenuModel"  resultType="java.lang.Integer"> 
+		SELECT FOUND_ROWS() totRow
+	</select> 
+	 
+	<select id="getList_sysMenu"  parameterType="ilike.ildrio.model.sys.SysMenuModel" resultType="ilike.ildrio.model.sys.SysMenuModel">  
+		<![CDATA[   
+		select	SQL_CALC_FOUND_ROWS  
+			 mnu.group_code  
+			, mnu.menu_code  
+			, mnu.menu_up_code  
+			, mnu.menu_level  
+			, mnu.name_path  
+			, mnu.menu_sort  
+			, mnu.menu_name  
+			, mnu.menu_icon  
+			, mnu.menu_code1  
+			, mnu.menu_code2  
+			, mnu.menu_code3  
+			, mnu.menu_code4  
+			, mnu.menu_code5  
+			, mnu.code_path  
+			, mnu.sort_path   
+			, mnu.link_url  
+			, mnu.default_code  
+			, mnu.target_type  
+			, mnu.use_yn  
+			, mnu.sub_count  
+			, mnu.help_html  
+			, mnu.insert_datetime  
+			, mnu.update_datetime  
+		from 	sys_menu mnu
+	 	]]> 
+		<where>   
+			and mnu.group_code  = #{groupCode}   
+			<if test="menuCode != null and menuCode != '' ">   
+				and mnu.code_path   like concat('%[',#{menuCode},']%')
+			</if>   
+			<if test="srhMenuLevel != null and srhMenuLevel != '' "> 
+				and mnu.menu_level = #{srhMenuLevel}
+			</if>
+			
+		</where>   
+		order by 	mnu.sort_path  
+		limit ${startRow} , ${pageRow}    
+	</select>  
+ 
+	<select id="subList_sysMenu"  parameterType="ilike.ildrio.model.sys.SysMenuModel" resultType="ilike.ildrio.model.sys.SysMenuModel">  
+		<if test=" trxnMode == 'list_group' ">   
+			<![CDATA[
+			select   mnu.group_code  
+			from 	 sys_menu mnu
+			group by mnu.group_code  
+			order by mnu.group_code
+	 		]]>
+		</if>
+		<if test=" trxnMode == 'list_root' ">   
+			<![CDATA[
+			select  	mnu.menu_code 
+						, mnu.menu_name 
+						, mnu.menu_sort   
+			from		sys_menu mnu
+			where		mnu.group_code  = #{groupCode}   
+			and 		mnu.menu_level  = '1'  
+			order by	mnu.menu_sort
+	 		]]>
+		</if>
+		<if test=" trxnMode == 'list_next' ">   
+			<![CDATA[  
+			select  	mnu.menu_code 
+						, mnu.menu_name
+						, mnu.menu_sort  
+			from		sys_menu mnu
+			where		mnu.group_code  = #{groupCode}   
+			and 		mnu.menu_up_code = #{menuCode}  
+			order by	mnu.menu_sort
+	 		]]>
+		</if>
+	</select>  
+ 
+	<select id="getMap_sysMenu"  parameterType="ilike.ildrio.model.sys.SysMenuModel" resultType="ilike.ildrio.model.sys.SysMenuModel">  
+		<choose>
+			<when test=" trxnMode == 'select_newCode'  ">
+				<![CDATA[
+				select	 concat( ifnull(#{menuCode},'')  , ifnull(lpad(SUBSTRING(max(mnu.menu_code), -2)+1,2,'0') ,'01'))  menu_new_code
+				        , ifnull(max(mnu.menu_sort)+1, 1 ) as  menu_sort
+				        , ifnull(mnu.menu_level,0) + 1 as menu_level
+				from 	sys_menu mnu
+				where 	mnu.group_code = #{groupCode}  
+				and 	if(ifnull(#{menuCode},'') = '', mnu.menu_level = '1' ,mnu.menu_up_code = #{menuCode} ) 
+				]]> 
+			</when>
+			<otherwise>
+				<![CDATA[   
+				select  
+					 mnu.group_code  
+					, mnu.menu_code  
+					, mnu.menu_up_code  
+					, mnu.menu_level  
+					, mnu.name_path  
+					, mnu.menu_sort  
+					, mnu.menu_name  
+					, mnu.menu_icon  
+					, mnu.menu_code1  
+					, mnu.menu_code2  
+					, mnu.menu_code3  
+					, mnu.menu_code4  
+					, mnu.menu_code5  
+					, mnu.code_path  
+					, mnu.sort_path  
+					, mnu.link_url  
+					, mnu.default_code  
+					, mnu.target_type  
+					, mnu.use_yn  
+					, mnu.help_html  
+					, mnu.insert_datetime  
+					, mnu.update_datetime  
+				from 	sys_menu mnu
+				where mnu.group_code = #{groupCode}  
+				and mnu.menu_code = #{menuCode}  
+			 	]]> 
+			</otherwise>
+		</choose>
+	</select>  
+ 
+	<select id="getCount_sysMenu"  parameterType="ilike.ildrio.model.sys.SysMenuModel"  resultType="java.lang.Integer">  
+		<![CDATA[   
+		select 	count(*) count  
+		from 	sys_menu  
+		where group_code = #{groupCode}  
+		and menu_code = #{menuCode}  
+	 	]]> 
+	</select>  
+ 
+	<update id="insert_sysMenu"  parameterType="ilike.ildrio.model.sys.SysMenuModel">  
+		<![CDATA[   
+		insert into sys_menu (  
+			 group_code   
+			, menu_code   
+			, menu_up_code   
+			, menu_level   
+			, name_path   
+			, menu_sort   
+			, menu_name   
+			, menu_icon   
+			, menu_code1   
+			, menu_code2   
+			, menu_code3   
+			, menu_code4   
+			, menu_code5   
+			, code_path   
+			, sort_path   
+			, link_url   
+			, default_code   
+			, target_type   
+			, use_yn   
+			, help_html   
+			, insert_datetime   
+			, update_datetime   
+	 	) values (  
+			 #{groupCode}  
+			, #{menuCode}  
+			, #{menuUpCode}  
+			, replace(#{menuLevel},',','')  
+			, #{namePath}  
+			, replace(#{menuSort},',','')  
+			, #{menuName}  
+			, #{menuIcon}  
+			, #{menuCode1}  
+			, #{menuCode2}  
+			, #{menuCode3}  
+			, #{menuCode4}  
+			, #{menuCode5}  
+			, #{codePath}  
+			, #{sortPath}  
+			, #{linkUrl}  
+			, #{defaultCode}  
+			, #{targetType}  
+			, #{useYn}  
+			, #{helpHtml}  
+			, now()  
+			, now()  
+	 	)   
+	 	]]> 
+	</update>  
+ 
+	<update id="update_sysMenu"  parameterType="ilike.ildrio.model.sys.SysMenuModel">  
+		<choose>   
+			<when test=" trxnMode == 'list_update' ">   
+				<![CDATA[   
+				update sys_menu set  
+					 menu_sort = replace(#{menuSort},',','')  
+					, menu_name = #{menuName}  
+					, menu_icon = #{menuIcon}  
+					, link_url = #{linkUrl}  
+					, default_code = #{defaultCode}  
+					, target_type = #{targetType}  
+					, use_yn = #{useYn}  
+					, update_datetime = now()  
+				where group_code = #{groupCode}  
+				and menu_code = #{menuCode}  
+	 			]]> 
+			</when>
+			<when test=" trxnMode == 'update_moveNext_for_insert' ">   
+				<![CDATA[   
+				update sys_menu set  
+					 menu_sort = ifnull(menu_sort,0) + 1
+					, update_datetime = now()  
+				where group_code = #{groupCode}  
+				and menu_up_code = #{menuUpCode}
+				and  menu_sort >= ${menuSort}
+	 			]]> 
+			</when>
+			<when test=" trxnMode == 'update_movePrev' ">   
+				<![CDATA[   
+				update sys_menu set  
+					 menu_sort = ifnull(menu_sort,0) + 1
+					, update_datetime = now()  
+				where group_code = #{groupCode}  
+				and menu_up_code = #{menuUpCode}
+				and  menu_sort >= ${menuSort}
+				and  menu_sort < ${nowSort}
+	 			]]> 
+			</when>
+			<when test=" trxnMode == 'update_moveNext' ">   
+				<![CDATA[   
+				update sys_menu set  
+					 menu_sort = ifnull(menu_sort,0) - 1
+					, update_datetime = now()  
+				where group_code = #{groupCode}  
+				and menu_up_code = #{menuUpCode}
+				and  menu_sort <=  ${menuSort}
+				and  menu_sort > ${nowSort}
+	 			]]> 
+			</when>
+			<when test=" trxnMode == 'update_sort' ">   
+				<![CDATA[   
+				update sys_menu set  
+					 menu_sort = #{menuSort}  
+					, update_datetime = now()  
+				where group_code = #{groupCode}  
+				and menu_up_code = #{menuUpCode}  
+	 			]]> 
+			</when>
+			<when test=" trxnMode == 'update_path' ">  
+				update	sys_menu mnu
+				join 		(
+								WITH RECURSIVE menu_path AS (
+								    -- 기본 카테고리 (루트 카테고리)부터 시작
+								    SELECT sm.group_code, sm.menu_code 
+									 		, ifnull((	select count(*) 
+											 				from  sys_menu x 
+															where  x.group_code = sm.group_code and x.menu_up_code = sm.menu_code
+															),0) sub_count
+									 		, CAST(sm.menu_name AS CHAR(255)) AS name_path
+									 		, CAST(concat('[',sm.menu_code,']') AS CHAR(255)) AS code_path
+									 		, CAST(lpad(sm.menu_sort,6,'0') AS CHAR(255)) AS sort_path
+								    FROM  sys_menu sm
+								    WHERE sm.menu_up_code  = '0'
+								    AND	 sm.group_code  = #{groupCode} 
+								    
+								    UNION ALL
+								    
+								    -- 자식 카테고리들을 포함하여 경로를 생성
+								    SELECT 	sm.group_code, sm.menu_code 
+									 		, ifnull((	select count(*) 
+											 				from  sys_menu x 
+															where  x.group_code = sm.group_code and x.menu_up_code = sm.menu_code
+															),0) sub_count
+									 		, CONCAT(cp.name_path, '>', sm.menu_name) AS name_path
+									 		, CONCAT(cp.code_path, '[', sm.menu_code,']') AS code_path
+									 		, CONCAT(cp.sort_path, '>', lpad(sm.menu_sort,6,'0')) AS sort_path
+								    FROM  sys_menu sm
+								    JOIN menu_path cp ON sm.menu_up_code = cp.menu_code
+								    where sm.group_code  = #{groupCode} 
+								)
+								SELECT * FROM menu_path
+							) sub
+							ON sub.group_code = mnu.group_code
+							and sub.menu_code = mnu.menu_code
+				SET	mnu.name_path = sub.name_path
+				, 		mnu.code_path = sub.code_path
+				, 		mnu.sort_path = sub.sort_path
+				, 		mnu.sub_count = sub.sub_count
+				where	sub.group_code  = #{groupCode} 	 
+			</when>   
+			<otherwise>   
+				<![CDATA[   
+				update sys_menu set  
+					 menu_up_code = #{menuUpCode}  
+					, menu_level = replace(#{menuLevel},',','')  
+					, name_path = #{namePath}  
+					, menu_sort = replace(#{menuSort},',','')  
+					, menu_name = #{menuName}  
+					, menu_icon = #{menuIcon}  
+					, link_url = #{linkUrl}  
+					, default_code = #{defaultCode}  
+					, target_type = #{targetType}  
+					, use_yn = #{useYn}  
+					, help_html = #{helpHtml}  
+					, update_datetime = now()  
+				where group_code = #{groupCode}  
+				and menu_code = #{menuCode}  
+	 			]]> 
+			</otherwise>   
+		</choose>   
+	</update>  
+ 
+	<update id="delete_sysMenu"  parameterType="ilike.ildrio.model.sys.SysMenuModel">  
+		<![CDATA[   
+		delete from sys_menu   
+		where group_code = #{groupCode}  
+		and menu_code = #{menuCode}  
+	 	]]> 
+	</update>  
+ 
+</mapper>

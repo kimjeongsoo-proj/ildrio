@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/html">
+<th:block th:fragment="commonPageNav">
+
+
+    <ul>
+        <li class="list_prev" th:if="*{hasPreviousPage == true}"
+            th:onclick="fn_movePage([[ ${#request.requestURI} ]], [[ ${params.makeQueryString(1)} ]])">
+            <a class="list_prev" href="javascript:void(0);"><img
+                    alt="" th:src="@{/resources/images/icon/page_prev_end.png}"></a>
+        </li>
+        <li class="list_prev" th:if="*{hasPreviousPage == true}"
+            th:onclick="fn_movePage([[ ${#request.requestURI} ]], [[ ${params.makeQueryString(1)} ]])">
+            <a class="list_prev" href="javascript:void(0);"><img
+                    alt="" th:src="@{/resources/images/icon/page_prev_2.png}"></a>
+        </li>
+
+        <li th:class="${pageNo == params.bno} ? 'active'"
+            th:each="pageNo : *{#numbers.sequence( firstPage, lastPage )}"><a
+                href="javascript:void(0)" th:onclick="fn_movePage([[ ${#request.requestURI} ]], [[ ${params.makeQueryString(pageNo)} ]])"
+                th:text="${pageNo}"></a>
+        </li>
+
+        <li th:if="*{hasNextPage == true}"
+            th:onclick="fn_movePage([[ ${#request.requestURI} ]], [[ ${params.makeQueryString(info.lastPage + 1)} ]])">
+            <a class="list_next" href="javascript:void(0);"><img
+                    alt="" th:src="@{/resources/images/icon/page_prev_end.png}"></a>
+        </li>
+        <li th:if="*{hasNextPage == true}"
+            th:onclick="fn_movePage([[ ${#request.requestURI} ]], [[ ${params.makeQueryString(info.totalPageCount)} ]])">
+            <a class="list_next" href="javascript:void(0);"><img
+                    alt="" th:src="@{/resources/images/icon/page_prev_2.png}"></a>
+        </li>
+
+    </ul>
+
+</th:block>
+</html>

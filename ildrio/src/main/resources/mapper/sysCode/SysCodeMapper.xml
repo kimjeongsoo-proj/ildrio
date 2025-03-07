@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ilike.ildrio.mapper.sys.SysCodeMapper">
+
+	<!-- ## 공통코드 :: SysCode ## -->
+
+	<select id="getList_sysCode" parameterType="ilike.ildrio.model.sys.SysCodeModel" resultType="ilike.ildrio.model.sys.SysCodeModel">
+		<![CDATA[ 
+			select 
+			  cd.code_id 
+			, cd.code_value 
+			, cd.code_text 
+			, cd.sort_order 
+			, cd.code_memo 
+			, cd.insert_datetime 
+			, cd.update_datetime 
+		from sys_code cd 
+		where 1 = 1
+		]]>
+		<if test="selectMode == 'rootCode' ">
+			and cd.code_id = 'ROOT'
+			<if test="srhCodeValue != null and  srhCodeValue != '' ">
+				and cd.code_value like concat('%', #{srhCodeValue},'%')
+			</if>
+		</if>
+		<if test="srhCodeId != null and  srhCodeId != '' ">
+			and cd.code_id = #{srhCodeId}
+		</if>
+		<if test="srhOrderBy != null and  srhOrderBy != '' ">
+			order by ${srhOrderBy} ${srhOrderAsc}
+		</if>
+	</select>
+
+
+	<select id="getMap_sysCode" parameterType="ilike.ildrio.model.sys.SysCodeModel" resultType="ilike.ildrio.model.sys.SysCodeModel">
+		<![CDATA[ 
+		select  
+			  cd.code_id 
+			, cd.code_value 
+			, cd.code_text 
+			, cd.sort_order 
+			, cd.code_memo 
+			, cd.insert_datetime 
+			, cd.update_datetime 
+		from sys_code cd 
+		where cd.code_id = #{codeId}
+		and   cd.code_value = #{codeValue}
+		]]>
+	</select>
+
+	<select id="getChkCnt_sysCode" parameterType="ilike.ildrio.model.sys.SysCodeModel" resultType="java.lang.Integer">
+		<![CDATA[ 
+ 		select count(*) as chkCnt  
+		from  sys_code  cd 
+      where  cd.code_id = #{codeId} 
+      and cd.code_value = #{codeValue} 
+		]]>
+	</select>
+
+
+	<update id="insert_sysCode" parameterType="ilike.ildrio.model.sys.SysCodeModel">
+		<![CDATA[ 
+		insert into sys_code  
+		(  
+			 code_id 
+			, code_value 
+			, code_text 
+			, sort_order 
+			, code_memo 
+			, insert_datetime 
+			, update_datetime 
+		) values (  
+			 trim(#{codeId}) 
+			, trim(#{codeValue}) 
+			, trim(#{codeText}) 
+			, #{sortOrder} 
+			, #{codeMemo} 
+			, now() 
+			, now() 
+		)  
+		on duplicate key update
+		 	code_text = trim(#{codeText}) 
+			, sort_order = #{sortOrder} 
+			, code_memo = #{codeMemo} 
+			, update_datetime = now()  
+		]]>
+	</update>
+
+
+	<update id="update_sysCode" parameterType="ilike.ildrio.model.sys.SysCodeModel">
+
+		<if test="trxnMode == 'update'">
+			<![CDATA[ 
+			update sys_code set  
+				 code_text = #{codeText} 
+				, sort_order = #{sortOrder} 
+				, code_memo = #{codeMemo} 
+				, update_datetime = now()  
+			where  code_id = #{codeId} 
+			and    code_value = #{codeValue} 
+			]]>
+		</if>
+
+		<if test="trxnMode == 'list_update'">
+			<![CDATA[ 
+			update sys_code set  
+				 code_text = #{codeText} 
+				, sort_order = #{sortOrder} 
+				, code_memo = #{codeMemo} 
+			where  code_id = #{codeId}
+			and    code_value = #{codeValue}
+			]]>
+		</if>
+	</update>
+
+
+	<update id="delete_sysCode" parameterType="ilike.ildrio.model.sys.SysCodeModel">
+		<![CDATA[ 
+		delete from sys_code   
+		where  code_id = #{codeId} 
+		and    code_value = #{codeValue} 
+ 		]]>
+	</update>
+</mapper> 

@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="ko" layout:decorator="~{../layout/AdminLayoutPopup.html}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+<th:block layout:fragment="customCss">
+
+</th:block>
+
+<th:block layout:fragment="pageTitleEntry">
+
+</th:block>
+
+<th:block layout:fragment="pageContentsEntry">
+	<div style="padding: 0px 30px 30px 30px;">
+		<div class="app-page-title">
+			<div class="page-title-wrapper">
+				<div class="page-title-heading">
+					<div class="page-title-icon">
+						<i class="linearicons-pencil5 text-success"></i>
+					</div>
+					<div>
+						<span class="span_page_title">
+							<b>채용정보 등록 & 수정 </b>
+						</span>
+						<div class="page-title-subheading">채용정보 등록 & 수정</div>
+					</div>
+				</div>
+				<div class="page-title-actions"></div>
+			</div>
+		</div>
+		<form name="inputForm" id="inputForm" method="post">
+			<input type="hidden" name="trxnMode" id="trxnMode">
+			<a name="bookmark_1" id="bookmark_1"></a>
+			<div class="card">
+				<div class="card-header">
+					<h5>
+						<b> 채용정보</b>
+					</h5>
+				</div>
+				<div clase="card-body" style="padding: 20px;">
+					<div class="mb-3 row">
+						<label for="jobNo" class="col-sm-2 col-form-label text-end"> 채용번호</label>
+						<div class="col-sm-10">
+							<input type="text" name="jobNo" id="jobNo" th:value="${rsModel.jobNo}" class="form-control" maxlength="80">
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="customerNo" class="col-sm-2 col-form-label text-end"> 거래처번호</label>
+						<div class="col-sm-10">
+							<input type="text" name="customerNo" id="customerNo" th:value="${rsModel.customerNo}" class="form-control" maxlength="200">
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="companyNo" class="col-sm-2 col-form-label text-end"> 회사번호</label>
+						<div class="col-sm-10">
+							<input type="text" name="companyNo" id="companyNo" th:value="${rsModel.companyNo}" class="form-control" maxlength="200">
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="jobTitle" class="col-sm-2 col-form-label text-end"> 채용제목</label>
+						<div class="col-sm-10">
+							<input type="text" name="jobTitle" id="jobTitle" th:value="${rsModel.jobTitle}" class="form-control" maxlength="200">
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="jobStatusCode" class="col-sm-2 col-form-label text-end"> 채용상태코드</label>
+						<div class="col-sm-10">
+							<select name="jobStatusCode" id="jobStatusCode" class="form-select form-control" th:utext="${@sysCodeUtil.getSysCodeValue('job_status_code','select',rsModel.jobStatusCode)}">
+							</select>
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="taxType" class="col-sm-2 col-form-label text-end"> 세금유형</label>
+						<div class="col-sm-10">
+							<select name="taxType" id="taxType" class="form-select form-control" th:utext="${@sysCodeUtil.getSysCodeValue('tax_type','select',rsModel.taxType)}">
+							</select>
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="workerCount" class="col-sm-2 col-form-label text-end"> 근로자수</label>
+						<div class="col-sm-10">
+							<input type="text" name="workerCount" id="workerCount" th:value="${rsModel.workerCount}" class="form-control" maxlength="200">
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="genderType" class="col-sm-2 col-form-label text-end"> 성별유형</label>
+						<div class="col-sm-10">
+							<select name="genderType" id="genderType" class="form-select form-control" th:utext="${@sysCodeUtil.getSysCodeValue('gender_type','select',rsModel.genderType)}">
+							</select>
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="minAge" class="col-sm-2 col-form-label text-end"> 최소연령 </label>
+						<div class="col-sm-10">
+							<select name="minAge" id="minAge" class="form-select form-control" th:utext="${@sysCodeUtil.getSysCodeValue('age','select',rsModel.minAge)}">
+							</select>
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="maxAge" class="col-sm-2 col-form-label text-end"> 최대연령</label>
+						<div class="col-sm-10">
+							<select name="maxAge" id="maxAge" class="form-select form-control" th:utext="${@sysCodeUtil.getSysCodeValue('age','select',rsModel.maxAge)}">
+							</select>
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="dailySalaryInfo" class="col-sm-2 col-form-label text-end"> 일급여정보</label>
+						<div class="col-sm-10">
+							<input type="text" name="dailySalaryInfo" id="dailySalaryInfo" th:value="${rsModel.dailySalaryInfo}" class="form-control" maxlength="200">
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="holidayNote" class="col-sm-2 col-form-label text-end"> 휴일참고사항</label>
+						<div class="col-sm-10">
+							<input type="text" name="holidayNote" id="holidayNote" th:value="${rsModel.holidayNote}" class="form-control" maxlength="200">
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="mealProvideYn" class="col-sm-2 col-form-label text-end"> 식사제공유형</label>
+						<div class="col-sm-10">
+							<select name="mealProvideYn" id="mealProvideYn" class="form-select form-control" th:utext="${@sysCodeUtil.getSysCodeValue('meal_provide_yn','select',rsModel.mealProvideYn)}">
+							</select>
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="workTermType" class="col-sm-2 col-form-label text-end"> 근무기간유형</label>
+						<div class="col-sm-10">
+							<select name="workTermType" id="workTermType" class="form-select form-control" th:utext="${@sysCodeUtil.getSysCodeValue('jif	work_term_type','select',rsModel.workTermType)}">
+							</select>
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="workDayCount" class="col-sm-2 col-form-label text-end"> 근무일수</label>
+						<div class="col-sm-10">
+							<input type="text" name="workDayCount" id="workDayCount" th:value="${#numbers.formatDecimal(rsModel.workDayCount,1,'COMMA',0,'POINT')}" class="form-control moneyFormat" onblur="cfn_chk_Money(this.id)">
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="workStartDate" class="col-sm-2 col-form-label text-end"> 근무시작일자</label>
+						<div class="col-sm-10">
+							<input type="text" name="workStartDate" id="workStartDate" th:value="${rsModel.workStartDate}" class="form-control  datePickerInput" maxlength="200">
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="workEndDate" class="col-sm-2 col-form-label text-end"> 근무종료일자</label>
+						<div class="col-sm-10">
+							<input type="text" name="workEndDate" id="workEndDate" th:value="${rsModel.workEndDate}" class="form-control  datePickerInput" maxlength="200">
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="workStartTime" class="col-sm-2 col-form-label text-end"> 근무시작시간</label>
+						<div class="col-sm-10">
+							<select name="workStartTime" id="workStartTime" class="form-select form-control" th:utext="${@sysCodeUtil.getSysCodeValue('hour','select',rsModel.workStartTime)}">
+							</select>
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="workEndTime" class="col-sm-2 col-form-label text-end"> 근무종료시간</label>
+						<div class="col-sm-10">
+							<select name="workEndTime" id="workEndTime" class="form-select form-control" th:utext="${@sysCodeUtil.getSysCodeValue('hour','select',rsModel.workEndTime)}">
+							</select>
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="workplaceCompanyName" class="col-sm-2 col-form-label text-end"> 근무지회사명</label>
+						<div class="col-sm-10">
+							<input type="text" name="workplaceCompanyName" id="workplaceCompanyName" th:value="${rsModel.workplaceCompanyName}" class="form-control" maxlength="200">
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="workplacePostalNo" class="col-sm-2 col-form-label text-end"> 근무지우편번호</label>
+						<div class="col-sm-10">
+							<!-- 주소  -->
+							<div id="wrap" style="display: none; border: 1px solid; width: 100%; height: 300px; margin: 5px 0; position: relative">
+								<img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor: pointer; position: absolute; right: 0px; top: -1px; z-index: 1" onclick="foldDaumPostcode()" alt="접기 버튼">
+							</div>
+							<div class="input-group">
+								<div class="input-group-append">
+									<span class="input-group-text" onclick="fn_postAddr('workplacePostalNo', 'workplacePostalAddress')" style="background-color: #c0c0c0; cursor: pointer;">우편번호</span>
+								</div>
+								<input class="form-control" type="text" id="workplacePostalNo" name="workplacePostalNo" th:value="${rsModel.workplacePostalNo}" readonly>
+							</div>
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="workplacePostalAddress" class="col-sm-2 col-form-label text-end"> 근무지우편주소</label>
+						<div class="col-sm-10">
+							<input type="text" name="workplacePostalAddress" id="workplacePostalAddress" th:value="${rsModel.workplacePostalAddress}" class="form-control" maxlength="200">
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="workplaceDetailAddress" class="col-sm-2 col-form-label text-end"> 근무지상세주소</label>
+						<div class="col-sm-10">
+							<input type="text" name="workplaceDetailAddress" id="workplaceDetailAddress" th:value="${rsModel.workplaceDetailAddress}" class="form-control" maxlength="200">
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="workplaceNote" class="col-sm-2 col-form-label text-end"> 근무지참고사항</label>
+						<div class="col-sm-10">
+							<input type="text" name="workplaceNote" id="workplaceNote" th:value="${rsModel.workplaceNote}" class="form-control" maxlength="200">
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="workManagerName" class="col-sm-2 col-form-label text-end"> 근무담당자명</label>
+						<div class="col-sm-10">
+							<input type="text" name="workManagerName" id="workManagerName" th:value="${rsModel.workManagerName}" class="form-control" maxlength="200">
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="workManagerMobileNo" class="col-sm-2 col-form-label text-end"> 근무담당자핸드폰번호</label>
+						<div class="col-sm-10">
+							<input type="text" name="workManagerMobileNo" id="workManagerMobileNo" th:value="${rsModel.workManagerMobileNo}" class="form-control" maxlength="200">
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="workQualificationDetail" class="col-sm-2 col-form-label text-end"> 근무자격상세</label>
+						<div class="col-sm-10">
+							<input type="text" name="workQualificationDetail" id="workQualificationDetail" th:value="${rsModel.workQualificationDetail}" class="form-control" maxlength="200">
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="workWelfareDetail" class="col-sm-2 col-form-label text-end"> 근무복지상세</label>
+						<div class="col-sm-10">
+							<input type="text" name="workWelfareDetail" id="workWelfareDetail" th:value="${rsModel.workWelfareDetail}" class="form-control" maxlength="200">
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="onstructionCompanyNo" class="col-sm-2 col-form-label text-end"> 건설자번호</label>
+						<div class="col-sm-10">
+							<input type="text" name="onstructionCompanyNo" id="onstructionCompanyNo" th:value="${rsModel.onstructionCompanyNo}" class="form-control" maxlength="200">
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="jobDetail" class="col-sm-2 col-form-label text-end"> 채용상세</label>
+						<div class="col-sm-10">
+							<input type="text" name="jobDetail" id="jobDetail" th:value="${rsModel.jobDetail}" class="form-control" maxlength="65535">
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="requestDatetime" class="col-sm-2 col-form-label text-end"> 요청일시</label>
+						<div class="col-sm-10">
+							<input type="text" name="requestDatetime" id="requestDatetime" th:value="${rsModel.requestDatetime}" class="form-control" maxlength="100">
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="postingStartDate" class="col-sm-2 col-form-label text-end"> 공고시작일자</label>
+						<div class="col-sm-10">
+							<input type="text" name="postingStartDate" id="postingStartDate" th:value="${rsModel.postingStartDate}" class="form-control  datePickerInput" maxlength="200">
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="postingStatus" class="col-sm-2 col-form-label text-end"> 공고상태</label>
+						<div class="col-sm-10">
+							<select name="postingStatus" id="postingStatus" class="form-select form-control" th:utext="${@sysCodeUtil.getSysCodeValue('posting_status','select',rsModel.postingStatus)}">
+							</select>
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="postingMemo" class="col-sm-2 col-form-label text-end"> 공고메모</label>
+						<div class="col-sm-10">
+							<textarea name="postingMemo" id="postingMemo" class="form-control" style="height: 60px;" th:text="${rsModel.postingMemo}" maxlength="200"></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+<br>
+		<div class="card">
+			<div class="card-header">
+				<h5>
+					<b> 채용인력</b>
+				</h5>
+			</div>
+			<div clase="card-body" style="padding: 20px;">
+				<a name="gridTop" id="gridTop"></a>
+				<div class="row" style="line-height: 30px; margin-top: 10px;">
+					<div class="col-sm-4 col-md-4">
+						<span id="span_data_count"></span>
+					</div>
+					<div class="col-sm-8 col-md-8  text-end">
+
+						<div class="tab-content">
+							<div class="tab-pane text-end active" id="tab-eg5-0" role="tabpanel">
+								<a class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#popupPageModalResize" onclick="pfn_modalPop('popMargin',10, 10,'채용인력 등록','/jobManpower/jobManpowerReg');">새로작성</a>
+								<span class="btn btn-outline-success" onclick="fn_list_trxn('list_update')">선택저장 </span>
+								<span class="btn btn-outline-danger" onclick="fn_list_trxn('list_delete')">선택삭제</span>
+								<span class="btn btn-outline-primary" onclick="gfn_gridHeightFit()" style="padding: 6px 10px; text-align: center;" title="작업영역 위치 맞추기">
+									<i class="linearicons-line-spacing" id="grid_height" style="font-size: 12pt;"></i>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<form name="inputListForm" id="inputListForm" method="post" class="searchArea" onsubmit="return false;">
+					<input type="hidden" name="trxnMode" id="trxnMode">
+					<table id="LeftDataTable" class="table_list_grid2" style="width: 100%; table-layout: fixed;">
+						<thead id="thead_left_title">
+						</thead>
+						<tbody id="tbody_left_list">
+						</tbody>
+					</table>
+
+				</form>
+
+			</div>
+		</div>
+	</div>
+
+</th:block>
+<th:block layout:fragment="customModal">
+</th:block>
+<th:block layout:fragment="customScript">
+	<!-- -------------------------------------------- -->
+	<script type="text/javascript">
+		$(document).ready(function() {
+
+			fn_jobManpower_title();
+			fn_jobManpower_list();
+
+			fn_modalButton();
+		});
+
+		// 버튼 처리    
+		function fn_modalButton() {
+			var src = '';
+			src += '<a onclick="modal_resize_iframe.cfn_bookmark(\'bookmark_1\');" class="btn btn-outline-secondary">북마크 1</a> ';
+
+			if ("[[${rsModel.trxnMode}]]" == "insert") {
+				src += '<a onclick="modal_resize_iframe.fn_trxn(\'insert\');"  class="btn btn-primary">등록</a> ';
+			} else {
+				src += '<a onclick="modal_resize_iframe.fn_trxn(\'update\');"  class="btn btn-primary">수정</a> ';
+				src += '<a onclick="modal_resize_iframe.fn_trxn(\'delete\');"  class="btn btn-danger" id="modal_close">삭제</a> ';
+			}
+			src += '<a  class="btn btn-secondary" data-bs-dismiss="modal">닫기</a>';
+			$("#modal_resize_button", parent.document).html(src);
+		}
+
+		// 등록 처리   
+		function fn_trxn(vTrxnMode) {
+
+			if (vTrxnMode == "delete") {
+				if (confirm("자료를 삭제 하시갰습니까?") == false) {
+					return false;
+				}
+			}
+			$("#trxnMode").val(vTrxnMode);
+
+			if (fn_chkForm() == false) {
+				return false;
+			}
+
+			$.ajax({
+				url : '/jobInfo/jobInfoTrxn',
+				type : 'post',
+				data : $(document.inputForm).serialize(),
+				dataType : 'json',
+				async : true,
+				success : function(data) {
+					if (data.rsMsg == "FAIL") {
+						alert("실패하였습니다.");
+					} else {
+						if (data.rsMsg == "DUPLICATE") {
+							alert("이미 등록된 자료가 있습니다..");
+						} else {
+							alert(data.rsMsg);
+							parent.fn_jobInfo_list();
+							if (vTrxnMode != "update") {
+								parent.pfn_modalClose();
+							}
+						}
+					}
+				}
+			});
+
+		}
+
+		// 입력 필수 항목 체크   
+		function fn_chkForm() {
+
+			if (cfn_isValid_Currency("근무일수", $("#workDayCount").val(), 1, 20) == false) {
+				$("#workDayCount").focus();
+				return false;
+			}
+			return true;
+		}
+
+		//그리드 제목
+		function fn_jobManpower_title() {
+
+			//thead_left_title  
+			$("#thead_left_title").empty();
+			var src = "";
+			src += '<tr style="height: 40px;text-align:center;"> ';
+			src += '	<th style="width: 30px;"> ';
+			src += '		<input type="checkbox" id="chkbAll" onclick="gfn_chkAll()"> ';
+			src += '	</th> ';
+			src += '	<th style="width: 40px;">';
+			src += '		<span>보기</span> ';
+			src += '	</th> ';
+			src += '	<th style="width:120px;"> ';
+			src += '		<span>구인번호</span> ';
+			src += '	</th> ';
+			src += '	<th style="width:120px;"> ';
+			src += '		<span>직종코드</span> ';
+			src += '	</th> ';
+			src += '	<th style="width:120px;"> ';
+			src += '		<span>경력코드</span> ';
+			src += '	</th> ';
+			src += '	<th style="width:120px;"> ';
+			src += '		<span>인원수</span> ';
+			src += '	</th> ';
+			src += '	<th style="width:120px;"> ';
+			src += '		<span>일일단가</span> ';
+			src += '	</th> ';
+			src += '	<th style="width:120px;"> ';
+			src += '		<span>요청임금</span> ';
+			src += '	</th> ';
+			src += '	<th style="width:120px;"> ';
+			src += '		<span>수수로액</span> ';
+			src += '	</th> ';
+			src += '	<th style="width:120px;"> ';
+			src += '		<span>지불임금</span> ';
+			src += '	</th> ';
+			src += '</tr> ';
+
+			$("#thead_left_title").append(src);
+		}
+		function fn_jobManpower_list() {
+
+			var formData = "jobNo=";
+
+			$.ajax({
+				url : '/jobManpower/jobManpowerListAjax',
+				type : 'post',
+				data : formData,
+				dataType : 'json',
+				async : false,
+				success : function(data) {
+					if (window.innerWidth > 1000) {
+						fn_jobManpower_disp(data);
+					}
+					$("#detailSearchModal").modal('hide');
+				},
+				beforeSend : function() {
+					gfn_process_view("조회중입니다. 잠시만 기다려 주세요...");
+				},
+				complete : function() {
+					gfn_process_hide();
+				},
+				error : function(jqXHR, textStatus, errorThrown) {
+					alert("조회에실패하였습니다.");
+				}
+			});
+
+		}
+
+		function fn_jobManpower_disp(data) {
+			$("#tbody_left_list").empty();
+			var list = data.rsList;
+			var src = "";
+			var k = 0;
+			for (var i = 0; i < list.length; i++) {
+
+				src += '<tr style="height:30px;text-align:center;"  onclick="cfn_trSelectBorder(\'' + (k + 1) + '\')" id="ltr_' + k + '"> ';
+				src += '  <td style="width:30px;" align="center"> ';
+				src += '    <input type="checkbox" name="chkb" id="chkb" onclick="gfn_chkb(' + k + ')"> ';
+				src += '    <input type="hidden" name="chkbFlag" id="chkbFlag" value="false"> ';
+				src += '    <input type="hidden" name="jobNo" id="jobNo" value="' + cfnNull(list[i].jobNo) + '">  ';
+				src += '    <input type="hidden" name="techCode" id="techCode" value="' + cfnNull(list[i].techCode) + '">  ';
+				src += '    <input type="hidden" name="careerCode" id="careerCode" value="' + cfnNull(list[i].careerCode) + '">  ';
+				src += '  </td> ';
+				src += '  <td  style="width:60px;"> ';
+				src += '    <a data-bs-toggle="modal" data-bs-target="#popupPageModalResize"  onclick="pfn_modalPop(\'popMargin\', 50, 50, \'수정\' ,\'/jobManpower/jobManpowerReg?jobNo=' + cfnNull(list[i].jobNo) + '&techCode=' + cfnNull(list[i].techCode) + '&careerCode=' + cfnNull(list[i].careerCode) + '\');"  style="cursor:pointer;"> ';
+				src += '    	<img src="blank" style="max-width:55px; max-height:25px;">';
+				src += '    </a>';
+				src += '  </td> ';
+				src += '  <td style="width:120px;text-align:center;"> ';
+				src += '    ' + gfn_valueText('jobNo', cfnNull(list[i].jobNo), 'string', 'width:95%;', i) + '';
+				src += '  </td>';
+				src += '  <td style="width:120px;text-align:center;"> ';
+				src += '    ' + gfn_valueText('techCode', cfnNull(list[i].techCode), 'string', 'width:95%;', i) + '';
+				src += '  </td>';
+				src += '  <td style="width:120px;text-align:center;"> ';
+				src += '    ' + gfn_valueText('careerCode', cfnNull(list[i].careerCode), 'string', 'width:95%;', i) + '';
+				src += '  </td>';
+				src += '  <td style="width:120px;text-align:center;"> ';
+				src += '    ' + gfn_valueText('manCount', cfnNull(list[i].manCount), 'money', 'width:95%;', i) + '';
+				src += '  </td>';
+				src += '  <td style="width:120px;text-align:center;"> ';
+				src += '    ' + gfn_valueText('dailyWage', cfnNull(list[i].dailyWage), 'money', 'width:95%;', i) + '';
+				src += '  </td>';
+				src += '  <td style="width:120px;text-align:center;"> ';
+				src += '    ' + gfn_valueText('requestWage', cfnNull(list[i].requestWage), 'money', 'width:95%;', i) + '';
+				src += '  </td>';
+				src += '  <td style="width:120px;text-align:center;"> ';
+				src += '    ' + gfn_valueText('comissionFee', cfnNull(list[i].comissionFee), 'money', 'width:95%;', i) + '';
+				src += '  </td>';
+				src += '  <td style="width:120px;text-align:center;"> ';
+				src += '    ' + gfn_valueText('payWage', cfnNull(list[i].payWage), 'money', 'width:95%;', i) + '';
+				src += '  </td>';
+				src += '  <td style="width:1000px;"></td> ';
+				src += '</tr> ';
+				k++;
+			}
+			$("#tbody_left_list").append(src);
+
+		}
+		function fn_list_trxn(vTrxnMode) {
+			if (vTrxnMode == "list_delete") {
+				if (confirm("선택한 자료를 삭제 하시갰습니까?") == false) {
+					return false;
+				}
+			}
+			$("#inputListForm #trxnMode").val(vTrxnMode);
+			$.ajax({
+				url : '/jobManpower/jobManpowerListTrxn',
+				type : 'post',
+				data : $(document.inputListForm).serialize(),
+				dataType : 'json',
+				success : function(data) {
+					if (data.rsMsg == "FAIL") {
+						alert("실패하였습니다.");
+					} else {
+
+						alert(data.rsMsg);
+
+						fn_jobManpower_list();
+					}
+				},
+				error : function(jqXHR, textStatus, errorThrown) {
+					alert("실패하였습니다.");
+				}
+			});
+		}
+	</script>
+</th:block>
