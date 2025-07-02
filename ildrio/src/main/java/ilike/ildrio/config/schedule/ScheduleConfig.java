@@ -30,10 +30,10 @@ public class ScheduleConfig {
 		String timeStamp = StringUtil.getNow("timeStamp");
 
 		String FileRootPath = "C:/LOCAL_FILE/DnFile/goodsExcel";
-		File desti = new File("/image/IMG_SVR/DnFile/goodsExcel");
+		File desti = new File("/home/ilikekim/UPLOADS/DnFile/goodsExcel");
 		if (desti.exists()) {
 			
-			//FileRootPath = "/image/IMG_SVR/DnFile/goodsExcel";
+			//FileRootPath = "/home/ilikekim/UPLOADS/DnFile/goodsExcel";
 			//apiGoodsExcel_comsmart.proc_comsExcelDn();
 			//goodsImageDownload.proc_supplyGoods_image("lightcom");
 		}

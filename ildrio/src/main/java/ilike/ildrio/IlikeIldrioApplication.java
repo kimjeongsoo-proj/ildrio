@@ -1,4 +1,4 @@
-package ilike.ildrio;
+package ilike.ildrio; 
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -10,7 +10,6 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-
 @SpringBootApplication
 @EnableAspectJAutoProxy
 @MapperScan(basePackages = "ilike.ildrio.mapper")
@@ -20,13 +19,13 @@ public class IlikeIldrioApplication extends SpringBootServletInitializer {
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
 		return builder.sources(IlikeIldrioApplication.class);
-	} 
-	
-	//기본
+	}
+
+	// 기본
 	public static void main(String[] args) {
 		SpringApplication.run(IlikeIldrioApplication.class, args);
 	}
-	
+
 	@Bean
 	public WebMvcConfigurer adminCorsConfigurer() {
 		return new WebMvcConfigurer() {
@@ -36,5 +35,4 @@ public class IlikeIldrioApplication extends SpringBootServletInitializer {
 			}
 		};
 	}
-	
 }

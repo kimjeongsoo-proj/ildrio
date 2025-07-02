@@ -11,26 +11,49 @@
 	 
 	<select id="getList_jobManpower"  parameterType="ilike.ildrio.model.job.JobManpowerModel" resultType="ilike.ildrio.model.job.JobManpowerModel">  
 		<![CDATA[   
-		select	SQL_CALC_FOUND_ROWS  
-			 jmm.job_no  
+		select	SQL_CALC_FOUND_ROWS 
+		      jmm.manpower_no 
+			, jmm.job_no  
 			, jmm.tech_code  
 			, jmm.career_code  
 			, jmm.man_count  
-			, jmm.daily_wage  
-			, jmm.request_wage  
-			, jmm.comission_fee  
-			, jmm.pay_wage  
+			, format(jmm.daily_wage,0) as  daily_wage 
+			, format(jmm.request_wage,0) as  request_wage
+			, format(jmm.commission_fee,0) as commission_fee
+			, format(jmm.pay_wage,0) as pay_wage
+			, ifnull((
+				select count(*) 
+				from job_apply x 
+				where x.manpower_no =  jmm.manpower_no 
+				),0) as apply_count 
+			, ifnull((
+				select count(*) 
+				from job_employment x 
+				where x.manpower_no =  jmm.manpower_no 
+				),0) as employment_count 
+			, jap.job_apply_no	
+			, jap.apply_state_code
+			, jap.apply_datetime
+			
+			
+			, case when ifnull(jmm.man_count,1) <= ifnull((
+													select count(*) 
+													from job_employment x 
+													where x.manpower_no =  jmm.manpower_no 
+													),0)  then 'close'
+				   when concat( ifnull(job.apply_limit_date, concat(DATE_SUB(job.work_date, INTERVAL 1 DAY) )),' ',
+					 				 ifnull(job.apply_limit_hour, '20' ),':00' )  <= DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i')
+									  then 'close'
+					else 'open'	end as apply_state			  
 		from  job_manpower jmm
+		join  job_info job on job.job_no = jmm.job_no
+		left join job_apply  jap 
+				on jap.manpower_no =  jmm.manpower_no 
+				and jap.member_id = #{memberId}
+		where jmm.job_no  = #{jobNo}
+		order by jmm.manpower_no  
 	 	]]> 
-		<where>   
-			<if test="jobNo != null and jobNo != '' ">   
-				and jmm.job_no  like concat('%',#{jobNo},'%')   
-			</if>   
-		</where>   
-		<if test="srhOrderBy != null and  srhOrderBy != '' ">   
-			order by 	${srhOrderBy} ${srhOrderAsc}   
-		</if>   
-		limit ${startRow} , ${pageRow}    
+		
 	</select>  
  
 	<select id="subList_jobManpower"  parameterType="ilike.ildrio.model.job.JobManpowerModel" resultType="ilike.ildrio.model.job.JobManpowerModel">  
@@ -39,18 +62,17 @@
 	<select id="getMap_jobManpower"  parameterType="ilike.ildrio.model.job.JobManpowerModel" resultType="ilike.ildrio.model.job.JobManpowerModel">  
 		<![CDATA[   
 		select  
-			 jmm.job_no  
+			jmm.manpower_no 
+			, jmm.job_no  
 			, jmm.tech_code  
 			, jmm.career_code  
 			, jmm.man_count  
 			, jmm.daily_wage  
 			, jmm.request_wage  
-			, jmm.comission_fee  
+			, jmm.commission_fee  
 			, jmm.pay_wage  
 		from  job_manpower jmm
-		where jmm.job_no = #{jobNo}  
-		and jmm.tech_code = #{techCode}  
-		and jmm.career_code = #{careerCode}  
+		where jmm.manpower_no  = #{manpowerNo}  
 	 	]]> 
 	</select>  
  
@@ -72,19 +94,13 @@
 			, career_code   
 			, man_count   
 			, daily_wage   
-			, request_wage   
-			, comission_fee   
-			, pay_wage   
 	 	) values (  
 			 #{jobNo}  
 			, #{techCode}  
 			, #{careerCode}  
 			, replace(#{manCount},',','')  
 			, replace(#{dailyWage},',','')  
-			, replace(#{requestWage},',','')  
-			, replace(#{comissionFee},',','')  
-			, replace(#{payWage},',','')  
-	 	)   
+	 	)  
 	 	]]> 
 	</update>  
  
@@ -104,7 +120,7 @@
 					 man_count = replace(#{manCount},',','')  
 					, daily_wage = replace(#{dailyWage},',','')  
 					, request_wage = replace(#{requestWage},',','')  
-					, comission_fee = replace(#{comissionFee},',','')  
+					, commission_fee = replace(#{commissionFee},',','')  
 					, pay_wage = replace(#{payWage},',','')  
 				where job_no = #{jobNo}  
 				and tech_code = #{techCode}  
@@ -117,9 +133,27 @@
 	<update id="delete_jobManpower"  parameterType="ilike.ildrio.model.job.JobManpowerModel">  
 		<![CDATA[   
 		delete from job_manpower   
-		where job_no = #{jobNo}  
-		and tech_code = #{techCode}  
-		and career_code = #{careerCode}  
+		where manpower_no  = #{manpowerNo}  
+	 	]]> 
+	</update>  
+	
+	<update id="insert_copy_jobManpower"  parameterType="ilike.ildrio.model.job.JobManpowerModel">  
+		<![CDATA[   
+		insert into job_manpower (  
+			 job_no   
+			, tech_code   
+			, career_code   
+			, man_count   
+			, daily_wage   
+	 	)  
+	 	select
+	 		  #{newJobNo}  
+			, tech_code   
+			, career_code   
+			, man_count   
+			, daily_wage   
+	 	from 	job_manpower
+	 	where	job_no = #{jobNo}
 	 	]]> 
 	</update>  
  

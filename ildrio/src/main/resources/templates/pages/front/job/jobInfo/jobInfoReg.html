@@ -43,15 +43,15 @@
 						</div>
 					</div>
 					<div class="mb-3 row">
-						<label for="customerNo" class="col-sm-2 col-form-label text-end"> 거래처번호</label>
+						<label for="memberId" class="col-sm-2 col-form-label text-end"> 거래처번호</label>
 						<div class="col-sm-10">
-							<input type="text" name="customerNo" id="customerNo" th:value="${rsModel.customerNo}" class="form-control" maxlength="200">
+							<input type="text" name="memberId" id="memberId" th:value="${rsModel.memberId}" class="form-control" maxlength="200">
 						</div>
 					</div>
 					<div class="mb-3 row">
-						<label for="companyNo" class="col-sm-2 col-form-label text-end"> 회사번호</label>
+						<label for="companyId" class="col-sm-2 col-form-label text-end"> 회사번호</label>
 						<div class="col-sm-10">
-							<input type="text" name="companyNo" id="companyNo" th:value="${rsModel.companyNo}" class="form-control" maxlength="200">
+							<input type="text" name="companyId" id="companyId" th:value="${rsModel.companyId}" class="form-control" maxlength="200">
 						</div>
 					</div>
 					<div class="mb-3 row">
@@ -114,9 +114,9 @@
 						</div>
 					</div>
 					<div class="mb-3 row">
-						<label for="mealProvideYn" class="col-sm-2 col-form-label text-end"> 식사제공유형</label>
+						<label for="ealProvideType" class="col-sm-2 col-form-label text-end"> 식사제공유형</label>
 						<div class="col-sm-10">
-							<select name="mealProvideYn" id="mealProvideYn" class="form-select form-control" th:utext="${@sysCodeUtil.getSysCodeValue('meal_provide_yn','select',rsModel.mealProvideYn)}">
+							<select name="ealProvideType" id="ealProvideType" class="form-select form-control" th:utext="${@sysCodeUtil.getSysCodeValue('meal_provide_type','select',rsModel.ealProvideType)}">
 							</select>
 						</div>
 					</div>
@@ -223,9 +223,9 @@
 						</div>
 					</div>
 					<div class="mb-3 row">
-						<label for="onstructionCompanyNo" class="col-sm-2 col-form-label text-end"> 건설자번호</label>
+						<label for="onstructionCompanyId" class="col-sm-2 col-form-label text-end"> 건설자번호</label>
 						<div class="col-sm-10">
-							<input type="text" name="onstructionCompanyNo" id="onstructionCompanyNo" th:value="${rsModel.onstructionCompanyNo}" class="form-control" maxlength="200">
+							<input type="text" name="onstructionCompanyId" id="onstructionCompanyId" th:value="${rsModel.onstructionCompanyId}" class="form-control" maxlength="200">
 						</div>
 					</div>
 					<div class="mb-3 row">
@@ -491,7 +491,7 @@
 				src += '    ' + gfn_valueText('requestWage', cfnNull(list[i].requestWage), 'money', 'width:95%;', i) + '';
 				src += '  </td>';
 				src += '  <td style="width:120px;text-align:center;"> ';
-				src += '    ' + gfn_valueText('comissionFee', cfnNull(list[i].comissionFee), 'money', 'width:95%;', i) + '';
+				src += '    ' + gfn_valueText('commissionFee', cfnNull(list[i].commissionFee), 'money', 'width:95%;', i) + '';
 				src += '  </td>';
 				src += '  <td style="width:120px;text-align:center;"> ';
 				src += '    ' + gfn_valueText('payWage', cfnNull(list[i].payWage), 'money', 'width:95%;', i) + '';

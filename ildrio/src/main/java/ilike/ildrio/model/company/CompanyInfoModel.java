@@ -11,15 +11,14 @@ import ilike.ildrio.model.common.CommModel;
  public class CompanyInfoModel extends CommModel {   
  
  
-	private String companyNo;  
 	private String companyId;  
-	private String companyPassword;  
-	private String compayName;  
+	private String companyName;  
 	private String businessNo;  
 	private String ceoName;  
 	private String postalNo;  
 	private String postalAddress;  
 	private String detailAddress;  
+	private String siteId;  
 	private String insertDatetime;  
 	private String updateDatetime;  
  

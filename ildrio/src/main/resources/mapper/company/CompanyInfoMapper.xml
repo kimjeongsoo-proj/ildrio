@@ -12,10 +12,10 @@
 	<select id="getList_companyInfo"  parameterType="ilike.ildrio.model.company.CompanyInfoModel" resultType="ilike.ildrio.model.company.CompanyInfoModel">  
 		<![CDATA[   
 		select	SQL_CALC_FOUND_ROWS  
-			 cop.company_no  
+			 cop.company_id  
 			, cop.company_id  
 			, cop.company_password  
-			, cop.compay_name  
+			, cop.company_name  
 			, cop.business_no  
 			, cop.ceo_name  
 			, cop.postal_no  
@@ -26,8 +26,8 @@
 		from company_info cop
 	 	]]> 
 		<where>   
-			<if test="compayName != null and compayName != '' ">   
-				and cop.compay_name  like concat('%',#{compayName},'%')   
+			<if test="companyName != null and companyName != '' ">   
+				and cop.company_name  like concat('%',#{companyName},'%')   
 			</if>   
 			<if test="ceoName != null and ceoName != '' ">   
 				and cop.ceo_name  like concat('%',#{ceoName},'%')   
@@ -45,10 +45,10 @@
 	<select id="getMap_companyInfo"  parameterType="ilike.ildrio.model.company.CompanyInfoModel" resultType="ilike.ildrio.model.company.CompanyInfoModel">  
 		<![CDATA[   
 		select  
-			 cop.company_no  
+			 cop.company_id  
 			, cop.company_id  
 			, cop.company_password  
-			, cop.compay_name  
+			, cop.company_name  
 			, cop.business_no  
 			, cop.ceo_name  
 			, cop.postal_no  
@@ -57,7 +57,7 @@
 			, cop.insert_datetime  
 			, cop.update_datetime  
 		from company_info cop
-		where cop.company_no = #{companyNo}  
+		where cop.company_id = #{companyId}  
 	 	]]> 
 	</select>  
  
@@ -72,10 +72,10 @@
 	<update id="insert_companyInfo"  parameterType="ilike.ildrio.model.company.CompanyInfoModel">  
 		<![CDATA[   
 		insert into company_info (  
-			 company_no   
+			 company_id   
 			, company_id   
 			, company_password   
-			, compay_name   
+			, company_name   
 			, business_no   
 			, ceo_name   
 			, postal_no   
@@ -84,10 +84,10 @@
 			, insert_datetime   
 			, update_datetime   
 	 	) values (  
-			 #{companyNo}  
+			 #{companyId}  
 			, #{companyId}  
 			, #{companyPassword}  
-			, #{compayName}  
+			, #{companyName}  
 			, #{businessNo}  
 			, #{ceoName}  
 			, #{postalNo}  
@@ -105,7 +105,7 @@
 				<![CDATA[   
 				update company_info set  
 					 update_datetime = now()  
-				where company_no = #{companyNo}  
+				where company_id = #{companyId}  
 	 			]]> 
 			</when>   
 			<otherwise>   
@@ -113,14 +113,14 @@
 				update company_info set  
 					 company_id = #{companyId}  
 					, company_password = #{companyPassword}  
-					, compay_name = #{compayName}  
+					, company_name = #{companyName}  
 					, business_no = #{businessNo}  
 					, ceo_name = #{ceoName}  
 					, postal_no = #{postalNo}  
 					, postal_address = #{postalAddress}  
 					, detail_address = #{detailAddress}  
 					, update_datetime = now()  
-				where company_no = #{companyNo}  
+				where company_id = #{companyId}  
 	 			]]> 
 			</otherwise>   
 		</choose>   
@@ -129,7 +129,7 @@
 	<update id="delete_companyInfo"  parameterType="ilike.ildrio.model.company.CompanyInfoModel">  
 		<![CDATA[   
 		delete from company_info   
-		where company_no = #{companyNo}  
+		where company_id = #{companyId}  
 	 	]]> 
 	</update>  
  

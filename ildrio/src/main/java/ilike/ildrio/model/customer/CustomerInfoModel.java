@@ -11,8 +11,8 @@ import ilike.ildrio.model.common.CommModel;
  public class CustomerInfoModel extends CommModel {   
  
  
-	private String customerNo;  
-	private String companyNo;  
+	private String CustomerId;  
+	private String companyId;  
 	private String customerId;  
 	private String customerPassword;  
 	private String customerName;  

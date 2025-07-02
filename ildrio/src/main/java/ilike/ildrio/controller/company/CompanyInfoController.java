@@ -133,7 +133,7 @@ public class CompanyInfoController {
 				if (chkbFlag.equals("true")) { 
  					
  					//키컬럼 
-					reqModel.setCompanyNo(req.getParameterValues("companyNo")[k]); 
+					reqModel.setCompanyId(req.getParameterValues("companyId")[k]); 
  					
  					
  					// 리스트 수정
@@ -173,8 +173,8 @@ public class CompanyInfoController {
 		
 		CompanyInfoModel rsModel = (CompanyInfoModel) companyInfoService.getMap_companyInfo(reqModel);	
 		//pk컬럼 
-		if (StringUtil.NVL(rsModel.getCompanyNo()).equals("")) {	
-			rsModel.setCompanyNo(String.valueOf(commonService.sequence_common()));	
+		if (StringUtil.NVL(rsModel.getCompanyId()).equals("")) {	
+			rsModel.setCompanyId(String.valueOf(commonService.sequence_common()));	
 			rsModel.setTrxnMode("insert");	
 		}	
 		

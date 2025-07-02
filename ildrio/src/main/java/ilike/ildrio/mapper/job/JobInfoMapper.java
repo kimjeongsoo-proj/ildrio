@@ -25,5 +25,7 @@ public interface JobInfoMapper {
 	void update_jobInfo(JobInfoModel model); 
  
 	void delete_jobInfo(JobInfoModel model); 
+	
+	void insert_copy_jobInfo(JobInfoModel model); 
  
 }

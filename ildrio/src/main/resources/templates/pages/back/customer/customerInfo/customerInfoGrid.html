@@ -209,7 +209,7 @@
 			src += '	</th> '; 
 			src += '	<th style="width:120px;"> '; 
 			src += '		<span>거래처번호</span> '; 
-			src += '		<span id="sort_customer_no" onclick="gfn_sort(\'customer_no\',\'customer_no\',\'desc\')" class="sortArrow">▽</span>'; 
+			src += '		<span id="sort_member_id" onclick="gfn_sort(\'member_id\',\'member_id\',\'desc\')" class="sortArrow">▽</span>'; 
 			src += '	</th> ';  
 			src += '	<th style="width:120px;"> '; 
 			src += '		<span>회사명</span> '; 
@@ -225,11 +225,11 @@
 			src += '<tr style="height: 40px;text-align:center;"> '; 
 			src += '	<th style="width:120px;"> '; 
 			src += '		<span>회사번호</span> '; 
-			src += '		<span id="sort_company_no" onclick="gfn_sort(\'company_no\',\'company_no\',\'desc\')" class="sortArrow">▽</span>'; 
+			src += '		<span id="sort_company_id" onclick="gfn_sort(\'company_id\',\'company_id\',\'desc\')" class="sortArrow">▽</span>'; 
 			src += '	</th> ';  
 			src += '	<th style="width:120px;"> '; 
 			src += '		<span>거래처아이디</span> '; 
-			src += '		<span id="sort_customer_id" onclick="gfn_sort(\'customer_id\',\'customer_id\',\'desc\')" class="sortArrow">▽</span>'; 
+			src += '		<span id="sort_member_id" onclick="gfn_sort(\'member_id\',\'member_id\',\'desc\')" class="sortArrow">▽</span>'; 
 			src += '	</th> ';  
 			src += '	<th style="width:120px;"> '; 
 			src += '		<span>거래처비밀번호</span> '; 
@@ -314,15 +314,15 @@
 				src += '  <td style="width:30px;" align="center"> '; 
 				src += '    <input type="checkbox" name="chkb" id="chkb" onclick="gfn_chkb(' + k + ')"> '; 
 				src += '    <input type="hidden" name="chkbFlag" id="chkbFlag" value="false"> '; 
-				src += '    <input type="hidden" name="customerNo" id="customerNo" value="' + cfnNull(list[i].customerNo) + '">  '; 
+				src += '    <input type="hidden" name="memberId" id="memberId" value="' + cfnNull(list[i].memberId) + '">  '; 
 				src += '  </td> '; 
 				src += '  <td  style="width:60px;"> '; 
-				src += '    <a data-bs-toggle="modal" data-bs-target="#popupPageModalResize"  onclick="pfn_modalPop(\'popMargin\', 50, 50, \'수정\' ,\'/customerInfo/customerInfoReg?customerNo=' + cfnNull(list[i].customerNo) + '\');"  style="cursor:pointer;"> '; 
+				src += '    <a data-bs-toggle="modal" data-bs-target="#popupPageModalResize"  onclick="pfn_modalPop(\'popMargin\', 50, 50, \'수정\' ,\'/customerInfo/customerInfoReg?memberId=' + cfnNull(list[i].memberId) + '\');"  style="cursor:pointer;"> '; 
 				src += '    	<img src="blank" style="max-width:55px; max-height:25px;">'; 
 				src += '    </a>'; 
 				src += '  </td> '; 
 				src += '  <td style="width:120px;text-align:center;"> '; 
-				src += '    ' + gfn_valueText('customerNo', cfnNull(list[i].customerNo), 'string', 'width:95%;', i) + ''; 
+				src += '    ' + gfn_valueText('memberId', cfnNull(list[i].memberId), 'string', 'width:95%;', i) + ''; 
 				src += '  </td>'; 
 				src += '  <td style="width:120px;text-align:center;"> '; 
 				src += '    ' + gfn_valueText('customerName', cfnNull(list[i].customerName), 'string', 'width:95%;', i) + ''; 
@@ -338,10 +338,10 @@
 				 
 				src += '<tr style="height:30px;text-align:center;" onclick="cfn_trSelectBorder(\'' + (k + 1) + '\')" id="rtr_' + k + '"> '; 
 				src += '  <td style="width:120px;text-align:center;"> '; 
-				src += '    ' + gfn_valueText('companyNo', cfnNull(list[i].companyNo), 'string', 'width:95%;', i) + ''; 
+				src += '    ' + gfn_valueText('companyId', cfnNull(list[i].companyId), 'string', 'width:95%;', i) + ''; 
 				src += '  </td>'; 
 				src += '  <td style="width:120px;text-align:center;"> '; 
-				src += '    ' + gfn_valueText('customerId', cfnNull(list[i].customerId), 'string', 'width:95%;', i) + ''; 
+				src += '    ' + gfn_valueText('memberId', cfnNull(list[i].memberId), 'string', 'width:95%;', i) + ''; 
 				src += '  </td>'; 
 				src += '  <td style="width:120px;text-align:center;"> '; 
 				src += '    ' + gfn_valueText('customerPassword', cfnNull(list[i].customerPassword), 'password', 'width:95%;', i) + ''; 

@@ -12,38 +12,60 @@
 	<select id="getList_employmentMember"  parameterType="ilike.ildrio.model.employment.EmploymentMemberModel" resultType="ilike.ildrio.model.employment.EmploymentMemberModel">  
 		<![CDATA[   
 		select	SQL_CALC_FOUND_ROWS  
-			 emb.job_no  
-			, emb.tech_code  
-			, emb.career_code  
-			, emb.member_no  
-			, emb.job_apply_no  
-			, emb.daily_wage  
-			, emb.request_wage  
-			, emb.comission_fee  
-			, emb.pay_wage  
-			, emb.employment_memo  
-			, emb.employment_status  
-			, emb.billing_no  
-			, emb.insert_datetime  
-			, emb.update_datetime  
-		from employment_member emb
+			 jem.job_no  
+			, jem.manpower_no  
+			, jem.member_id  
+			, jem.job_apply_no
+			, jem.work_date  
+			, jem.employment_status  
+			, jem.employment_memo 
+			 
+			, jem.attend_status_code  
+			, jem.attend_depart_datetime  
+			, jem.attend_start_hhmm  
+			, jem.attend_end_hhmm  
+			
+			, jem.insert_datetime  
+			, jem.update_datetime  
+			
+			, jif.job_title 
+			, jif.work_date
+			, jif.workplace_postal_address
+			, jif.workplace_detail_address
+			
+			, jmp.tech_code 
+      		, jmp.career_code 
+      		, format(jmp.daily_wage,0) as daily_wage 
+      		
+      		, jap.apply_datetime 
+      		, jap.apply_state_code 
+      		
+      		, cui.customer_name 
+    		, cui.company_id 
+			
+		from 	job_employment jem
+		join 	job_manpower jmp on jmp.manpower_no = jem.manpower_no
+		join 	job_info jif on jif.job_no = jem.job_no
+		join	member_info mbr on mbr.member_id = jem.member_id
+		join 	customer_info cui on cui.customer_id = jif.customer_id
+		left join  job_apply jap on jap.manpower_no = jem.manpower_no
 	 	]]> 
-		<where>   
+		<where>
+			<if test="memberId != null and memberId != '' ">   
+				and jap.member_id   = #{memberId}  
+			</if>
+			<if test="customerId != null and customerId != '' ">   
+				and jif.customer_id   = #{customerId}  
+			</if>
+			<if test="companyId != null and companyId != '' ">   
+				and cui.company_id   = #{companyId}  
+			</if>
 			<if test="jobNo != null and jobNo != '' ">   
-				and emb.job_no  like concat('%',#{jobNo},'%')   
-			</if>   
-			<if test="techCode != null and techCode != '' ">   
-				and emb.tech_code = #{techCode}   
-			</if>   
-			<if test="careerCode != null and careerCode != '' ">   
-				and emb.career_code = #{careerCode}   
-			</if>   
-			<if test="memberNo != null and memberNo != '' ">   
-				and emb.member_no  like concat('%',#{memberNo},'%')   
+				and emb.job_no  = #{jobNo}  
 			</if>   
 		</where>   
 		<if test="srhOrderBy != null and  srhOrderBy != '' ">   
-			order by 	${srhOrderBy} ${srhOrderAsc}   
+			order by 	${srhOrderBy}
 		</if>   
 		limit ${startRow} , ${pageRow}    
 	</select>  
@@ -69,7 +91,7 @@
 			, emb.job_apply_no  
 			, emb.daily_wage  
 			, emb.request_wage  
-			, emb.comission_fee  
+			, emb.commission_fee  
 			, emb.pay_wage  
 			, emb.employment_memo  
 			, emb.employment_status  
@@ -105,7 +127,7 @@
 			, job_apply_no   
 			, daily_wage   
 			, request_wage   
-			, comission_fee   
+			, commission_fee   
 			, pay_wage   
 			, employment_memo   
 			, employment_status   
@@ -120,7 +142,7 @@
 			, #{jobApplyNo}  
 			, replace(#{dailyWage},',','')  
 			, replace(#{requestWage},',','')  
-			, replace(#{comissionFee},',','')  
+			, replace(#{commissionFee},',','')  
 			, replace(#{payWage},',','')  
 			, #{employmentMemo}  
 			, #{employmentStatus}  
@@ -149,7 +171,7 @@
 					 job_apply_no = #{jobApplyNo}  
 					, daily_wage = replace(#{dailyWage},',','')  
 					, request_wage = replace(#{requestWage},',','')  
-					, comission_fee = replace(#{comissionFee},',','')  
+					, commission_fee = replace(#{commissionFee},',','')  
 					, pay_wage = replace(#{payWage},',','')  
 					, employment_memo = #{employmentMemo}  
 					, employment_status = #{employmentStatus}  

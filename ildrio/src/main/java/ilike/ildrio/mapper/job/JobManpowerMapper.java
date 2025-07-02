@@ -24,6 +24,8 @@ public interface JobManpowerMapper {
  
 	void update_jobManpower(JobManpowerModel model); 
  
-	void delete_jobManpower(JobManpowerModel model); 
+	void delete_jobManpower(JobManpowerModel model);
+	
+	void insert_copy_jobManpower(JobManpowerModel model); 
  
 }

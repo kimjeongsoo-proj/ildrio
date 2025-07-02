@@ -11,19 +11,104 @@
 	 
 	<select id="getList_jobApply"  parameterType="ilike.ildrio.model.job.JobApplyModel" resultType="ilike.ildrio.model.job.JobApplyModel">  
 		<![CDATA[   
-		select	SQL_CALC_FOUND_ROWS  
-			 jap.job_apply_no  
-			, jap.job_no  
-			, jap.tech_code  
-			, jap.career_code  
-			, jap.member_no  
-			, jap.apply_datetime  
-		from job_apply jap
+		 select SQL_CALC_FOUND_ROWS 
+		 		jif.job_no,	
+		 		jif.work_date,
+      			jif.job_title ,
+      			jif.workplace_postal_address ,
+      			DATEDIFF(DATE(NOW()), jif.work_date) AS work_date_diff , 
+      			jif.customer_id ,  
+       			cui.business_name ,
+    			cui.manpower_company_id ,
+      			
+      			jmp.manpower_no,
+      			jmp.tech_code ,
+      			jmp.career_code ,
+      			format(jmp.daily_wage,0) as daily_wage ,
+      			jmp.man_count ,
+      			
+      			jap.job_apply_no ,
+      			jap.member_id ,
+      			jap.apply_datetime ,
+      			jap.apply_state_code ,
+      			
+      			jem.employment_status ,
+      			jem.attend_depart_datetime ,
+      			jem.attend_start_hhmm ,
+      			jem.attend_end_hhmm ,
+      			jem.attend_start_code ,
+      			jem.attend_end_code ,
+      			jem.attend_memo ,
+      			jem.attend_status_code,
+      			
+   			   	mbr.member_name ,
+   			   	mbr.mobile_no ,
+   			   	mbr.jikjong_name ,
+   			   	mbr.career_grade ,
+   			   	mbr.career_years ,
+   			   	mbr.birth_date ,
+   			   	mbr.gender_type ,
+   			   	substring_index(mbr.postal_address,' ',2) as postal_address ,
+   			   	mbr.photo_image_file_name ,
+   			   	FLOOR(DATEDIFF(CURDATE(), mbr.birth_date) / 365.25) AS member_age,
+   			   	ifnull((select count(*)
+   			   			from  job_employment x
+   			   			where x.manpower_no = jmp.manpower_no 
+						and x.employment_status = '채용' ),0) as employment_count
+   			   
+ 		from 		job_info jif
+ 		join		job_manpower jmp  on jmp.job_no = jif.job_no
+ 		left join   job_apply jap  on jap.manpower_no = jmp.manpower_no
+		left join	member_info mbr on mbr.member_id = jap.member_id 
+		left join 	member_info cui on cui.member_id = jif.customer_id
+		left join 	job_employment jem on jem.job_apply_no = jap.job_apply_no
+
 	 	]]> 
 		<where>   
+			<if test="selectMode == 'myApply' ">  
+				and jap.member_id   = #{memberId}  
+			</if>
+			<if test="selectMode == 'myEmploy' ">  
+				and jap.member_id   = #{memberId} 
+				and jem.employment_status is not null 
+			</if>
+			<if test="selectMode == 'myToday' ">  
+				and jap.member_id   = #{memberId} 
+				and jem.employment_status is not null
+				and jif.work_date    = #{workDate} 
+			</if>
+			<if test="selectMode == 'adminToday' ">  
+			    and cui.manpower_company_id = #{companyId} 
+			    and jif.work_date    = #{workDate}  
+				and jem.employment_status = '채용'
+			</if>
+			<if test="selectMode == 'customerToday' ">  
+			    and jif.customer_id = #{customerId} 
+			    and jif.work_date    = #{workDate}  
+				and jem.employment_status = '채용'
+			</if>
+			<if test="selectMode == 'matching' ">  
+				
+			</if>
+			<if test="customerName != null and customerName != '' ">   
+				and cui.business_name   like concat('%',#{customerName},'%')
+			</if>
+			<if test="employmentStatus != null and employmentStatus != '' ">   
+				and jem.employment_status    = #{employmentStatus}  
+			</if> 
+			<if test="attendStatusCode != null and attendStatusCode != '' ">   
+				and jem.attend_status_code    = #{attendStatusCode}  
+			</if> 
+			<if test="workDate != null and workDate != '' ">   
+				and jif.work_date    = #{workDate}  
+			</if> 
+			<if test="jobTitle != null and jobTitle != '' ">   
+				and jif.job_title  like concat('%',#{jobTitle},'%')  
+			</if> 
 			<if test="jobNo != null and jobNo != '' ">   
-				and jap.job_no  like concat('%',#{jobNo},'%')   
+				and jif.job_no  = #{jobNo}  
 			</if>   
+			 
 		</where>   
 		<if test="srhOrderBy != null and  srhOrderBy != '' ">   
 			order by 	${srhOrderBy} ${srhOrderAsc}   
@@ -54,30 +139,23 @@
 	<select id="getCount_jobApply"  parameterType="ilike.ildrio.model.job.JobApplyModel"  resultType="java.lang.Integer">  
 		<![CDATA[   
 		select 	count(*) count  
-		from 	job_apply  
-		where job_apply_no = #{jobApplyNo}  
-		and job_no = #{jobNo}  
-		and tech_code = #{techCode}  
-		and career_code = #{careerCode}  
-		and member_no = #{memberNo}  
+		from 	job_apply jap
+		where jap.job_no = #{jobNo}  
+		and jap.member_id = #{memberId}  
 	 	]]> 
-	</select>  
+	</select>
  
 	<update id="insert_jobApply"  parameterType="ilike.ildrio.model.job.JobApplyModel">  
 		<![CDATA[   
 		insert into job_apply (  
-			 job_apply_no   
-			, job_no   
-			, tech_code   
-			, career_code   
-			, member_no   
+			  job_no
+			, manpower_no   
+			, member_id   
 			, apply_datetime   
 	 	) values (  
-			 #{jobApplyNo}  
-			, #{jobNo}  
-			, #{techCode}  
-			, #{careerCode}  
-			, #{memberNo}  
+	 		  #{jobNo}
+			, #{manpowerNo}  
+			, #{memberId} 
 			, now()  
 	 	)   
 	 	]]> 
@@ -96,13 +174,10 @@
 			</when>   
 			<otherwise>   
 				<![CDATA[   
-				update job_apply set  
-					 job_apply_no = #{jobApplyNo}  
-					, apply_datetime = replace(#{applyDatetime},',','')  
-				where job_no = #{jobNo}  
-				and tech_code = #{techCode}  
-				and career_code = #{careerCode}  
-				and member_no = #{memberNo}  
+				update job_apply set
+					apply_state_code = #{applyStateCode}
+				where job_apply_no = #{jobApplyNo}  
+				
 	 			]]> 
 			</otherwise>   
 		</choose>   
@@ -111,10 +186,9 @@
 	<update id="delete_jobApply"  parameterType="ilike.ildrio.model.job.JobApplyModel">  
 		<![CDATA[   
 		delete from job_apply   
-		where job_no = #{jobNo}  
-		and tech_code = #{techCode}  
-		and career_code = #{careerCode}  
-		and member_no = #{memberNo}  
+		where job_apply_no = #{jobApplyNo}  
+		and member_id = #{memberId}
+		and ifnull((select count(*) from job_employment where  job_apply_no = #{jobApplyNo}  ),0) = 0 
 	 	]]> 
 	</update>  
  

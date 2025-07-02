@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+ 
+<mapper namespace="ilike.ildrio.mapper.job.JobEmployMapper">    
+ 
+ 
+ 
+	<select id="getListCount_jobEmploy"  parameterType="ilike.ildrio.model.job.JobEmployModel"  resultType="java.lang.Integer"> 
+		SELECT FOUND_ROWS() totRow 
+	</select> 
+	 
+	<select id="getList_jobEmploy"  parameterType="ilike.ildrio.model.job.JobEmployModel" resultType="ilike.ildrio.model.job.JobEmployModel">  
+		<![CDATA[   
+		 select SQL_CALC_FOUND_ROWS 
+		 		jif.job_no,	
+		 		jif.work_date,
+      			jif.job_title ,
+      			jif.workplace_postal_address ,
+      			DATEDIFF(DATE(NOW()), jif.work_date) AS work_date_diff , 
+      			
+      			jmp.tech_code ,
+      			jmp.career_code ,
+      			format(jmp.daily_wage,0) as daily_wage ,
+      			jmp.man_count ,
+      			
+      			jap.job_apply_no ,
+      			jap.member_id ,
+      			jap.apply_datetime ,
+      			jap.apply_state_code ,
+      			
+      			jem.employment_status ,
+      			jem.attend_depart_datetime ,
+      			jem.attend_start_hhmm ,
+      			jem.attend_end_hhmm ,
+      			
+      			jif.customer_id ,  
+      			
+       			cui.customer_name ,
+    			cui.company_id ,
+    			   
+   			   	mbr.member_name ,
+   			   	mbr.jikjong_name ,
+   			   	mbr.career_grade ,
+   			   	mbr.career_years ,
+   			   	mbr.birth_date ,
+   			   	mbr.gender_type ,
+   			   	mbr.postal_address ,
+   			   	FLOOR(DATEDIFF(CURDATE(), mbr.birth_date) / 365.25) AS member_age,
+   			   	ifnull((select count(*)
+   			   			from  job_employment x
+   			   			where x.manpower_no = jmp.manpower_no 
+						and x.employment_status = '채용' ),0) as employment_count
+   			   
+ 		from 		job_apply jap
+		join		job_manpower jmp on jmp.manpower_no = jap.manpower_no
+		join  		job_info jif on jif.job_no = jap.job_no
+		join		member_info mbr on mbr.member_id = jap.member_id 
+		join 	    job_employment jem on jem.manpower_no = jmp.manpower_no and jem.member_id = jap.member_id
+		left join 	customer_info cui on cui.customer_id = jif.customer_id
+
+	 	]]> 
+		<where>   
+			<if test="selectMode == 'myApply' ">  
+				and jap.member_id   = #{memberId}  
+			</if>
+			<if test="selectMode == 'myToday' ">  
+				and jap.member_id   = #{memberId} 
+				and jif.work_date   = date_format(now(),'%Y-%m-%d')
+				and jem.employment_status = '채용'
+			</if>
+			<if test="selectMode == 'myEmploy' ">  
+				and jap.member_id   = #{memberId} 
+				and jem.employment_status is not null 
+			</if>
+			<if test="customerId != null and customerId != '' ">   
+				and jif.customer_id   = #{customerId}  
+			</if>
+			<if test="companyId != null and companyId != '' ">   
+				and cui.company_id   = #{companyId}  
+			</if>
+			<if test="employmentStatus != null and employmentStatus != '' ">   
+				and jem.employment_status    = #{employmentStatus}  
+			</if> 
+			<if test="workDate != null and workDate != '' ">   
+				and jif.work_date    = #{workDate}  
+			</if> 
+			<if test="jobTitle != null and jobTitle != '' ">   
+				and jif.job_title  like concat('%',#{jobTitle},'%')  
+			</if> 
+			<if test="jobNo != null and jobNo != '' ">   
+				and jif.job_no  = #{jobNo}  
+			</if>   
+			 
+		</where>   
+		<if test="srhOrderBy != null and  srhOrderBy != '' ">   
+			order by 	${srhOrderBy} ${srhOrderAsc}   
+		</if>   
+		limit ${startRow} , ${pageRow}    
+	</select>  
+ 
+	<select id="subList_jobEmploy"  parameterType="ilike.ildrio.model.job.JobEmployModel" resultType="ilike.ildrio.model.job.JobEmployModel">  
+	</select>  
+ 
+	<select id="getMap_jobEmploy"  parameterType="ilike.ildrio.model.job.JobEmployModel" resultType="ilike.ildrio.model.job.JobEmployModel">  
+		<![CDATA[   
+		select  
+			 jap.job_apply_no  
+			, jap.job_no
+			, mbr.member_id
+			, mbr.member_name
+			, mbr.mobile_no
+			, mbr.member_type
+		from job_apply jap
+		join member_info mbr on mbr.member_id = jap.member_id
+		where jap.job_apply_no = #{jobApplyNo}  
+	 	]]> 
+	</select>  
+ 
+	<select id="getCount_jobEmploy"  parameterType="ilike.ildrio.model.job.JobEmployModel"  resultType="java.lang.Integer">  
+		
+		<if test="selectMode == 'chkDupDate' ">  
+			<![CDATA[   
+			select	count(*) cnt
+			from 	job_employment jem
+			join 	( 
+					select jap.member_id, jif.work_date
+					from	job_apply jap 
+					join  job_info jif on jif.job_no = jap.job_no
+					where	jap.job_apply_no = #{jobApplyNo}
+					) sub 
+					on sub.member_id = jem.member_id 
+					and sub.work_date = jem.work_date 
+		 	]]> 
+		</if>
+		<if test="selectMode == 'chkManpowerCount' ">  
+			<![CDATA[   
+			select   ( jmp.man_count - ifnull((
+				select   count(*) cnt
+				from		job_employment jem
+				where		jem.job_apply_no = jap.job_apply_no
+				and      jem.manpower_no = jap.manpower_no
+				),0)) as cnt 
+			from		job_manpower jmp
+			join 		job_apply jap on jap.manpower_no = jmp.manpower_no
+			where		jap.job_apply_no = #{jobApplyNo}
+		 	]]> 
+		</if>
+		
+	</select>
+	
+	<update id="insert_jobEmploy"  parameterType="ilike.ildrio.model.job.JobEmployModel">  
+		<![CDATA[   
+		insert into job_employment (
+			job_no ,
+			manpower_no , 
+			member_id ,
+			work_date ,
+			job_apply_no ,
+			employment_status ,
+			insert_datetime,
+			update_datetime 
+		)
+		select jap.job_no ,
+				jap.manpower_no ,
+				jap.member_id ,
+				jif.work_date ,
+				jap.job_apply_no ,
+				'채용',
+				now(),
+				now()		
+		from	job_apply jap
+		join  job_info jif on jif.job_no = jap.job_no
+		where	jap.job_apply_no = #{jobApplyNo}
+		on duplicate key update update_datetime = now()
+	 	]]> 
+	</update> 
+ 
+	<update id="update_jobEmploy"  parameterType="ilike.ildrio.model.job.JobEmployModel">  
+		<choose>   
+			<when test=" trxnMode == 'cancel' ">   
+				<![CDATA[   
+				update job_employment set 
+				employment_status = '취소' ,
+				update_datetime = now() 
+				where job_apply_no = #{jobApplyNo} 
+	 			]]> 
+			</when> 
+			<when test=" trxnMode == 'department' ">   
+				<![CDATA[   
+				update job_employment set 
+				attend_status_code = '출발' 
+				, attend_memo = #{attendMemo}
+				, attend_depart_datetime = now() 
+				where job_apply_no = #{jobApplyNo} 
+	 			]]> 
+			</when>
+			<when test=" trxnMode == 'department_req' ">   
+				<![CDATA[   
+				update job_employment set 
+				attend_status_code = '출발요청'
+				, attend_depart_datetime = now() 
+				where job_apply_no = #{jobApplyNo} 
+	 			]]> 
+			</when>
+			<when test=" trxnMode == '정상출근' or  trxnMode == '지각'  or  trxnMode == '결근' ">   
+				<![CDATA[   
+				update job_employment set 
+				attend_start_code = #{trxnMode}
+				, update_datetime = now()
+				where job_apply_no = #{jobApplyNo} 
+	 			]]> 
+			</when>
+			
+			<when test=" trxnMode == '조기퇴근' or trxnMode == '정상퇴근' ">   
+				<![CDATA[   
+				update job_employment set 
+				attend_end_code = #{trxnMode}
+				, update_datetime = now()
+				where job_apply_no = #{jobApplyNo} 
+	 			]]> 
+			</when>  
+			<when test=" trxnMode == 'attendOk' ">   
+				<![CDATA[   
+				update job_employment set 
+				attend_start_code = '정상출근'
+				, attend_memo = #{attendMemo} 
+				where job_apply_no = #{jobApplyNo} 
+	 			]]> 
+			</when>
+			<when test=" trxnMode == 'attendDelay' ">   
+				<![CDATA[   
+				update job_employment set 
+				attend_start_code = '지각출근'
+				, attend_memo = #{attendMemo} 
+				where job_apply_no = #{jobApplyNo} 
+	 			]]> 
+			</when> 
+			<when test=" trxnMode == 'earlyEnd' ">   
+				<![CDATA[   
+				update job_employment set 
+				attend_end_code = '조기퇴근' 
+				, attend_memo = #{attendMemo}
+				
+				where job_apply_no = #{jobApplyNo} 
+	 			]]> 
+			</when>
+			<when test=" trxnMode == 'earlyEnd' ">   
+				<![CDATA[   
+				update job_employment set 
+				attend_end_code = '정상퇴근'
+				, attend_memo = #{attendMemo} 
+				where job_apply_no = #{jobApplyNo} 
+	 			]]> 
+			</when>
+			<when test=" trxnMode == 'attendAbsence' ">   
+				<![CDATA[   
+				update job_employment set 
+				attend_end_code = '결근' 
+				, attend_memo = #{attendMemo}
+				where job_apply_no = #{jobApplyNo} 
+	 			]]> 
+			</when>     
+			<otherwise>   
+				<![CDATA[   
+				update job_employment set 
+				employment_status = #{employment_status}
+				, update_datetime = now()
+				where job_apply_no = #{jobApplyNo} 
+				
+	 			]]> 
+			</otherwise>   
+		</choose>   
+	</update>  
+ 
+	<update id="delete_jobEmploy"  parameterType="ilike.ildrio.model.job.JobEmployModel">  
+		<![CDATA[   
+		delete from job_employment
+		where job_apply_no = #{jobApplyNo}  
+	 	]]> 
+	</update>  
+ 
+</mapper>

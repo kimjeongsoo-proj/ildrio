@@ -29,10 +29,10 @@ public class DBCPConnectionManager {
 //			String userName = "root";
 //			String passWord = "kjs656500#";
 
-			String url = "jdbc:mariadb://117.52.20.183:3306/ACEWORK_DB";
+			String url = "jdbc:mariadb://211.237.0.167:3306/ACEWORK_DB";
 			String className = "org.mariadb.jdbc.Driver";
-			String userName = "ilikekim";
-			String passWord = "kjs656500#db";
+			String userName = "root";
+			String passWord = "ildrio11111#db";
 
 			ds.setDriverClassName(className);
 			ds.setUrl(url);

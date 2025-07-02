@@ -47,7 +47,7 @@
 			<div class="col-sm-3 col-md-3"> 
 				<div class="input-group"> 
 					<label for="" class="col-form-label text-end" style="width:100px; white-space: nowrap;margin-right: 10px;">화사명</label> 
-					<input type="text" name="compayName" id="compayName" class="form-control "> 
+					<input type="text" name="companyName" id="companyName" class="form-control "> 
 				</div> 
 			</div> 
 			<div class="col-sm-3 col-md-3"> 
@@ -296,18 +296,18 @@
 				src += '  <td style="width:30px;" align="center"> '; 
 				src += '    <input type="checkbox" name="chkb" id="chkb" onclick="gfn_chkb(' + k + ')"> '; 
 				src += '    <input type="hidden" name="chkbFlag" id="chkbFlag" value="false"> '; 
-				src += '    <input type="hidden" name="companyNo" id="companyNo" value="' + cfnNull(list[i].companyNo) + '">  '; 
+				src += '    <input type="hidden" name="companyId" id="companyId" value="' + cfnNull(list[i].companyId) + '">  '; 
 				src += '  </td> '; 
 				src += '  <td  style="width:60px;"> '; 
-				src += '    <a data-bs-toggle="modal" data-bs-target="#popupPageModalResize"  onclick="pfn_modalPop(\'popMargin\', 50, 50, \'수정\' ,\'/companyInfo/companyInfoReg?companyNo=' + cfnNull(list[i].companyNo) + '\');"  style="cursor:pointer;"> '; 
+				src += '    <a data-bs-toggle="modal" data-bs-target="#popupPageModalResize"  onclick="pfn_modalPop(\'popMargin\', 50, 50, \'수정\' ,\'/companyInfo/companyInfoReg?companyId=' + cfnNull(list[i].companyId) + '\');"  style="cursor:pointer;"> '; 
 				src += '    	<img src="blank" style="max-width:55px; max-height:25px;">'; 
 				src += '    </a>'; 
 				src += '  </td> '; 
 				src += '  <td style="width:120px;text-align:center;"> '; 
-				src += '    ' + gfn_valueText('companyNo', cfnNull(list[i].companyNo), 'string', 'width:95%;', i) + ''; 
+				src += '    ' + gfn_valueText('companyId', cfnNull(list[i].companyId), 'string', 'width:95%;', i) + ''; 
 				src += '  </td>'; 
 				src += '  <td style="width:120px;text-align:center;"> '; 
-				src += '    ' + gfn_valueText('compayName', cfnNull(list[i].compayName), 'string', 'width:95%;', i) + ''; 
+				src += '    ' + gfn_valueText('companyName', cfnNull(list[i].companyName), 'string', 'width:95%;', i) + ''; 
 				src += '  </td>'; 
 				src += '  <td style="width:120px;text-align:center;"> '; 
 				src += '    ' + gfn_valueText('ceoName', cfnNull(list[i].ceoName), 'string', 'width:95%;', i) + ''; 

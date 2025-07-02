@@ -14,13 +14,13 @@
 	<div class="app-container app-theme-white body-tabs-shadow fixed-header fixed-sidebar">
 
 
-		<div class="app-header header-shadow bg-dark header-text-light" th:if="${ssMap.ssCompanyNo == 'ilikeAdmin'}">
+		<div class="app-header header-shadow bg-dark header-text-light" th:if="${ssMap.ssCompanyId == 'ilikeAdmin'}">
 			<!--begin::Header-->
 			<th:block th:include="~{../layout/fragments/AdminLayoutHeaderMenu.html :: AdminLayoutHeaderMenu}"></th:block>
 			<!--end::Header-->
 
 		</div>
-		<div class="app-header header-shadow bg-night-sky header-text-light" th:if="${ssMap.ssCompanyNo != 'ilikeAdmin'}">
+		<div class="app-header header-shadow bg-night-sky header-text-light" th:if="${ssMap.ssCompanyId != 'ilikeAdmin'}">
 			<!--begin::Header-->
 			<th:block th:include="~{../layout/fragments/AdminLayoutHeaderMenu.html :: AdminLayoutHeaderMenu}"></th:block>
 			<!--end::Header-->

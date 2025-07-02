@@ -3,58 +3,128 @@
  
 <mapper namespace="ilike.ildrio.mapper.job.JobInfoMapper">    
  
- 
- 
-	<select id="getListCount_jobInfo"  parameterType="ilike.ildrio.model.job.JobInfoModel"  resultType="java.lang.Integer"> 
+
+ 	<select id="getListCount_jobInfo"  parameterType="ilike.ildrio.model.job.JobInfoModel"  resultType="java.lang.Integer"> 
 		SELECT FOUND_ROWS() totRow
 	</select> 
 	 
 	<select id="getList_jobInfo"  parameterType="ilike.ildrio.model.job.JobInfoModel" resultType="ilike.ildrio.model.job.JobInfoModel">  
 		<![CDATA[   
 		select	SQL_CALC_FOUND_ROWS  
-			 jif.job_no  
-			, jif.customer_no  
-			, jif.company_no  
-			, jif.job_title  
-			, jif.work_date  
-			, jif.job_state_code  
-			, jif.tax_type  
-			, jif.gender_type  
-			, jif.min_age  
-			, jif.max_age  
-			, jif.daily_wage_info  
-			, jif.holiday_note  
-			, jif.meal_provide_yn  
-			, jif.work_start_time  
-			, jif.work_end_time  
-			, jif.workplace_company_name  
-			, jif.workplace_postal_no  
-			, jif.workplace_postal_address  
-			, jif.workplace_detail_address  
-			, jif.workplace_note  
-			, jif.workplace_image  
-			, jif.work_manager_name  
-			, jif.work_manager_hpno  
-			, jif.work_qualification_detail  
-			, jif.work_welfare_detail  
-			, jif.onstruction_company_no  
-			, jif.job_detail  
-			, jif.apply_limit_hour  
-			, jif.admin_memo  
-			, jif.emergency_notice_yn  
-			, jif.insert_datetime  
+			  jif.job_no   
+			, jif.customer_id   
+			
+			, jif.job_title   
+			, zfn_FormatDateKorean(jif.work_date) work_date_korean
+			, jif.work_start_hour   
+			, jif.work_start_minute   
+			, jif.work_end_hour   
+			, jif.work_end_minute   
+
+			, jif.gender_type   
+			, jif.min_age   
+			, jif.max_age   
+			, jif.daily_wage_info   
+			, jif.tax_type   
+			, jif.bring_things   
+			, jif.job_detail   
+			, jif.meal_provide_type  
+			 
+			, jif.workplace_postal_no   
+			, substring_index(jif.workplace_postal_address,' ',2)  as workplace_postal_address
+			, jif.workplace_detail_address   
+			, jif.workplace_note   
+			, jif.workplace_image   
+
+			, jif.work_manager_name   
+			, jif.work_manager_hpno   
+			, jif.emergency_yn
+			, jif.insert_datetime   
 			, jif.update_datetime  
-		from .job_info jif
-	 	]]> 
+			, jif.notice_close_yn
+			
+			, mbr.business_name
+				
+			, DATEDIFF(DATE(NOW()), jif.work_date) AS work_date_diff 
+			, case when ( DATEDIFF(DATE(NOW()), jif.work_date)>= 0  
+			            or ifnull(jif.notice_close_yn,'N') = 'Y') then 'close'
+			       else 'ing' end as job_notice_state     
+			
+			]]>
+			<choose>
+				<when test="selectMode == 'worker' ">  
+					<![CDATA[   
+					,( select  group_concat( 
+						'<div class="row">',
+							'<div class="col-7">',
+								'<span  style="font-weight:bold;"> ',jmp.tech_code,' ',jmp.career_code, '</span>',
+								'<span  style="margin-left:10px;background-color:#fff;border-radius:5px;padding:0px 5px;">',jmp.man_count, '명</span> ',
+							'</div>',
+							'<div class="col-5 text-end" style="color:#fd7e14;font-weight:bold;font-size:13pt;">',format(jmp.daily_wage,0),'원',
+							'</div>',
+						'</div>'
+						ORDER BY jmp.daily_wage asc  
+						SEPARATOR '' )
+					from	job_manpower jmp
+					where  jmp.job_no = jif.job_no
+					) as manpower_list	
+					]]>			
+				</when>
+				<otherwise>
+					<![CDATA[   
+					,( select  group_concat( 
+						'<div class="row">',
+							'<div class="col-7">',
+								'<span  style="font-weight:bold;"> ',jmp.tech_code,' ',jmp.career_code, '</span>',
+								'<span  style="margin-left:10px;background-color:#fff;border-radius:5px;padding:0px 5px;">',jmp.man_count, '명</span> ',
+							'</div>',
+							'<div class="col-5 text-end" style="color:#fd7e14;font-weight:bold;font-size:13pt;">',format(jmp.daily_wage,0),'원',
+							'</div>',
+						'</div>', 
+						'<div class="row">',
+							'<div class="col-12  text-end" style="color:#aaa;">',
+								'<span>지원 :  ', 
+											  ifnull(( select count(*)
+											  from job_apply jap
+											  where jap.manpower_no = jmp.manpower_no),0) ,'명</span> ',
+								'<span style="margin-left:10px;">채용 : ', ifnull((select count(*)
+											  from job_employment jep
+											  where jep.manpower_no = jmp.manpower_no),0) ,'명</span> ',  
+							'</div>',
+						'</div>'
+						
+						ORDER BY jmp.daily_wage asc  
+						SEPARATOR '' )
+					from	job_manpower jmp
+					where  jmp.job_no = jif.job_no
+					) as manpower_list	
+					]]>	
+				</otherwise>
+			</choose>
+			
+		from job_info jif
+		join member_info mbr on mbr.member_id = jif.customer_id  
 		<where>   
-			<if test="customerNo != null and customerNo != '' ">   
-				and jif.customer_no  like concat('%',#{customerNo},'%')   
-			</if>   
-			<if test="companyNo != null and companyNo != '' ">   
-				and jif.company_no  like concat('%',#{companyNo},'%')   
-			</if>   
+			<if test="selectMode == 'WORKER_APPLY' ">   
+				and jif.job_no in ( select job_no from job_apply where member_id = #{memberId} )
+			</if>
+			<if test="selectMode == 'admin' ">   
+				and mbr.manpower_company_id  = #{companyId}   
+			</if>
+			<if test="selectMode == 'customer' ">  
+				and jif.customer_id = #{customerId}   
+			</if>
+			<if test="selectMode == 'main' ">   
+			</if>
+			
 			<if test="jobTitle != null and jobTitle != '' ">   
-				and jif.job_title  like concat('%',#{jobTitle},'%')   
+				and ( jif.job_title  like concat('%',#{jobTitle},'%')   or
+					jif.workplace_postal_address  like concat('%',#{jobTitle},'%')   or	
+					jif.job_detail like concat('%',#{jobTitle},'%') )
+				      
+			</if>
+			<if test="workDate != null and workDate != '' ">   
+				and ( jif.work_date between #{workDate} and #{workDate} )  
 			</if>   
 			<if test="srhFromWorkDate != null and srhFromWorkDate != '' ">   
 				<if test="srhToWorkDate != null and srhToWorkDate != '' ">   
@@ -81,8 +151,31 @@
 			</if>   
 			<if test="applyLimitHour != null and applyLimitHour != '' ">   
 				and jif.apply_limit_hour = #{applyLimitHour}   
+			</if>  
+			<if test="techCode != null and techCode != '' ">   
+				and jif.job_no in ( select 	job_no 
+									from 	job_manpower jmp
+									where	tech_code like concat('%',#{techCode},'%') )  
+			</if>
+			<if test="careerCode != null and careerCode != '' ">   
+				and jif.job_no in ( select 	job_no 
+									from 	job_manpower jmp
+									where	career_code like concat('%',#{careerCode},'%') )  
+			</if> 
+			<if test="jobNoticeState == 'ing' ">   
+				and ifnull(jif.notice_close_yn,'N') = 'N'
+				and		DATEDIFF(DATE(NOW()), jif.work_date) &lt; 0
+			</if>  
+			<if test="jobNoticeState == 'close' ">   
+				and ( ifnull(jif.notice_close_yn,'N') = 'Y'
+					or	DATEDIFF(DATE(NOW()), jif.work_date) &gt;= 0 )
 			</if>   
-		</where>   
+		</where>
+		<if test="selectMode == 'HOT' ">   
+			having  work_date_diff = '1'
+		</if>   
+		
+		
 		<if test="srhOrderBy != null and  srhOrderBy != '' ">   
 			order by 	${srhOrderBy} ${srhOrderAsc}   
 		</if>   
@@ -96,20 +189,23 @@
 		<![CDATA[   
 		select  
 			 jif.job_no  
-			, jif.customer_no  
-			, jif.company_no  
+			, jif.customer_id  
 			, jif.job_title  
 			, jif.work_date  
 			, jif.job_state_code  
-			, jif.tax_type  
+			, jif.tax_employment_yn   
+			, jif.tax_withholding_yn   
+			, jif.tax_charge_yn   
 			, jif.gender_type  
 			, jif.min_age  
 			, jif.max_age  
-			, jif.daily_wage_info  
 			, jif.holiday_note  
-			, jif.meal_provide_yn  
-			, jif.work_start_time  
-			, jif.work_end_time  
+			, jif.meal_provide_type  
+			, jif.work_start_hour  
+			, jif.work_start_minute  
+			, jif.work_end_hour  
+			, jif.work_end_minute  
+			, jif.bring_things  
 			, jif.workplace_company_name  
 			, jif.workplace_postal_no  
 			, jif.workplace_postal_address  
@@ -118,17 +214,21 @@
 			, jif.workplace_image  
 			, jif.work_manager_name  
 			, jif.work_manager_hpno  
-			, jif.work_qualification_detail  
-			, jif.work_welfare_detail  
-			, jif.onstruction_company_no  
 			, jif.job_detail  
 			, jif.apply_limit_hour  
 			, jif.admin_memo  
-			, jif.emergency_notice_yn  
+			, jif.emergency_yn  
+			, jif.notice_close_yn  
 			, jif.insert_datetime  
-			, jif.update_datetime  
-		from .job_info jif
+			, jif.update_datetime 
+			
+			, zfn_FormatDateKorean(jif.work_date) work_date_korean
+			, cui.business_name
+			
+		from  job_info jif
+		left join  member_info cui on cui.member_id = jif.customer_id  
 		where jif.job_no = #{jobNo}  
+		
 	 	]]> 
 	</select>  
  
@@ -144,68 +244,66 @@
 		<![CDATA[   
 		insert into job_info (  
 			 job_no   
-			, customer_no   
-			, company_no   
+			, customer_id   
+			
 			, job_title   
 			, work_date   
-			, job_state_code   
-			, tax_type   
+			, work_start_hour   
+			, work_start_minute   
+			, work_end_hour   
+			, work_end_minute   
 			, gender_type   
 			, min_age   
 			, max_age   
-			, daily_wage_info   
-			, holiday_note   
-			, meal_provide_yn   
-			, work_start_time   
-			, work_end_time   
-			, workplace_company_name   
+			, tax_employment_yn   
+			, tax_withholding_yn   
+			, tax_charge_yn   
+			, bring_things   
+			, job_detail   
+			, meal_provide_type  
+			 
 			, workplace_postal_no   
 			, workplace_postal_address   
 			, workplace_detail_address   
 			, workplace_note   
 			, workplace_image   
+
 			, work_manager_name   
 			, work_manager_hpno   
-			, work_qualification_detail   
-			, work_welfare_detail   
-			, onstruction_company_no   
-			, job_detail   
-			, apply_limit_hour   
-			, admin_memo   
-			, emergency_notice_yn   
+			, emergency_yn
+			
 			, insert_datetime   
 			, update_datetime   
 	 	) values (  
-			 #{jobNo}  
-			, #{customerNo}  
-			, #{companyNo}  
-			, #{jobTitle}  
-			, #{workDate}  
-			, #{jobStateCode}  
-			, #{taxType}  
-			, #{genderType}  
-			, replace(#{minAge},',','')  
-			, replace(#{maxAge},',','')  
-			, #{dailyWageInfo}  
-			, #{holidayNote}  
-			, #{mealProvideYn}  
-			, #{workStartTime}  
-			, #{workEndTime}  
-			, #{workplaceCompanyName}  
-			, #{workplacePostalNo}  
-			, #{workplacePostalAddress}  
-			, #{workplaceDetailAddress}  
-			, #{workplaceNote}  
-			, #{workplaceImage}  
-			, #{workManagerName}  
-			, #{workManagerHpno}  
-			, #{workQualificationDetail}  
-			, #{workWelfareDetail}  
-			, #{onstructionCompanyNo}  
-			, #{jobDetail}  
-			, #{applyLimitHour}  
-			, #{adminMemo}  
-			, #{emergencyNoticeYn}  
+			 #{jobNo}   
+			, #{customerId}   
+			
+			, #{jobTitle}   
+			, #{workDate}   
+			, #{workStartHour}   
+			, #{workStartMinute}   
+			, #{workEndHour}   
+			, #{workEndMinute}   
+
+			, #{genderType}   
+			, #{minAge}   
+			, #{maxAge}   
+			, #{taxEmploymentYn}   
+			, #{taxWithholdingYn}   
+			, #{taxChargeYn}   
+			, #{bringThings}   
+			, #{jobDetail}   
+			, #{ealProvideType}  
+			 
+			, #{workplacePostalNo}   
+			, #{workplacePostalAddress}   
+			, #{workplaceDetailAddress}   
+			, #{workplaceNote}   
+			, #{workplaceImage}   
+
+			, #{workManagerName}   
+			, #{workManagerHpno}   
+			, #{emergencyYn}
 			, now()  
 			, now()  
 	 	)   
@@ -224,35 +322,38 @@
 			<otherwise>   
 				<![CDATA[   
 				update job_info set  
-					 customer_no = #{customerNo}  
-					, company_no = #{companyNo}  
-					, job_title = #{jobTitle}  
-					, work_date = #{workDate}  
-					, job_state_code = #{jobStateCode}  
-					, tax_type = #{taxType}  
+					 job_title = #{jobTitle}  
+					, work_date = #{workDate} 
+					, work_start_hour = #{workStartHour}  
+					, work_start_minute = #{workStartMinute}  
+					, work_end_hour = #{workEndHour}  
+					, work_end_minute = #{workEndMinute}  
 					, gender_type = #{genderType}  
 					, min_age = replace(#{minAge},',','')  
 					, max_age = replace(#{maxAge},',','')  
 					, daily_wage_info = #{dailyWageInfo}  
-					, holiday_note = #{holidayNote}  
-					, meal_provide_yn = #{mealProvideYn}  
-					, work_start_time = #{workStartTime}  
-					, work_end_time = #{workEndTime}  
-					, workplace_company_name = #{workplaceCompanyName}  
+					, tax_employment_yn  = #{taxEmploymentYn}   
+					, tax_withholding_yn  = #{taxWithholdingYn}   
+					, tax_charge_yn   = #{taxChargeYn}  
+					, actual_salary_amount  = replace(#{actualSalaryAmount},',','')     
+					, bring_things = #{bringThings}  
+					, job_detail = #{jobDetail}  
+					, meal_provide_type = #{ealProvideType}  
+
 					, workplace_postal_no = #{workplacePostalNo}  
 					, workplace_postal_address = #{workplacePostalAddress}  
 					, workplace_detail_address = #{workplaceDetailAddress}  
 					, workplace_note = #{workplaceNote}  
 					, workplace_image = #{workplaceImage}  
+					
 					, work_manager_name = #{workManagerName}  
 					, work_manager_hpno = #{workManagerHpno}  
-					, work_qualification_detail = #{workQualificationDetail}  
-					, work_welfare_detail = #{workWelfareDetail}  
-					, onstruction_company_no = #{onstructionCompanyNo}  
-					, job_detail = #{jobDetail}  
-					, apply_limit_hour = #{applyLimitHour}  
-					, admin_memo = #{adminMemo}  
-					, emergency_notice_yn = #{emergencyNoticeYn}  
+					
+					, emergency_yn = #{emergencyYn}  
+					, notice_close_yn = #{noticeCloseYn}  
+					
+					, job_state_code = #{jobStateCode} 
+					
 					, update_datetime = now()  
 				where job_no = #{jobNo}  
 	 			]]> 
@@ -266,5 +367,79 @@
 		where job_no = #{jobNo}  
 	 	]]> 
 	</update>  
+	
+	<update id="insert_copy_jobInfo"  parameterType="ilike.ildrio.model.job.JobInfoModel">  
+		<![CDATA[   
+		insert into job_info (  
+			 job_no   
+			, customer_id   
+			
+			, job_title   
+			, work_date   
+			, work_start_hour   
+			, work_start_minute   
+			, work_end_hour   
+			, work_end_minute   
+			, gender_type   
+			, min_age   
+			, max_age   
+			, tax_employment_yn   
+			, tax_withholding_yn   
+			, tax_charge_yn   
+			, bring_things   
+			, job_detail   
+			, meal_provide_type  
+			 
+			, workplace_postal_no   
+			, workplace_postal_address   
+			, workplace_detail_address   
+			, workplace_note   
+			, workplace_image   
+
+			, work_manager_name   
+			, work_manager_hpno   
+			, emergency_yn
+			
+			, job_state_code
+			, insert_datetime   
+			, update_datetime   
+	 	)
+	 	select
+	 		#{newJobNo} as job_no   
+			, customer_id   
+			
+			, job_title   
+			, date_add(work_date, INTERVAL 1 DAY) work_date   
+			, work_start_hour   
+			, work_start_minute   
+			, work_end_hour   
+			, work_end_minute   
+			, gender_type   
+			, min_age   
+			, max_age   
+			, tax_employment_yn   
+			, tax_withholding_yn   
+			, tax_charge_yn   
+			, bring_things   
+			, job_detail   
+			, meal_provide_type  
+			 
+			, workplace_postal_no   
+			, workplace_postal_address   
+			, workplace_detail_address   
+			, workplace_note   
+			, workplace_image   
+
+			, work_manager_name   
+			, work_manager_hpno   
+			, emergency_yn
+			
+			, 'TEMP' as job_state_code
+			, now()  
+			, now()   
+	 	from   	job_info
+	 	where	job_no = #{jobNo} 
+	 	]]> 
+	</update>
  
 </mapper>

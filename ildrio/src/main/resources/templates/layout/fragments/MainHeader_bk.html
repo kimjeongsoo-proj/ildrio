@@ -6,7 +6,7 @@
 </style>
 	<script>
 		$(function() {
-			sfn_common_shopInfo("[[${ssMap.ssCompanyNo}]]");
+			sfn_common_shopInfo("[[${ssMap.ssCompanyId}]]");
 		});
 		function fn_headerSearch() {
 			
@@ -33,7 +33,7 @@
 		}
 	</script>
  style="position:fixed; top:0px;width:100%;background-color:#fff;z-index:999999;"
-	<title th:text="${ssMap.ssCompanyNo}">ILIKE</title>
+	<title th:text="${ssMap.ssCompanyId}">ILIKE</title>
 
 	<a name="top"></a>
 	<div class="topButton" onclick="location.href='#top'">
@@ -95,7 +95,7 @@
 				</div>
 
 				<div class="nav_block">
-					<a class="navbar-brand" th:href="|/shop/${ssMap.ssCompanyNo}|">
+					<a class="navbar-brand" th:href="|/shop/${ssMap.ssCompanyId}|">
 						<img th:src="|${ssMap.ssShopLogoImage}|" style="height: 50px; margin-right: 100px;">
 					</a>
 					<div class="product_search_form radius_input search_form_btn" id="product_search_form">

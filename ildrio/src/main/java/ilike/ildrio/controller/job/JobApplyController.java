@@ -128,11 +128,6 @@ public class JobApplyController {
  				
 				if (chkbFlag.equals("true")) { 
  					
- 					//키컬럼 
-					reqModel.setJobNo(req.getParameterValues("jobNo")[k]); 
-					reqModel.setTechCode(req.getParameterValues("techCode")[k]); 
-					reqModel.setCareerCode(req.getParameterValues("careerCode")[k]); 
-					reqModel.setMemberNo(req.getParameterValues("memberNo")[k]); 
  					
  					
  					// 리스트 수정
@@ -171,14 +166,7 @@ public class JobApplyController {
 		// -------------------------------  
 		
 		JobApplyModel rsModel = (JobApplyModel) jobApplyService.getMap_jobApply(reqModel);	
-		//pk컬럼 
-		if (StringUtil.NVL(rsModel.getMemberNo()).equals("")) {	
-			rsModel.setJobNo(reqModel.getJobNo());	
-			rsModel.setTechCode(reqModel.getTechCode());	
-			rsModel.setCareerCode(reqModel.getCareerCode());	
-			rsModel.setMemberNo(reqModel.getMemberNo());	
-			rsModel.setTrxnMode("insert");	
-		}	
+		
 		
 		model.addAttribute("rsModel", rsModel);	
 		

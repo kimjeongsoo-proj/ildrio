@@ -74,9 +74,9 @@
             		</div>   
       		</div>   
       		<div class="mb-3 row">   
-                	<label for="comissionFee" class="col-sm-2 col-form-label text-end"> 수수로액</label>   
+                	<label for="commissionFee" class="col-sm-2 col-form-label text-end"> 수수로액</label>   
             		<div class="col-sm-10">   
-                    <input type="text"  name="comissionFee" id="comissionFee" th:value="${#numbers.formatDecimal(rsModel.comissionFee,1,'COMMA',0,'POINT')}"  class="form-control moneyFormat" onblur="cfn_chk_Money(this.id)">
+                    <input type="text"  name="commissionFee" id="commissionFee" th:value="${#numbers.formatDecimal(rsModel.commissionFee,1,'COMMA',0,'POINT')}"  class="form-control moneyFormat" onblur="cfn_chk_Money(this.id)">
             		</div>   
       		</div>   
       		<div class="mb-3 row">   
@@ -172,8 +172,8 @@
       $("#requestWage").focus();  
       return false;  
     }  
-    if (cfn_isValid_Currency("수수로액" ,$("#comissionFee").val(),1,20) == false) {  
-      $("#comissionFee").focus();  
+    if (cfn_isValid_Currency("수수로액" ,$("#commissionFee").val(),1,20) == false) {  
+      $("#commissionFee").focus();  
       return false;  
     }  
     if (cfn_isValid_Currency("지불임금" ,$("#payWage").val(),1,20) == false) {  

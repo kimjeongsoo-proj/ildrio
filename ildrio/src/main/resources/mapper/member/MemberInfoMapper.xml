@@ -16,16 +16,18 @@
 			, mif.member_id  
 			, mif.member_password  
 			, mif.member_name  
+			, mif.jikjong_name  
+			, mif.career_grade
 			, mif.email_address  
 			, mif.mobile_no  
-			, mif.brith_date  
+			, mif.birth_date  
 			, mif.jumin_no  
 			, mif.gender_type  
 			, mif.postal_no  
 			, mif.postal_address  
 			, mif.detail_address  
-			, mif.photo_image  
-			, mif.sign_image  
+			, mif.photo_image_file_name
+			, mif.sign_image_file_name
 			, mif.age_agree_yn  
 			, mif.service_agree_yn  
 			, mif.personal_agree_yn  
@@ -35,24 +37,43 @@
 			, mif.password_change_datetime  
 			, mif.cookie_session  
 			, mif.work_type  
-			, mif.jumin_image  
-			, mif.jumin_back_image  
+			, mif.jumin_image_file_name
+			, mif.jumin_back_image_file_name
 			, mif.safe_education_yn  
-			, mif.safe_education_image  
+			, mif.safe_education_image_file_name
 			, mif.safe_education_hours  
 			, mif.foreigner_yn  
 			, mif.stay_start_date  
 			, mif.stay_end_date  
-			, mif.agency_company_no  
+			, mif.agency_company_id  
 			, mif.agency_status_code  
 			, mif.bank_name  
 			, mif.bank_account_no  
 			, mif.bank_account_name  
 			, mif.insert_datetime  
-			, mif.update_datetime  
+			, mif.update_datetime 
+			
+			, mif.manpower_company_id  
+			, mif.business_no  
+			, mif.business_name  
+			, mif.business_telno  
+			
+			, cui.customer_name
+			, cui.business_no
+			, cui.ceo_name
+			, cui.postal_address
+			
 		from member_info mif
+		left join customer_info cui on cui.customer_id = mif.member_id 
 	 	]]> 
 		<where>   
+			<if test="selectMode == 'worker' ">  
+				and mif.member_type = 'WORKER' 
+			</if>
+			<if test="selectMode == 'customer' "> 
+				and mif.member_type = 'CUSTOMER'   
+				and mif.manpower_company_id = #{manpowerCompanyId}
+			</if>
 			<if test="srhTotalText != null and srhTotalText != '' ">   
 				and (   
 				
@@ -64,12 +85,18 @@
 			<if test="memberId != null and memberId != '' ">   
 				and mif.member_id  = #{memberId}   
 			</if>   
-			<if test="memberName != null and memberName != '' ">   
-				and mif.member_name  = #{memberName}   
-			</if>   
-			<if test="mobileNo != null and mobileNo != '' ">   
-				and mif.mobile_no  = #{mobileNo}   
-			</if>   
+			<if test="memberName != null and memberName != ''">
+	            AND mif.member_name LIKE CONCAT('%', #{memberName}, '%')
+	        </if>
+	        <if test="mobileNo != null and mobileNo != ''">
+	            AND mif.mobile_no LIKE CONCAT('%', #{mobileNo}, '%')
+	        </if>
+			<if test="birthDate != null and birthDate != ''">
+	            AND mif.birth_date LIKE CONCAT('%', #{birthDate}, '%')
+	        </if>
+	        <if test="postalAddress != null and postalAddress != ''">
+	            AND mif.postal_address LIKE CONCAT('%', #{postalAddress}, '%')
+	        </if>   
 		</where>   
 		<if test="srhOrderBy != null and  srhOrderBy != '' ">   
 			order by 	${srhOrderBy} ${srhOrderAsc}   
@@ -83,20 +110,23 @@
 	<select id="getMap_memberInfo"  parameterType="ilike.ildrio.model.member.MemberInfoModel" resultType="ilike.ildrio.model.member.MemberInfoModel">  
 		<![CDATA[   
 		select  
-			 mif.member_no  
-			, mif.member_id  
+			  mif.member_id  
 			, mif.member_password  
+			, mif.member_password_dec  
 			, mif.member_name  
+			, mif.jikjong_name  
+			, mif.career_grade
+			, mif.career_years
 			, mif.email_address  
 			, mif.mobile_no  
-			, mif.brith_date  
+			, mif.birth_date  
 			, mif.jumin_no  
 			, mif.gender_type  
 			, mif.postal_no  
 			, mif.postal_address  
 			, mif.detail_address  
-			, mif.photo_image  
-			, mif.sign_image  
+			, mif.photo_image_file_name  
+			, mif.sign_image_file_name  
 			, mif.age_agree_yn  
 			, mif.service_agree_yn  
 			, mif.personal_agree_yn  
@@ -106,28 +136,47 @@
 			, mif.password_change_datetime  
 			, mif.cookie_session  
 			, mif.work_type  
-			, mif.jumin_image  
-			, mif.jumin_back_image  
+			, mif.jumin_image_file_name  
+			, mif.jumin_back_image_file_name  
 			, mif.safe_education_yn  
-			, mif.safe_education_image  
+			, mif.safe_education_image_file_name  
 			, mif.safe_education_hours  
 			, mif.foreigner_yn  
 			, mif.stay_start_date  
-			, mif.stay_end_date  
-			, mif.agency_company_no  
+			, mif.stay_end_date 
+			, mif.license_image1_file_name   
+			, mif.license_image2_file_name   
+			, mif.agency_company_id  
 			, mif.agency_status_code  
 			, mif.bank_name  
 			, mif.bank_account_no  
 			, mif.bank_account_name  
 			, mif.insert_datetime  
-			, mif.update_datetime  
+			, mif.update_datetime
+			, ifnull(mif.member_type,'WORKER') as member_type
+			, mif.manpower_company_id  
+			, mif.business_no  
+			, mif.business_name  
+			, mif.business_telno  
+			
+			, cui.customer_name
+			, cui.business_no
+			, cui.ceo_name
+			, cui.postal_address as customer_postal_address
+			, cui.detail_address as customer_detail_address
+			
 		from member_info mif
+		left join customer_info cui on cui.customer_id = mif.member_id 
 		where 1 = 1  
 	 	]]> 
 	 	<choose>
 	 		<when test="selectMode == 'login' "> 
 	 			and mif.member_id  = #{memberId}  
 				and mif.member_password  = #{memberPassword}    
+	 		</when>
+	 		<when test="selectMode == 'findId' "> 
+	 			and mif.member_name  = #{memberName}  
+				and replace(mif.mobile_no,'-','')  = replace(#{mobileNo},'-','')       
 	 		</when>
 	 		<otherwise>
 	 			and mif.member_id  = #{memberId}  
@@ -140,8 +189,17 @@
 		<![CDATA[   
 		select 	count(*) count  
 		from 	member_info  
-		where member_id = #{memberId}  
-	 	]]> 
+		where 1 = 1 
+	 	]]>
+	 	<choose>
+	 		<when test="selectMode == 'chk_name_hpno' "> 
+	 			and member_name  = #{memberName}  
+				and replace(mobile_no,'-','')  = replace(#{mobileNo},'-','')    
+	 		</when>
+	 		<otherwise>
+	 			and member_id  = #{memberId}  
+	 		</otherwise>
+	 	</choose> 
 	</select>  
  
 	<update id="insert_memberInfo"  parameterType="ilike.ildrio.model.member.MemberInfoModel">  
@@ -149,15 +207,31 @@
 		insert into member_info (  
 			 member_id   
 			, member_password   
+			, member_password_dec 
 			, member_name   
-			, mobile_no   
+			, mobile_no  
+			, member_type 
+			, manpower_company_id 
+			, age_agree_yn
+			, service_agree_yn 
+			, personal_agree_yn 
+			, business_name
+			, business_no
 			, insert_datetime   
 			, update_datetime   
 	 	) values (  
 			 #{memberId}  
-			, #{password}  
+			, #{password}
+			, #{memberPasswordDec}  
 			, #{memberName}  
 			, #{mobileNo}  
+			, #{memberType}  
+			, #{manpowerCompanyId}
+			, 'Y'    
+			, 'Y'    
+			, 'Y'  
+			, #{businessName}
+			, #{businessNo}  
 			, now()  
 			, now()  
 	 	)   
@@ -172,35 +246,66 @@
 					 update_datetime = now()  
 				where member_no = #{memberNo}  
 	 			]]> 
-			</when>   
+			</when> 
+			<when test=" trxnMode == 'update_password' ">   
+				<![CDATA[   
+				update member_info set  
+				     member_password  = #{memberPassword} 
+				     , member_password_dec  = #{memberPasswordDec}     
+					 , update_datetime = now()  
+				where member_id = #{memberId}
+	 			]]> 
+			</when> 
+			<when test=" trxnMode == 'update_password_dec' ">   
+				<![CDATA[   
+				update member_info set  
+				       member_password_dec  = #{memberPasswordDec}     
+					 , update_datetime = now()  
+				where member_id = #{memberId}
+	 			]]> 
+			</when> 
+			<when test=" trxnMode == 'update_customer' ">   
+				<![CDATA[   
+				update member_info set  
+					  postal_no = #{postalNo}  
+					, postal_address = #{postalAddress}  
+					, detail_address = #{detailAddress}  
+					, age_agree_yn = #{ageAgreeYn}  
+					, service_agree_yn = #{serviceAgreeYn}  
+					, personal_agree_yn = #{personalAgreeYn}  
+					, update_datetime = now()  
+				where member_id = #{memberId}
+	 			]]> 
+			</when>    
 			<otherwise>   
 				<![CDATA[   
 				update member_info set  
-					 member_id = #{memberId}  
-					, member_password = #{memberPassword}  
-					, member_name = #{memberName}  
+					 jikjong_name = #{jikjongName}  
+					, career_grade = #{careerGrade}  
+					, career_years = #{careerYears}  
 					, email_address = #{emailAddress}  
-					, mobile_no = #{mobileNo}  
-					, brith_date = #{brithDate}  
+					, birth_date = #{birthDate}  
 					, jumin_no = #{juminNo}  
 					, gender_type = #{genderType}  
 					, postal_no = #{postalNo}  
 					, postal_address = #{postalAddress}  
 					, detail_address = #{detailAddress}  
-					, photo_image = #{photoImage}  
-					, sign_image = #{signImage}  
+					, photo_image_file_name = #{photoImageFileName}  
+					, sign_image_file_name = #{signImageFileName}  
 					, age_agree_yn = #{ageAgreeYn}  
 					, service_agree_yn = #{serviceAgreeYn}  
 					, personal_agree_yn = #{personalAgreeYn}  
-					, jumin_image = #{juminImage}  
-					, jumin_back_image = #{juminBackImage}  
+					, jumin_image_file_name = #{juminImage}  
+					, jumin_back_image_file_name = #{juminBackImageFileName}  
 					, safe_education_yn = #{safeEducationYn}  
-					, safe_education_image = #{safeEducationImage}  
+					, safe_education_image_file_name = #{safeEducationImageFileName}  
 					, safe_education_hours = #{safeEducationHours}  
 					, foreigner_yn = #{foreignerYn}  
 					, stay_start_date = #{stayStartDate}  
-					, stay_end_date = #{stayEndDate}  
-					, agency_company_no = #{agencyCompanyNo}  
+					, stay_end_date = #{stayEndDate} 
+					, license_image1_file_name = #{licenseImage1FileName}   
+					, license_image2_file_name = #{licenseImage2FileName}   
+					, agency_company_id = #{agencyCompanyId}  
 					, agency_status_code = #{agencyStatusCode}  
 					, bank_name = #{bankName}  
 					, bank_account_no = #{bankAccountNo}  

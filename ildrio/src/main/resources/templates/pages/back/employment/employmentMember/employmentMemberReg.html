@@ -76,9 +76,9 @@
             		</div>   
       		</div>   
       		<div class="mb-3 row">   
-                	<label for="comissionFee" class="col-sm-2 col-form-label text-end"> 수수료</label>   
+                	<label for="commissionFee" class="col-sm-2 col-form-label text-end"> 수수료</label>   
             		<div class="col-sm-10">   
-                    <input type="text"  name="comissionFee" id="comissionFee" th:value="${rsModel.comissionFee}"  class="form-control"   maxlength="100"> 
+                    <input type="text"  name="commissionFee" id="commissionFee" th:value="${rsModel.commissionFee}"  class="form-control"   maxlength="100"> 
             		</div>   
       		</div>   
       		<div class="mb-3 row">   
@@ -200,8 +200,8 @@
       $("#requestWage").focus();  
       return false;  
     }  
-    if (cfn_isValid_Currency("수수료" ,$("#comissionFee").val(),1,20) == false) {  
-      $("#comissionFee").focus();  
+    if (cfn_isValid_Currency("수수료" ,$("#commissionFee").val(),1,20) == false) {  
+      $("#commissionFee").focus();  
       return false;  
     }  
     if (cfn_isValid_Currency("지불임금" ,$("#payWage").val(),1,20) == false) {  

@@ -26,10 +26,10 @@ public class SessionParam {
 		ssMap.put("ssMenuGroup", StringUtil.NVLS((String) httpSession.getAttribute("ssMenuGroup"), "company"));
 		ssMap.put("ssMenuCode", StringUtil.NVLS((String) httpSession.getAttribute("ssMenuCode"), ""));
 
-		ssMap.put("ssCompanyNo", StringUtil.NVLS((String) httpSession.getAttribute("ssCompanyNo"), ""));
+		ssMap.put("ssCompanyId", StringUtil.NVLS((String) httpSession.getAttribute("ssCompanyId"), ""));
 		ssMap.put("ssCompanyName", StringUtil.NVLS((String) httpSession.getAttribute("ssCompanyName"), ""));
 
-		ssMap.put("ssCustomerNo", StringUtil.NVLS((String) httpSession.getAttribute("ssCustomerNo"), ""));
+		ssMap.put("ssMemberId", StringUtil.NVLS((String) httpSession.getAttribute("ssMemberId"), ""));
 		ssMap.put("ssCustomerName", StringUtil.NVLS((String) httpSession.getAttribute("ssCustomerName"), ""));
 		
 		ssMap.put("ssMemberNo", StringUtil.NVLS((String) httpSession.getAttribute("ssMemberNo"), ""));

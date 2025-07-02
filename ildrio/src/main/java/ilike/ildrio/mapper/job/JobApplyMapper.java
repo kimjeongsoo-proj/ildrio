@@ -24,6 +24,6 @@ public interface JobApplyMapper {
  
 	void update_jobApply(JobApplyModel model); 
  
-	void delete_jobApply(JobApplyModel model); 
+	void delete_jobApply(JobApplyModel model);
  
 }

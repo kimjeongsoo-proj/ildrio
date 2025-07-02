@@ -12,9 +12,9 @@
 	<select id="getList_customerInfo"  parameterType="ilike.ildrio.model.customer.CustomerInfoModel" resultType="ilike.ildrio.model.customer.CustomerInfoModel">  
 		<![CDATA[   
 		select	SQL_CALC_FOUND_ROWS  
-			 cus.customer_no  
-			, cus.company_no  
-			, cus.customer_id  
+			 cus.member_id  
+			, cus.company_id  
+			, cus.member_id  
 			, cus.customer_password  
 			, cus.customer_name  
 			, cus.business_no  
@@ -47,9 +47,9 @@
 	<select id="getMap_customerInfo"  parameterType="ilike.ildrio.model.customer.CustomerInfoModel" resultType="ilike.ildrio.model.customer.CustomerInfoModel">  
 		<![CDATA[   
 		select  
-			 cus.customer_no  
-			, cus.company_no  
-			, cus.customer_id  
+			 cus.member_id  
+			, cus.company_id  
+			, cus.member_id  
 			, cus.customer_password  
 			, cus.customer_name  
 			, cus.business_no  
@@ -61,7 +61,7 @@
 			, cus.insert_datetime  
 			, cus.update_datetime  
 		from customer_info cus
-		where cus.customer_no = #{customerNo}  
+		where cus.member_id = #{memberId}  
 	 	]]> 
 	</select>  
  
@@ -69,16 +69,16 @@
 		<![CDATA[   
 		select 	count(*) count  
 		from 	customer_info  
-		where customer_id = #{customerId}  
+		where member_id = #{memberId}  
 	 	]]> 
 	</select>  
  
 	<update id="insert_customerInfo"  parameterType="ilike.ildrio.model.customer.CustomerInfoModel">  
 		<![CDATA[   
 		insert into customer_info (  
-			 customer_no   
-			, company_no   
-			, customer_id   
+			 member_id   
+			, company_id   
+			, member_id   
 			, customer_password   
 			, customer_name   
 			, business_no   
@@ -90,9 +90,9 @@
 			, insert_datetime   
 			, update_datetime   
 	 	) values (  
-			 #{customerNo}  
-			, #{companyNo}  
-			, #{customerId}  
+			 #{memberId}  
+			, #{companyId}  
+			, #{memberId}  
 			, #{customerPassword}  
 			, #{customerName}  
 			, #{businessNo}  
@@ -113,14 +113,14 @@
 				<![CDATA[   
 				update customer_info set  
 					 update_datetime = now()  
-				where customer_no = #{customerNo}  
+				where member_id = #{memberId}  
 	 			]]> 
 			</when>   
 			<otherwise>   
 				<![CDATA[   
 				update customer_info set  
-					 company_no = #{companyNo}  
-					, customer_id = #{customerId}  
+					 company_id = #{companyId}  
+					, member_id = #{memberId}  
 					, customer_password = #{customerPassword}  
 					, customer_name = #{customerName}  
 					, business_no = #{businessNo}  
@@ -130,7 +130,7 @@
 					, detail_address = #{detailAddress}  
 					, payment_day = #{paymentDay}  
 					, update_datetime = now()  
-				where customer_no = #{customerNo}  
+				where member_id = #{memberId}  
 	 			]]> 
 			</otherwise>   
 		</choose>   
@@ -139,7 +139,7 @@
 	<update id="delete_customerInfo"  parameterType="ilike.ildrio.model.customer.CustomerInfoModel">  
 		<![CDATA[   
 		delete from customer_info   
-		where customer_no = #{customerNo}  
+		where member_id = #{memberId}  
 	 	]]> 
 	</update>  
  

@@ -43,13 +43,13 @@
 				<div class="col-sm-3 col-md-3">
 					<div class="input-group">
 						<label for="" class="col-form-label text-end" style="width: 100px; white-space: nowrap; margin-right: 10px;">거래처번호</label>
-						<input type="text" name="customerNo" id="customerNo" class="form-control ">
+						<input type="text" name="memberId" id="memberId" class="form-control ">
 					</div>
 				</div>
 				<div class="col-sm-3 col-md-3">
 					<div class="input-group">
 						<label for="" class="col-form-label text-end" style="width: 100px; white-space: nowrap; margin-right: 10px;">회사번호</label>
-						<input type="text" name="companyNo" id="companyNo" class="form-control ">
+						<input type="text" name="companyId" id="companyId" class="form-control ">
 					</div>
 				</div>
 				<div class="col-sm-3 col-md-3">
@@ -221,10 +221,10 @@
 				src += '    ' + gfn_valueText('jobNo', cfnNull(list[i].jobNo), 'string', 'width:95%;', i) + ''; 
 				src += '  </td>'; 
 				src += '  <td style="width:;text-align:center;"> '; 
-				src += '    ' + gfn_valueText('customerNo', cfnNull(list[i].customerNo), 'string', 'width:95%;', i) + ''; 
+				src += '    ' + gfn_valueText('memberId', cfnNull(list[i].memberId), 'string', 'width:95%;', i) + ''; 
 				src += '  </td>'; 
 				src += '  <td style="width:;text-align:center;"> '; 
-				src += '    ' + gfn_valueText('companyNo', cfnNull(list[i].companyNo), 'string', 'width:95%;', i) + ''; 
+				src += '    ' + gfn_valueText('companyId', cfnNull(list[i].companyId), 'string', 'width:95%;', i) + ''; 
 				src += '  </td>'; 
 				src += '  <td style="width:;text-align:center;"> '; 
 				src += '    ' + gfn_valueText('jobTitle', cfnNull(list[i].jobTitle), 'string', 'width:95%;', i) + ''; 
@@ -254,7 +254,7 @@
 				src += '    ' + gfn_valueText('holidayNote', cfnNull(list[i].holidayNote), 'string', 'width:95%;', i) + ''; 
 				src += '  </td>'; 
 				src += '  <td style="width:;text-align:center;"> '; 
-				src += '    ' + gfn_valueText('mealProvideYn', cfnNull(list[i].mealProvideYn), 'string', 'width:95%;', i) + ''; 
+				src += '    ' + gfn_valueText('ealProvideType', cfnNull(list[i].ealProvideType), 'string', 'width:95%;', i) + ''; 
 				src += '  </td>'; 
 				src += '  <td style="width:;text-align:center;"> '; 
 				src += '    ' + gfn_valueText('workStartTime', cfnNull(list[i].workStartTime), 'string', 'width:95%;', i) + ''; 
@@ -293,7 +293,7 @@
 				src += '    ' + gfn_valueText('workWelfareDetail', cfnNull(list[i].workWelfareDetail), 'string', 'width:95%;', i) + ''; 
 				src += '  </td>'; 
 				src += '  <td style="width:;text-align:center;"> '; 
-				src += '    ' + gfn_valueText('onstructionCompanyNo', cfnNull(list[i].onstructionCompanyNo), 'string', 'width:95%;', i) + ''; 
+				src += '    ' + gfn_valueText('onstructionCompanyId', cfnNull(list[i].onstructionCompanyId), 'string', 'width:95%;', i) + ''; 
 				src += '  </td>'; 
 				src += '  <td style="width:;text-align:center;"> '; 
 				src += '    ' + gfn_valueText('jobDetail', cfnNull(list[i].jobDetail), 'string', 'width:95%;', i) + ''; 

@@ -68,4 +68,7 @@ public class JobManpowerService {
 		jobManpowerMapper.delete_jobManpower(model);  
 	}  
  
+	public void insert_copy_jobManpower(JobManpowerModel model) {  
+		jobManpowerMapper.insert_copy_jobManpower(model);  
+	}
 }

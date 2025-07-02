@@ -16,12 +16,14 @@ public class CorsConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowCredentials(true); // 쿠키 포함 허용
-        config.setAllowedOrigins(Arrays.asList("http://localhost:3000")); // 허용할 프론트엔드 주소
+        config.setAllowedOrigins(Arrays.asList("https://xn--hy1b84gv7mikb.kr","http://localhost:3000")); // 허용할 프론트엔드 주소
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // 허용할 HTTP 메서드
         config.setAllowedHeaders(Arrays.asList("*")); // 모든 헤더 허용
-        config.setExposedHeaders(Arrays.asList("Authorization", "Content-Type"));
+        config.setExposedHeaders(Arrays.asList("Authorization", "Content-Type","Set-Cookie"));
 
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
 }
+
+

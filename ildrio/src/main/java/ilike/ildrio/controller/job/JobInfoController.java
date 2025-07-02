@@ -234,8 +234,8 @@ public class JobInfoController {
 		JobInfoModel rsModel = (JobInfoModel) jobInfoService.getMap_jobInfo(reqModel);	
 		//pk컬럼 
 		if (StringUtil.NVL(rsModel.getJobNo()).equals("")) {
-			rsModel.setCompanyNo(ssMap.get("ssCompamyNo"));
-			rsModel.setCustomerNo(ssMap.get("ssCustomerNo"));
+			rsModel.setCompanyId(ssMap.get("ssCompamyNo"));
+			rsModel.setCustomerId(ssMap.get("ssCustomerId"));
 			rsModel.setJobNo(String.valueOf(commonService.sequence_common()));	
 			rsModel.setTrxnMode("insert");	
 		}	
@@ -262,8 +262,8 @@ public class JobInfoController {
 		JobInfoModel rsModel = (JobInfoModel) jobInfoService.getMap_jobInfo(reqModel);	
 		//pk컬럼 
 		if (StringUtil.NVL(rsModel.getJobNo()).equals("")) {
-			rsModel.setCompanyNo(ssMap.get("ssCompamyNo"));
-			rsModel.setCustomerNo(ssMap.get("ssCustomerNo"));
+			rsModel.setCompanyId(ssMap.get("ssCompamyNo"));
+			rsModel.setCustomerId(ssMap.get("ssCustomerId"));
 			rsModel.setJobNo(String.valueOf(commonService.sequence_common()));	
 			rsModel.setTrxnMode("update");	
 		}	

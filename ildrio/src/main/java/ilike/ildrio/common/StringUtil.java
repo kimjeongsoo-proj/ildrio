@@ -12,7 +12,7 @@ import java.util.UUID;
 /**
  * 개요 : 공통 문자열 처리 유틸 클래스
  */
-public class StringUtil {
+public class StringUtil { 
 	/** 개요 : 생성자 */
 	private StringUtil() {
 	}

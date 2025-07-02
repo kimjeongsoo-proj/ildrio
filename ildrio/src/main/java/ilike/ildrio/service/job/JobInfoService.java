@@ -66,6 +66,10 @@ public class JobInfoService {
  
 	public void delete_jobInfo(JobInfoModel model) {  
 		jobInfoMapper.delete_jobInfo(model);  
-	}  
+	}
+	
+	public void insert_copy_jobInfo(JobInfoModel model) {  
+		jobInfoMapper.insert_copy_jobInfo(model);  
+	} 
  
 }

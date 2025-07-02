@@ -129,7 +129,7 @@ public class CustomerInfoController {
 				if (chkbFlag.equals("true")) { 
  					
  					//키컬럼 
-					reqModel.setCustomerNo(req.getParameterValues("customerNo")[k]); 
+					reqModel.setCustomerId(req.getParameterValues("CustomerId")[k]); 
  					
  					
  					// 리스트 수정
@@ -169,8 +169,8 @@ public class CustomerInfoController {
 		
 		CustomerInfoModel rsModel = (CustomerInfoModel) customerInfoService.getMap_customerInfo(reqModel);	
 		//pk컬럼 
-		if (StringUtil.NVL(rsModel.getCustomerNo()).equals("")) {	
-			rsModel.setCustomerNo(reqModel.getCustomerNo());	
+		if (StringUtil.NVL(rsModel.getCustomerId()).equals("")) {	
+			rsModel.setCustomerId(reqModel.getCustomerId());	
 			rsModel.setTrxnMode("insert");	
 		}	
 		

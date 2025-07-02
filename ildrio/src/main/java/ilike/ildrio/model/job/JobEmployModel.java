@@ -8,13 +8,15 @@ import ilike.ildrio.model.common.CommModel;
  
  
  @Data   
- public class JobApplyModel extends CommModel {   
+ public class JobEmployModel extends CommModel {   
  
  
 	private String jobNo;  
 	private String jobApplyNo;  
 	private String manpowerNo;  
 	private String memberId;  
+	private String memberName; 
+	private String mobileNo; 
 	private String applyDatetime;  
 	private String employmentDatetime;  
 	private String employmentStateCode;  
@@ -33,11 +35,9 @@ import ilike.ildrio.model.common.CommModel;
 	private String attendDepartDatetime;
 	private String attendStartHhmm;
 	private String attendEndHhmm;
-	private String attendStatusCode;
 	private String customerId;
 	private String customerName;
 	private String companyId;
-	private String memberName;
 	private String jikjongName;
 	private String careerGrade;
 	private String birthDate;
@@ -46,18 +46,13 @@ import ilike.ildrio.model.common.CommModel;
 	private String dailyWage;
 	private String workDateDiff;
 	private String workplacePostalAddress;
-	private String photoImageFileName;
 	
 	private String manCount;
 	private String memberAge;
 	private String employmentCount;
 	private String attendMemo;
-	private String attendStartCode;
-	private String attendEndCode;
-	
-	private String businessName;
-	private String manpowerCompanyId;
-	private String mobileNo;
+	private String attendStartCcode;
+	private String attendEndCcode;
 	
 
 
