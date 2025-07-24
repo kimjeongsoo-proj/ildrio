@@ -33,12 +33,15 @@ import ilike.ildrio.common.StringUtil;
 
 import ilike.ildrio.service.common.CommonService;
 import ilike.ildrio.model.member.MemberInfoModel;
+import ilike.ildrio.service.member.MemberInfoService;
 
 import ilike.ildrio.model.job.JobInfoModel;
 import ilike.ildrio.service.job.JobInfoService;
 
 import ilike.ildrio.model.job.JobManpowerModel;
 import ilike.ildrio.service.job.JobManpowerService;
+
+
 
 @RestController
 public class ApiJobInfoController {
@@ -51,6 +54,9 @@ public class ApiJobInfoController {
 
 	@Autowired
 	JobManpowerService jobManpowerService;
+	
+	@Autowired
+	private MemberInfoService memberInfoService;
 
 	@Autowired
 	private JwtTokenProvider jwtTokenProvider;
@@ -59,6 +65,8 @@ public class ApiJobInfoController {
 	@GetMapping("/api/jobInfoListAjax")
 	public HashMap<String, Object> apiJobInfoListAjax(JobInfoModel reqModel, HttpServletRequest req) throws Exception {
 	    HashMap<String, Object> data = new HashMap<String, Object>();
+	    
+	    
 	    
 	 // 모든 파라미터 출력
 	    System.out.println("All Request Parameters: " + req.getParameterMap());
@@ -117,6 +125,8 @@ public class ApiJobInfoController {
 	public HashMap<String, Object> apiJobInfoListAjax2(JobInfoModel reqModel, @PathVariable String selectMode, HttpServletRequest req) throws Exception {
 	    HashMap<String, Object> data = new HashMap<String, Object>();
 	    
+	    System.out.println("selectMode >>>>>>>>>>>>> "+selectMode);
+	    
 	    // JWT 토큰 확인 및 사용자 정보 추가
 	    String bearerToken = req.getHeader("Authorization");
 	    String token = bearerToken != null && bearerToken.startsWith("Bearer ") ? bearerToken.substring(7) : null;
@@ -127,6 +137,14 @@ public class ApiJobInfoController {
 	    } else {
 	        System.out.println("MemberInfo - Invalid or Missing Token");
 	    }
+	    
+	    //String memberId = jwtTokenProvider.getUsername(token);
+		MemberInfoModel model = new MemberInfoModel();
+		model.setMemberId(memberId);
+		MemberInfoModel memberModel = memberInfoService.getMap_memberInfo(model);
+		selectMode =  StringUtil.NVLS(selectMode,memberModel.getMemberType()).toLowerCase();
+		
+		System.out.println("selectMode >>>>>>>>>> >>>>> "+selectMode);
 	    
 	    int iPageBlock = 10; // 페이지 블록 크기 (10개씩 표시)
 	    int iPageRow = Integer.parseInt(StringUtil.NVLS(req.getParameter("pageRow"), "20")); // 기본값 3으로 변경
@@ -140,9 +158,7 @@ public class ApiJobInfoController {
 	        iStartRows = Integer.parseInt(startRowParam);
 	    }
 	    
-	    
-
-	   
+	    reqModel.setMemberId(memberId);
 	    reqModel.setSelectMode(StringUtil.NVLS(selectMode,"worker"));
 	    reqModel.setStartRow(String.valueOf(iStartRows));
 	    reqModel.setPageRow(String.valueOf(iPageRow));
@@ -173,16 +189,38 @@ public class ApiJobInfoController {
 
 	    return data;
 	}
+	
+	@ResponseBody
+	@RequestMapping("/api/jobInfoNew")
+	public HashMap<String, Object> jobInfoNew(JobInfoModel reqModel, HttpServletRequest req) throws Exception {
+
+		HashMap<String, Object> data = new HashMap<String, Object>();
+
+		String jobNo = SessionParam.getNewId("J");
+
+		JobInfoModel rsData = new JobInfoModel();
+		rsData.setJobNo(jobNo);
+		data.put("rsData", rsData);
+
+		return data;
+	}
 
 	@ResponseBody
 	@RequestMapping("/api/jobInfo/{jobNo}")
 	public HashMap<String, Object> apiJobInfo(JobInfoModel reqModel, @PathVariable String jobNo, HttpServletRequest req) throws Exception {
 
+		
+		
 		HashMap<String, Object> data = new HashMap<String, Object>();
 
 		reqModel.setJobNo(jobNo);
 
 		JobInfoModel rsData = jobInfoService.getMap_jobInfo(reqModel);
+		
+		if(jobNo.equals("new")) {
+			rsData.setJobNo(SessionParam.getNewId("J"));
+		}
+			
 		data.put("rsData", rsData);
 
 		

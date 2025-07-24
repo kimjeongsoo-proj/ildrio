@@ -1,4 +1,4 @@
-package ilike.ildrio; 
+package ilike.ildrio;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;

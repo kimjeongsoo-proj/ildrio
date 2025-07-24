@@ -65,6 +65,7 @@ import ilike.ildrio.model.common.CommModel;
 	private String jobNoticeState; 
 	private String mealProvideType;
 	private String businessName;
+	private String memberId;
 	
 	private String newJobNo;
  

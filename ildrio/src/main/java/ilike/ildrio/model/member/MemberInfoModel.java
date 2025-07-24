@@ -53,6 +53,9 @@ import ilike.ildrio.model.common.CommModel;
 	private String insertDatetime;  
 	private String updateDatetime; 
 	
+	private String rateCode;
+	private String rateMemo;
+	
 	private String juminImageFileName;  
 	private String juminImageFileName2;  
 	private String juminBackImageFileName;  

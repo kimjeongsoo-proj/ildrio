@@ -35,7 +35,8 @@
 			, jap.apply_state_code
 			, jap.apply_datetime
 			
-			
+			, ifnull(emp.employment_status,'미채용') as employment_status
+						
 			, case when ifnull(jmm.man_count,1) <= ifnull((
 													select count(*) 
 													from job_employment x 
@@ -44,12 +45,15 @@
 				   when concat( ifnull(job.apply_limit_date, concat(DATE_SUB(job.work_date, INTERVAL 1 DAY) )),' ',
 					 				 ifnull(job.apply_limit_hour, '20' ),':00' )  <= DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i')
 									  then 'close'
-					else 'open'	end as apply_state			  
+					else 'open'	end as apply_state	
 		from  job_manpower jmm
 		join  job_info job on job.job_no = jmm.job_no
 		left join job_apply  jap 
 				on jap.manpower_no =  jmm.manpower_no 
 				and jap.member_id = #{memberId}
+		left join job_employment emp 
+				on emp.manpower_no = jap.manpower_no
+				and emp.member_id	= #{memberId}	
 		where jmm.job_no  = #{jobNo}
 		order by jmm.manpower_no  
 	 	]]> 

@@ -28,6 +28,7 @@ import ilike.ildrio.model.common.CommModel;
 	private String employmentStatCode;
 	private String memberId;
 	private String applyState;
+	private String employmentStatus;
 	
 	private String newJobNo;
 	

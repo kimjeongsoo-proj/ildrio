@@ -151,6 +151,9 @@
 			, mif.bank_name  
 			, mif.bank_account_no  
 			, mif.bank_account_name  
+			, mif.rate_code  
+			, mif.rate_memo  
+			
 			, mif.insert_datetime  
 			, mif.update_datetime
 			, ifnull(mif.member_type,'WORKER') as member_type

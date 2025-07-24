@@ -48,29 +48,11 @@
 			, DATEDIFF(DATE(NOW()), jif.work_date) AS work_date_diff 
 			, case when ( DATEDIFF(DATE(NOW()), jif.work_date)>= 0  
 			            or ifnull(jif.notice_close_yn,'N') = 'Y') then 'close'
-			       else 'ing' end as job_notice_state     
+			       else 'ing' end as job_notice_state  
 			
 			]]>
 			<choose>
-				<when test="selectMode == 'worker' ">  
-					<![CDATA[   
-					,( select  group_concat( 
-						'<div class="row">',
-							'<div class="col-7">',
-								'<span  style="font-weight:bold;"> ',jmp.tech_code,' ',jmp.career_code, '</span>',
-								'<span  style="margin-left:10px;background-color:#fff;border-radius:5px;padding:0px 5px;">',jmp.man_count, '명</span> ',
-							'</div>',
-							'<div class="col-5 text-end" style="color:#fd7e14;font-weight:bold;font-size:13pt;">',format(jmp.daily_wage,0),'원',
-							'</div>',
-						'</div>'
-						ORDER BY jmp.daily_wage asc  
-						SEPARATOR '' )
-					from	job_manpower jmp
-					where  jmp.job_no = jif.job_no
-					) as manpower_list	
-					]]>			
-				</when>
-				<otherwise>
+				<when test="selectMode == 'customer' or selectMode == 'company' ">  
 					<![CDATA[   
 					,( select  group_concat( 
 						'<div class="row">',
@@ -98,15 +80,110 @@
 					from	job_manpower jmp
 					where  jmp.job_no = jif.job_no
 					) as manpower_list	
+					]]>			
+				</when>
+				<when test="selectMode == 'myapply' or selectMode == 'myemploy'  "> 
+					<![CDATA[   
+					,( select  group_concat( 
+						'<div class="row">',
+							'<div class="col-7">',
+								'<span  style="font-weight:bold;"> ',jmp.tech_code,' ',jmp.career_code, '</span>',
+								'<span  style="margin-left:10px;background-color:#fff;border-radius:5px;padding:0px 5px;">',jmp.man_count, '명</span> ',
+							'</div>',
+							'<div class="col-5 text-end" style="color:#fd7e14;font-weight:bold;font-size:13pt;">',format(jmp.daily_wage,0),'원',
+							'</div>',
+						'</div>',
+						'<div class="row">',
+							'<div class="col-7">',
+								'<span>지원 :',date_format(jap.apply_datetime,'%m/%d %h:%m'), '</span>',
+							'</div>',
+							'<div class="col-5 text-end" style="color:#fd7e14;font-weight:bold;font-size:13pt;">',if(ifnull(emp.employment_status,'')='','미채용',emp.employment_status), 
+							'</div>',
+						'</div>',
+						if(jif.work_date <= date_format(now(),'%Y-%m-%d') ,
+						concat(
+						'<div class="row">',
+							'<div class="col-7">',
+								'<span>출발 :',date_format(emp.attend_depart_datetime,'%m/%d %h:%m'), '</span>',
+							'</div>',
+							'<div class="col-5 text-end" style="color:#fd7e14;font-weight:bold;font-size:13pt;">',ifnull(emp.attend_status_code,''), 
+							'</div>',
+						'</div>'
+						)
+						, '' )						
+						ORDER BY jmp.daily_wage asc  
+						SEPARATOR '' ) 
+					from	job_manpower jmp
+					join 	job_apply jap on jap.job_no = jmp.job_no and jap.manpower_no = jmp.manpower_no
+					left join job_employment emp on emp.manpower_no = jap.manpower_no and emp.member_id = #{memberId}
+					where  jap.job_no = jif.job_no	
+					and	   jap.member_id = #{memberId}
+					) as manpower_list	
+					]]>	 
+				</when>
+				<otherwise>
+				    <![CDATA[   
+					,case when ifnull(jap.job_apply_no,'') != '' then
+						( select  group_concat( 
+							'<div class="row">',
+								'<div class="col-7">',
+									'<span  style="font-weight:bold;"> ',jmp.tech_code,' ',jmp.career_code, '</span>',
+									'<span  style="margin-left:10px;background-color:#fff;border-radius:5px;padding:0px 5px;">',jmp.man_count, '명</span> ',
+								'</div>',
+								'<div class="col-5 text-end" style="color:#fd7e14;font-weight:bold;font-size:13pt;">',format(jmp.daily_wage,0),'원',
+								'</div>',
+							'</div>',
+							'<div class="row">',
+								'<div class="col-7">',
+									'<span>지원 :',date_format(jap.apply_datetime,'%m/%d %h:%m'), '</span>',
+								'</div>',
+								'<div class="col-5 text-end" style="color:#fd7e14;font-weight:bold;font-size:13pt;">',if(ifnull(emp.employment_status,'')='','미채용',emp.employment_status), 
+								'</div>',
+							'</div>'
+							ORDER BY jmp.daily_wage asc  
+							SEPARATOR '' )
+						from	job_manpower jmp
+						join 	job_apply jap on jap.job_no = jmp.job_no and jap.manpower_no = jmp.manpower_no
+						left join job_employment emp on emp.manpower_no = jap.manpower_no and emp.member_id = #{memberId}
+						where  jap.job_no = jif.job_no	
+						and	   jap.member_id = #{memberId}
+						)
+					
+					else
+						( select  group_concat( 
+							'<div class="row">',
+								'<div class="col-7">',
+									'<span  style="font-weight:bold;"> ',jmp.tech_code,' ',jmp.career_code, '</span>',
+									'<span  style="margin-left:10px;background-color:#fff;border-radius:5px;padding:0px 5px;">',jmp.man_count, '명</span> ',
+								'</div>',
+								'<div class="col-5 text-end" style="color:#fd7e14;font-weight:bold;font-size:13pt;">',format(jmp.daily_wage,0),'원',
+								'</div>',
+							'</div>'						
+							ORDER BY jmp.daily_wage asc  
+							SEPARATOR '' )
+						  from	job_manpower jmp
+						  where  jmp.job_no = jif.job_no
+						) 
+					end as manpower_list
+					
 					]]>	
 				</otherwise>
 			</choose>
 			
 		from job_info jif
-		join member_info mbr on mbr.member_id = jif.customer_id  
+		join member_info mbr on mbr.member_id = jif.customer_id
+		left join job_apply jap on jap.job_no = jif.job_no and jap.member_id = #{memberId}  
 		<where>   
-			<if test="selectMode == 'WORKER_APPLY' ">   
+			and ifnull(jif.job_state_code,'TEMP') != 'TEMP'
+			<if test="selectMode == 'myapply' ">   
 				and jif.job_no in ( select job_no from job_apply where member_id = #{memberId} )
+			</if>
+			<if test="selectMode == 'myemploy' ">   
+				and jif.job_no in ( select job_no from job_employment where member_id = #{memberId} )
+			</if>
+			<if test="selectMode == 'mytoday' ">   
+				and jif.job_no in ( select job_no from job_employment where member_id = #{memberId})
+				and jif.work_date = date_format(now(),'%Y-%m-%d')
 			</if>
 			<if test="selectMode == 'admin' ">   
 				and mbr.manpower_company_id  = #{companyId}   
@@ -221,9 +298,14 @@
 			, jif.notice_close_yn  
 			, jif.insert_datetime  
 			, jif.update_datetime 
+			, DATEDIFF(DATE(NOW()), jif.work_date) AS work_date_diff 
 			
 			, zfn_FormatDateKorean(jif.work_date) work_date_korean
 			, cui.business_name
+			
+			, case when ( DATEDIFF(DATE(NOW()), jif.work_date)>= 0  
+			            or ifnull(jif.notice_close_yn,'N') = 'Y') then 'close'
+			       else 'ing' end as job_notice_state    
 			
 		from  job_info jif
 		left join  member_info cui on cui.member_id = jif.customer_id  
@@ -352,9 +434,9 @@
 					, emergency_yn = #{emergencyYn}  
 					, notice_close_yn = #{noticeCloseYn}  
 					
-					, job_state_code = #{jobStateCode} 
+					, job_state_code = 'ING' 
 					
-					, update_datetime = now()  
+					, update_datetime = now() 
 				where job_no = #{jobNo}  
 	 			]]> 
 			</otherwise>   
