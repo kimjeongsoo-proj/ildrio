@@ -54,6 +54,28 @@ import ilike.ildrio.model.common.CommModel;
 	private String attendStartCcode;
 	private String attendEndCcode;
 	
+	private String workDateKorean;
+	private String jobStateCode;  
+	private String taxType;  
+	private String taxEmploymentYn;  
+	private String taxWithholdingYn;  
+	private String taxChargeYn;  
+	private String actualSalaryAmount; 
+	private String minAge;  
+	private String maxAge;  
+	private String dailyWageInfo;  
+	private String holidayNote;  
+	private String ealProvideType;  
+	private String workStartHour;
+	private String workStartMinute;
+	private String workStartTime;  
+	private String workEndHour;  
+	private String workEndMinute;  
+	private String workEndTime;  
+	private String workplaceCompanyName;  
+	private String workplacePostalNo;  
+	private String workplaceDetailAddress;  
+	
 
 
  

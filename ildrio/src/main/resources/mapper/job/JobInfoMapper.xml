@@ -49,10 +49,11 @@
 			, case when ( DATEDIFF(DATE(NOW()), jif.work_date)>= 0  
 			            or ifnull(jif.notice_close_yn,'N') = 'Y') then 'close'
 			       else 'ing' end as job_notice_state  
+			       
 			
 			]]>
 			<choose>
-				<when test="selectMode == 'customer' or selectMode == 'company' ">  
+				<when test="selectMode == 'customer' or selectMode == 'company' or selectMode == 'admin'  ">  
 					<![CDATA[   
 					,( select  group_concat( 
 						'<div class="row">',
@@ -82,43 +83,97 @@
 					) as manpower_list	
 					]]>			
 				</when>
-				<when test="selectMode == 'myapply' or selectMode == 'myemploy'  "> 
-					<![CDATA[   
-					,( select  group_concat( 
-						'<div class="row">',
-							'<div class="col-7">',
-								'<span  style="font-weight:bold;"> ',jmp.tech_code,' ',jmp.career_code, '</span>',
-								'<span  style="margin-left:10px;background-color:#fff;border-radius:5px;padding:0px 5px;">',jmp.man_count, '명</span> ',
+				<when test="selectMode == 'myapply' or selectMode == 'myemploy'   "> 
+					<![CDATA[
+					,case when ifnull(#{memberId},'') != '' then   
+						 ( select  group_concat( 
+							'<div class="row">',
+								'<div class="col-7">',
+									'<span  style="font-weight:bold;"> ',jmp.tech_code,' ',jmp.career_code, '</span>',
+									'<span  style="margin-left:10px;background-color:#fff;border-radius:5px;padding:0px 5px;">',jmp.man_count, '명</span> ',
+								'</div>',
+								'<div class="col-5 text-end" style="color:#fd7e14;font-weight:bold;font-size:13pt;">',format(jmp.daily_wage,0),'원',
+								'</div>',
 							'</div>',
-							'<div class="col-5 text-end" style="color:#fd7e14;font-weight:bold;font-size:13pt;">',format(jmp.daily_wage,0),'원',
-							'</div>',
-						'</div>',
-						'<div class="row">',
-							'<div class="col-7">',
-								'<span>지원 :',date_format(jap.apply_datetime,'%m/%d %h:%m'), '</span>',
-							'</div>',
-							'<div class="col-5 text-end" style="color:#fd7e14;font-weight:bold;font-size:13pt;">',if(ifnull(emp.employment_status,'')='','미채용',emp.employment_status), 
-							'</div>',
-						'</div>',
-						if(jif.work_date <= date_format(now(),'%Y-%m-%d') ,
-						concat(
-						'<div class="row">',
-							'<div class="col-7">',
-								'<span>출발 :',date_format(emp.attend_depart_datetime,'%m/%d %h:%m'), '</span>',
-							'</div>',
-							'<div class="col-5 text-end" style="color:#fd7e14;font-weight:bold;font-size:13pt;">',ifnull(emp.attend_status_code,''), 
-							'</div>',
-						'</div>'
-						)
-						, '' )						
-						ORDER BY jmp.daily_wage asc  
-						SEPARATOR '' ) 
-					from	job_manpower jmp
-					join 	job_apply jap on jap.job_no = jmp.job_no and jap.manpower_no = jmp.manpower_no
-					left join job_employment emp on emp.manpower_no = jap.manpower_no and emp.member_id = #{memberId}
-					where  jap.job_no = jif.job_no	
-					and	   jap.member_id = #{memberId}
-					) as manpower_list	
+							if( ifnull(jap.apply_state_code,'') = '신청' ,
+								concat(
+									'<div class="row">',
+										'<div class="col-7">',
+											'<span>지원  : ',date_format(jap.apply_datetime,'%m/%d %h:%m'), '</span>',
+										'</div>',
+										'<div class="col-5 text-end" style="color:#fd7e14;font-weight:bold;font-size:13pt;">',if(ifnull(emp.employment_status,'')='','미채용',emp.employment_status), 
+										'</div>',
+									'</div>'
+								)
+							,''),
+							if( ifnull(emp.employment_status,'') = '채용' ,concat(
+							   
+									
+								if( ifnull(emp.attend_depart_datetime,'') = '' and jif.work_date = date_format(now(),'%Y-%m-%d'),
+									concat(
+										'<div class="row">',
+											'<div class="col-7">',
+												'<span style="color:black;">출발버튼클릭하세요.</span>',
+											'</div>',
+										'</div>'
+										)
+								,''),
+								if(ifnull(emp.attend_depart_datetime,'') != '',
+									concat(
+											'<div class="row">',
+												'<div class="col-7">',
+													'<span style="color:black;">출발 : ',date_format(emp.attend_depart_datetime,'%m/%d %h:%m') ,'</span>',
+												'</div>',
+											'</div>'
+											)
+								,''),
+								if(ifnull(emp.attend_start_hhmm,'') != '',
+									concat(
+											'<div class="row">',
+												'<div class="col-7">',
+													'<span style="color:black;">출근 : ',date_format(emp.attend_start_hhmm,'%m/%d %h:%m') ,'</span>',
+												'</div>',
+											'</div>'
+											)
+								,''),
+								if(ifnull(emp.attend_end_hhmm,'') != '',
+									concat(
+											'<div class="row">',
+												'<div class="col-7">',
+													'<span style="color:black;">퇴근 : ',date_format(emp.attend_end_hhmm,'%m/%d %h:%m') ,'</span>',
+												'</div>',
+											'</div>'
+											)
+								,'')
+								
+							),'')		
+											
+							
+										
+							ORDER BY jmp.daily_wage asc  
+							SEPARATOR '' ) 
+						from	job_manpower jmp
+						join 	job_apply jap on jap.job_no = jmp.job_no and jap.manpower_no = jmp.manpower_no
+						left join job_employment emp on emp.manpower_no = jap.manpower_no and emp.member_id = #{memberId}
+						where  jap.job_no = jif.job_no	
+						and	   jap.member_id = #{memberId}
+						) 
+					else
+						( select  group_concat( 
+							'<div class="row">',
+								'<div class="col-7">',
+									'<span  style="font-weight:bold;"> ',jmp.tech_code,' ',jmp.career_code, '</span>',
+									'<span  style="margin-left:10px;background-color:#fff;border-radius:5px;padding:0px 5px;">',jmp.man_count, '명</span> ',
+								'</div>',
+								'<div class="col-5 text-end" style="color:#fd7e14;font-weight:bold;font-size:13pt;">',format(jmp.daily_wage,0),'원',
+								'</div>',
+							'</div>'						
+							ORDER BY jmp.daily_wage asc  
+							SEPARATOR '' )
+						  from	job_manpower jmp
+						  where  jmp.job_no = jif.job_no
+						) 
+					end as manpower_list	
 					]]>	 
 				</when>
 				<otherwise>
@@ -172,7 +227,7 @@
 			
 		from job_info jif
 		join member_info mbr on mbr.member_id = jif.customer_id
-		left join job_apply jap on jap.job_no = jif.job_no and jap.member_id = #{memberId}  
+		left join job_apply jap on jap.job_no = jif.job_no and jap.member_id = #{memberId}
 		<where>   
 			and ifnull(jif.job_state_code,'TEMP') != 'TEMP'
 			<if test="selectMode == 'myapply' ">   

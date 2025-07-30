@@ -53,7 +53,7 @@ public class ApiMemberInfoController {
 		HashMap<String, Object> data = new HashMap<String, Object>();
 
 		int iPageBlock = 10; // 페이지 블록 크기 (클라이언트에서 사용하지 않더라도 유지)
-		int iPageRow = 3; // 페이지당 행 수를 3으로 고정
+		int iPageRow = Integer.parseInt(StringUtil.NVLS(req.getParameter("pageRow"), "20")); // 기본값 3으로 변경 // 페이지당 행 수를 3으로 고정
 		int iCurrPage = Integer.parseInt(StringUtil.NVLS(req.getParameter("currPage"), "1")); // 현재 페이지, 기본값 1
 		int iStartRows = (iCurrPage - 1) * iPageRow; // 시작 행 계산
 

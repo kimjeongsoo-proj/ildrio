@@ -62,18 +62,15 @@
 			, cui.business_no
 			, cui.ceo_name
 			, cui.postal_address
+			, FLOOR(DATEDIFF(CURDATE(), mif.birth_date) / 365.25) AS member_age
 			
 		from member_info mif
 		left join customer_info cui on cui.customer_id = mif.member_id 
 	 	]]> 
 		<where>   
-			<if test="selectMode == 'worker' ">  
-				and mif.member_type = 'WORKER' 
-			</if>
-			<if test="selectMode == 'customer' "> 
-				and mif.member_type = 'CUSTOMER'   
-				and mif.manpower_company_id = #{manpowerCompanyId}
-			</if>
+			  
+			and mif.member_type = 'WORKER' 
+			
 			<if test="srhTotalText != null and srhTotalText != '' ">   
 				and (   
 				

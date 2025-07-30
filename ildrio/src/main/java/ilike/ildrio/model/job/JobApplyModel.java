@@ -59,6 +59,13 @@ import ilike.ildrio.model.common.CommModel;
 	private String manpowerCompanyId;
 	private String mobileNo;
 	
+	private String emergencyYn;
+	private String jobNoticeState;
+	private String workDateKorean;
+	private String workStartHour;
+	private String workStartMinute;
+	private String workEndHour;
+	private String workEndMinute;
 
 
  

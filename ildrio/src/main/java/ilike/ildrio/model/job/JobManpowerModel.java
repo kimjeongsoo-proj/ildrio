@@ -29,6 +29,11 @@ import ilike.ildrio.model.common.CommModel;
 	private String memberId;
 	private String applyState;
 	private String employmentStatus;
+	private String attendStatusCode;
+	private String attendDepartDatetime;
+	private String attendStartHhmm;
+	private String attendEndHhmm;
+	private String attendEndCode;
 	
 	private String newJobNo;
 	

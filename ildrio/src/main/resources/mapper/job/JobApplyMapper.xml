@@ -18,6 +18,17 @@
       			jif.workplace_postal_address ,
       			DATEDIFF(DATE(NOW()), jif.work_date) AS work_date_diff , 
       			jif.customer_id ,  
+      			
+      			jif.emergency_yn ,
+				zfn_FormatDateKorean(jif.work_date) work_date_korean ,
+				jif.work_start_hour ,
+				jif.work_start_minute ,
+				jif.work_end_hour ,
+				jif.work_end_minute ,     
+				case when ( DATEDIFF(DATE(NOW()), jif.work_date)>= 0  
+			            or ifnull(jif.notice_close_yn,'N') = 'Y') then 'close'
+			    else 'ing' end as job_notice_state ,   			
+      			
        			cui.business_name ,
     			cui.manpower_company_id ,
       			

@@ -36,6 +36,11 @@
 			, jap.apply_datetime
 			
 			, ifnull(emp.employment_status,'미채용') as employment_status
+			, ifnull(emp.attend_depart_datetime,'') as attend_depart_datetime
+			, emp.attend_status_code
+			, emp.attend_start_hhmm
+			, emp.attend_end_hhmm
+			, emp.attend_end_code
 						
 			, case when ifnull(jmm.man_count,1) <= ifnull((
 													select count(*) 

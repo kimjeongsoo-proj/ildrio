@@ -12,11 +12,41 @@
 	<select id="getList_jobEmploy"  parameterType="ilike.ildrio.model.job.JobEmployModel" resultType="ilike.ildrio.model.job.JobEmployModel">  
 		<![CDATA[   
 		 select SQL_CALC_FOUND_ROWS 
-		 		jif.job_no,	
-		 		jif.work_date,
-      			jif.job_title ,
-      			jif.workplace_postal_address ,
-      			DATEDIFF(DATE(NOW()), jif.work_date) AS work_date_diff , 
+     		      jif.job_no   
+				, jif.customer_id   
+				
+				, jif.job_title   
+				, zfn_FormatDateKorean(jif.work_date) work_date_korean
+				, jif.work_start_hour   
+				, jif.work_start_minute   
+				, jif.work_end_hour   
+				, jif.work_end_minute   
+	
+				, jif.gender_type   
+				, jif.min_age   
+				, jif.max_age   
+				, jif.daily_wage_info   
+				, jif.tax_type   
+				, jif.bring_things   
+				, jif.job_detail   
+				, jif.meal_provide_type  
+				 
+				, jif.workplace_postal_no   
+				, substring_index(jif.workplace_postal_address,' ',2)  as workplace_postal_address
+				, jif.workplace_detail_address   
+				, jif.workplace_note   
+				, jif.workplace_image   
+	
+				, jif.work_manager_name   
+				, jif.work_manager_hpno   
+				, jif.emergency_yn
+				, jif.insert_datetime   
+				, jif.update_datetime  
+				, jif.notice_close_yn
+				
+				, cus.business_name
+				
+      			, DATEDIFF(DATE(NOW()), jif.work_date) AS work_date_diff , 
       			
       			jmp.tech_code ,
       			jmp.career_code ,
@@ -55,6 +85,7 @@
 		join		job_manpower jmp on jmp.manpower_no = jap.manpower_no
 		join  		job_info jif on jif.job_no = jap.job_no
 		join		member_info mbr on mbr.member_id = jap.member_id 
+		join 		member_info cus on cus.member_id = jif.customer_id
 		join 	    job_employment jem on jem.manpower_no = jmp.manpower_no and jem.member_id = jap.member_id
 		left join 	customer_info cui on cui.customer_id = jif.customer_id
 

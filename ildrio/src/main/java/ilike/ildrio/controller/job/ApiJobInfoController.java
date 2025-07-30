@@ -142,7 +142,11 @@ public class ApiJobInfoController {
 		MemberInfoModel model = new MemberInfoModel();
 		model.setMemberId(memberId);
 		MemberInfoModel memberModel = memberInfoService.getMap_memberInfo(model);
-		selectMode =  StringUtil.NVLS(selectMode,memberModel.getMemberType()).toLowerCase();
+		//selectMode =  StringUtil.NVLS(selectMode, memberModel.getMemberType()).toLowerCase();
+		
+		if(selectMode.equals("undefined")) {
+			//selectMode = "worker";
+		}
 		
 		System.out.println("selectMode >>>>>>>>>> >>>>> "+selectMode);
 	    

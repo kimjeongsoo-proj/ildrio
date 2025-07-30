@@ -89,6 +89,8 @@ import ilike.ildrio.model.common.CommModel;
 	private String customerPostalAddress; 
 	private String customerDetailAddress; 
 	
+	private String memberAge; 
+	
  
 
 	
